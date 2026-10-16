@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Texas 2026 Early Vote Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+</style></head><body>
+<header><h1>Texas Early Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html">Ohio</a><a href="nc.html">North Carolina</a><a href="ia.html">Iowa</a><a href="tx.html" class=on>Texas</a></nav></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Early votes cast, by days before Election Day</h2><p class="hint">Cumulative early in-person voters + mail ballots received, from Texas SOS daily county turnout reports. 2026 in bold; dots = actual reports. <b>Statewide</b> (all 254 counties) exists only from 2020 on; the <b>30 largest counties</b> view (~79% of registered voters) adds 2018 on the same county set. In-person early voting opens 15 days out in every cycle shown.</p>
+<div class="tog" id="tog"></div><div class="tog" id="scope"></div><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>Added per report: last 7 reports (2026)</h2><p class="hint">In-person voters on that day (dark) and change in mail ballots received (light), statewide.</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>In-person voters by day of early voting</h2><p class="hint">Voters on each day of the early-voting period (day 1 = opening Monday), statewide; 2018 = 30 largest counties only.</p><div class="ch"><canvas id="evday"></canvas></div></div>
+<div class="card"><h2>Early turnout as % of registered voters</h2><p class="hint">Cumulative early votes ÷ registered voters, same days-out. Corrects for registration growth (17.7M in 2022 → 19.0M in 2026).</p><div class="ch"><canvas id="pct"></canvas></div></div>
+<div class="card"><h2>Largest counties: 2026 vs same point in 2024 / 2022</h2><p class="hint" id="cth"></p><div id="ctab" style="max-height:320px;overflow:auto"></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources &amp; caveats</h2><ul class="src" id="src"></ul><ul class="take" style="font-size:.85rem">
+<li><b>No party data.</b> Texas has no party registration, and SOS turnout reports carry no party or race. Party estimates (e.g., by primary-vote history) would need the voter-level rosters joined to a voter file. Not done here.</li>
+<li><b>Before early voting opens, the 2026 mail count is incomplete.</b> On the new SOS reporting system (Civix, used since 2025), only a minority of counties had posted mail-ballot counts as of the latest report (e.g., Bexar, El Paso, Hidalgo near zero). Pre-Oct 19 comparisons reflect county reporting, not voter behavior.</li>
+<li>2018: SOS published daily turnout only for the 30 counties with the most registered voters, and only from the first day of early voting (no pre-EV mail series). Statewide daily reporting began in 2020.</li>
+<li>Figures are unofficial, as reported by counties to the SOS; counties revise earlier days, and the latest capture of each report date is used. Mail = mail ballots <i>received</i> (accepted counts aren't reported). 2018 SOS pages show a 10-vote gap between the county rows and their own total on Oct 25. County rows are used.</li>
+<li>Report dates are data dates (votes through the close of that day). Weekend reports exist; Sunday in-person hours are limited.</li></ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Texas Secretary of State early voting turnout reports · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="tx-data.js"></script><script>
+const R=TXDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
+const M={cum_total:'Total early (in-person + mail)',cum_inperson:'In-person early',cum_mail:'Mail ballots received'};
+const ser=(y,sc)=>R.filter(r=>r.year==y&&r.scope==sc).sort((a,b)=>b.days_out-a.days_out);
+const s26=ser(2026,'state'),cur=s26[s26.length-1],prev=s26[s26.length-2],D=cur.days_out,c30=ser(2026,'top30').pop();
+const at=(y,sc,d)=>ser(y,sc).filter(r=>r.days_out>=d).pop();
+const evOpen=new Date(TXDATA.ev_start[2026]+'T12:00')>new Date(cur.report_date+'T12:00');
+document.getElementById('asof').textContent=`Latest SOS report: ${cur.report_date} (${D} days out) · ${Math.round((new Date(TXDATA.ed[2026]+'T12:00')-new Date())/864e5)} days until Election Day · in-person early voting ${evOpen?'opens Mon Oct 19':'opened Oct 19'}`;
+document.getElementById('built').textContent=TXDATA.built;
+const pc=(a,b)=>(a/b-1)*100,ps=v=>`${v>0?'+':''}${v.toFixed(0)}%`;
+let k=`<div class="card kpi"><div class="lab">2026 early votes so far</div><div class="val" style="color:${COL[2026]}">${f(cur.cum_total)}</div><div class="sub">${f(cur.cum_inperson)} in person · ${f(cur.cum_mail)} mail${prev?` · +${f(cur.cum_total-prev.cum_total)} since ${prev.report_date}`:''}</div></div>`;const take=[];
+for(const y of [2024,2022]){const p=at(y,'state',D),v=pc(cur.cum_total,p.cum_total);
+ k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out (statewide)</div><div class="val ${v<0?'down':'up'}">${ps(v)}</div><div class="sub">${y}: ${f(p.cum_total)} (${f(p.cum_mail)} mail)${evOpen?' · <b>2026 county reporting incomplete</b>':''}</div></div>`;
+ take.push(`Statewide early votes are ${Math.abs(v).toFixed(0)}% ${v<0?'behind':'ahead of'} ${y} at ${D} days out (${f(cur.cum_total)} vs ${f(p.cum_total)}).`)}
+const p18=at(2018,'top30',D);
+k+=`<div class="card kpi"><div class="lab">vs 2018 (30 largest counties)</div>${p18?`<div class="val">${ps(pc(c30.cum_total,p18.cum_total))}</div><div class="sub">2018: ${f(p18.cum_total)}</div>`:`<div class="val miss" style="font-size:1.1rem">No 2018 data yet</div><div class="sub">2018 daily series starts on EV day 1 (${TXDATA.ev_start[2018]}, 15 days out)</div>`}</div>`;
+document.getElementById('kpis').innerHTML=k;
+const rep=Object.keys(TXDATA.ctab.rows).length;
+if(evOpen){take.unshift(`<b>In-person early voting hasn't started yet</b>: it opens Monday Oct 19 (15 days out). Everything so far is mail ballots, and the 2026 mail count is <b>understated</b> because many counties hadn't posted to the new SOS system (Bexar ${f(TXDATA.ctab.rows.find(r=>r.county=='BEXAR')?.t26??0)}, El Paso ${f(TXDATA.ctab.rows.find(r=>r.county=='EL PASO')?.t26??0)}). Read the gap against 2024/2022 as a reporting gap until counties catch up.`)}
+const q24=at(2024,'state',15),q22=at(2022,'state',15);
+take.push(`Benchmarks for day 1 of early voting (15 days out): 2024 had ${f(q24.cum_total)} cumulative (${f(q24.inperson_day)} voted in person on opening day); 2022 had ${f(q22.cum_total)} (${f(q22.inperson_day)} on day 1). 2024 finished early voting at ${f(ser(2024,'state').filter(r=>r.days_out>=4).pop().cum_total)}; 2022 at ${f(ser(2022,'state').filter(r=>r.days_out>=4).pop().cum_total)}.`);
+take.push(`Registered voters: ${f(cur.registered)} in 2026 vs ${f(at(2024,'state',D).registered)} in 2024 and ${f(at(2022,'state',D).registered)} in 2022. Use the % of registered chart for a growth-adjusted comparison.`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';
+let cm,mm='cum_total',sc='state';const draw=()=>{if(cm)cm.destroy();cm=new Chart(cum,{type:'line',data:{datasets:Y.filter(y=>!(sc=='state'&&y==2018)).map(y=>({label:String(y)+(y==2018?' (30 counties)':''),data:ser(y,sc).filter(r=>r.days_out<=40&&r.days_out>=0).map(r=>({x:r.days_out,y:r[mm],d:r.report_date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?6:2.5,borderDash:y==2026?[]:[5,4]}))},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:40,title:{display:true,text:'Days before Election Day (early voting = days 15→4)'},ticks:{stepSize:2}},y:{beginAtZero:true,title:{display:true,text:M[mm]},ticks:{callback:v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K'}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.m==mm));document.querySelectorAll('#scope button').forEach(b=>b.classList.toggle('on',b.dataset.s==sc))};
+document.getElementById('tog').innerHTML=Object.entries(M).map(([m,l])=>`<button data-m="${m}">${l}</button>`).join('');
+document.getElementById('scope').innerHTML='<button data-s="state">Statewide (2022–2026)</button><button data-s="top30">30 largest counties (incl. 2018)</button>';
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>{mm=b.dataset.m;draw()});document.querySelectorAll('#scope button').forEach(b=>b.onclick=()=>{sc=b.dataset.s;draw()});draw();
+const l7=s26.slice(-8),ad=l7.slice(1).map((r,i)=>({l:r.report_date.slice(5).replace('-','/'),ip:r.inperson_day,m:r.cum_mail-l7[i].cum_mail}));
+new Chart(daily,{type:'bar',data:{labels:ad.map(a=>a.l),datasets:[{label:'In person that day',data:ad.map(a=>a.ip),backgroundColor:'#14213d'},{label:'Mail received (change)',data:ad.map(a=>a.m),backgroundColor:'#f4a582'}]},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{callback:v=>v>=1e3?(v/1e3)+'K':v}}}}});
+const evd=y=>{const st=new Date(TXDATA.ev_start[y]+'T12:00');return ser(y,y==2018?'top30':'state').map(r=>({x:Math.round((new Date(r.report_date+'T12:00')-st)/864e5)+1,y:r.inperson_day,d:r.report_date})).filter(p=>p.x>=1&&p.x<=12)};
+new Chart(evday,{type:'line',data:{datasets:Y.map(y=>({label:String(y)+(y==2018?' (30 co.)':''),data:evd(y),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?6:3,borderDash:y==2026?[]:[5,4]}))},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`EV day ${c[0].raw.x} (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',min:1,max:12,title:{display:true,text:'Day of early voting (day 7 = Sunday)'},ticks:{stepSize:1}},y:{beginAtZero:true,ticks:{callback:v=>(v/1e3)+'K'}}}}});
+new Chart(pct,{type:'line',data:{datasets:Y.map(y=>({label:String(y)+(y==2018?' (30 co.)':''),data:ser(y,y==2018?'top30':'state').filter(r=>r.days_out<=40&&r.days_out>=0).map(r=>({x:r.days_out,y:r.cum_total/r.registered*100,d:r.report_date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?6:2,borderDash:y==2026?[]:[5,4]}))},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{type:'linear',reverse:true,min:0,max:40,title:{display:true,text:'Days before Election Day'}},y:{beginAtZero:true,ticks:{callback:v=>v+'%'}}}}});
+const CT=TXDATA.ctab;document.getElementById('cth').textContent=`Cumulative early votes (in-person + mail) as of ${CT.date} (${CT.days_out} days out) vs 2024 (${CT.d24}) and 2022 (${CT.d22}). 15 counties with the most registered voters.`;
+document.getElementById('ctab').innerHTML='<table><tr><th>County</th><th>Reg. voters</th><th>2026</th><th>2024</th><th>2022</th><th>vs 2024</th></tr>'+CT.rows.map(r=>`<tr><td>${r.county}</td><td>${f(r.reg)}</td><td>${f(r.t26)}</td><td>${r.t24==null?'–':f(r.t24)}</td><td>${r.t22==null?'–':f(r.t22)}</td><td class="${r.t26<r.t24?'down':'up'}">${r.t24?ps(pc(r.t26,r.t24)):'–'}</td></tr>`).join('')+'</table>';
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Scope</th><th>Reports</th><th>First → last report</th><th>Early voting opened</th><th>Final early total</th></tr>'+[[2026,'state'],[2024,'state'],[2022,'state'],[2018,'top30']].map(([y,s])=>{const a=ser(y,s),fin=a[a.length-1];return`<tr><td>${y}</td><td>${s=='state'?'254 counties':'30 largest counties'}</td><td>${a.length}</td><td>${a[0].report_date} → ${fin.report_date}</td><td>${TXDATA.ev_start[y]}</td><td>${y==2026?'in progress':f(fin.cum_total)}</td></tr>`}).join('')+'</table><p class="hint">Daily, including weekends. 2026 is captured on the box four times a day (every report date is re-pulled so county revisions are kept). Data: <a href="tx-data.csv">tx-data.csv</a>.</p>';
+document.getElementById('src').innerHTML=Y.map(y=>`<li>Texas SOS early voting turnout, ${y}: ${TXDATA.src[y]}</li>`).join('');
+</script></body></html>
