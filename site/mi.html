@@ -1,0 +1,71 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Michigan 2026 Absentee & Early Vote Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+</style></head><body>
+<header><h1>Michigan Absentee &amp; Early Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="index.html"><span title="Florida">FL</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="nc.html"><span title="North Carolina">NC</span></a><a href="ia.html"><span title="Iowa">IA</span></a><a href="tx.html"><span title="Texas">TX</span></a><a href="mi.html" class=on><span title="Michigan">MI</span></a></nav></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Ballots cast before Election Day, by days out</h2><p class="hint">Michigan SOS Voter Participation Dashboard, daily statewide. 2026 in bold; dots = actual daily values. 2022 = three SOS press-release figures (no daily series survives). <b>Absentee returned</b> = ballots received by clerks (mail, drop box, in-office). <b>Early in-person</b> = the statewide early voting created by 2022's Proposal 2, first used in a general election in 2024.</p>
+<div class="tog" id="tog"></div><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>Added per day: last 7 days (2026)</h2><p class="hint">Daily change in absentee ballots returned (light) plus early in-person votes that day (dark). Weekends are low because clerks don't log returns.</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>Return rate: returned ÷ ballots sent</h2><p class="hint">Share of absentee ballots mailed or issued that have come back, by days out.</p><div class="ch"><canvas id="rate"></canvas></div></div>
+<div class="card"><h2>Early in-person votes by day</h2><p class="hint">Votes cast each day at early voting sites. The required statewide period is the 9 days ending the Sunday before Election Day; some cities open earlier.</p><div class="ch"><canvas id="evday"></canvas></div></div>
+<div class="card"><h2>Largest counties: absentee returned, 2026 vs 2024</h2><p class="hint" id="cth"></p><div id="ctab" style="max-height:320px;overflow:auto"></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources &amp; caveats</h2><ul class="src" id="src"></ul><ul class="take" style="font-size:.85rem">
+<li><b>No party or race data.</b> Michigan has no party registration, and the dashboard publishes counts only.</li>
+<li><b>2024 was a presidential year.</b> Midterm turnout is lower, so a gap against 2024 is expected. 2022 (midterm) is the closer comparison, but only three rounded press-release figures exist and their exact as-of times aren't stated (taken as the release date).</li>
+<li><b>Permanent absentee list:</b> Proposal 2 (2022) let voters join a permanent mail-ballot list. By 2026 most requests (~95%) come from it, so ballots are sent to many voters automatically. That inflates "requested/sent" relative to 2022.</li>
+<li>The dashboard only keeps the current cycles (2024 general, 2026 primary and general). The 2024 series starts Sept 26, 2024; 2026 starts Sept 19, 2026. One 2024 value (Oct 9) is a clear dashboard glitch (returned briefly showed 1.20M, then 468K the next day) and is dropped.</li>
+<li>Counts are as recorded in the Qualified Voter File by local clerks, dated by the dashboard's count date. Small decreases occur when ballots are spoiled or rejected. "Total" = absentee returned + early in-person; voters who had an absentee ballot but voted early in person are counted under early in-person.</li></ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Michigan Department of State Voter Participation Dashboard · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="mi-data.js"></script><script>
+const R=MIDATA.rows,Y=[2026,2024,2022],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348'},f=n=>Number(n).toLocaleString('en-US');
+const M={returned:'Absentee ballots returned',total:'Total (absentee + early in-person)',requested:'Absentee ballots requested'};
+const ser=y=>R.filter(r=>r.year==y).sort((a,b)=>b.days_out-a.days_out);
+const s26=ser(2026),cur=s26[s26.length-1],prev=s26[s26.length-2],D=cur.days_out,at=(y,d)=>ser(y).filter(r=>r.days_out>=d).pop();
+const pc=(a,b)=>(a/b-1)*100,ps=v=>`${v>0?'+':''}${v.toFixed(0)}%`;
+document.getElementById('asof').textContent=`Latest dashboard data: ${cur.date} (${D} days out) · ${Math.round((new Date(MIDATA.ed[2026]+'T12:00')-new Date())/864e5)} days until Election Day · statewide early voting opens Sat Oct 24`;
+document.getElementById('built').textContent=MIDATA.built;
+const p24=at(2024,D),p22=at(2022,D);
+let k=`<div class="card kpi"><div class="lab">2026 absentee ballots returned</div><div class="val" style="color:${COL[2026]}">${f(cur.returned)}</div><div class="sub">of ${f(cur.sent)} sent · ${f(cur.requested)} requested${prev?` · +${f(cur.returned-prev.returned)} since ${prev.date}`:''}</div></div>`;
+k+=`<div class="card kpi"><div class="lab">vs 2024 at ${D} days out</div><div class="val ${pc(cur.returned,p24.returned)<0?'down':'up'}">${ps(pc(cur.returned,p24.returned))}</div><div class="sub">2024: ${f(p24.returned)} returned (presidential year)</div></div>`;
+k+=p22?`<div class="card kpi"><div class="lab">vs 2022 (${p22.days_out} days out)</div><div class="val ${pc(at(2026,p22.days_out).returned,p22.returned)<0?'down':'up'}">${ps(pc(at(2026,p22.days_out).returned,p22.returned))}</div><div class="sub">2022: ${f(p22.returned)} on ${p22.date} vs 2026: ${f(at(2026,p22.days_out).returned)} (SOS release)</div></div>`:'';
+const rr=r=>r.returned/r.sent*100;
+k+=`<div class="card kpi"><div class="lab">Return rate</div><div class="val">${rr(cur).toFixed(0)}%</div><div class="sub">2024 at ${D} days out: ${rr(p24).toFixed(0)}%</div></div>`;
+document.getElementById('kpis').innerHTML=k;
+const take=[];
+take.push(`Absentee ballots returned are <b>${Math.abs(pc(cur.returned,p24.returned)).toFixed(0)}% ${cur.returned<p24.returned?'behind':'ahead of'}</b> 2024 at ${D} days out (${f(cur.returned)} vs ${f(p24.returned)}). 2024 was a presidential election.`);
+if(p22){const c=at(2026,p22.days_out);take.push(`Against the 2022 midterm, 2026 is <b>${ps(pc(c.returned,p22.returned))}</b> at ${p22.days_out} days out (${f(c.returned)} on ${c.date} vs ${f(p22.returned)} per the SOS release of ${p22.date}).`)}
+take.push(`Ballots sent: ${f(cur.sent)} vs ${f(p24.sent)} in 2024. Requests: ${f(cur.requested)} in 2026, <b>${(cur.perm/cur.requested*100).toFixed(0)}%</b> from the permanent absentee list (2024: ${(p24.perm/p24.requested*100).toFixed(0)}%).`);
+take.push(`Early in-person voting hasn't started statewide (it runs Oct 24 to Nov 1). 2024 benchmark: ${f(at(2024,1).ev_cum)} early in-person votes in total; ${f(at(2024,1).total)} ballots cast before Election Day (absentee + early).`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';
+let cm,mm='returned';const draw=()=>{if(cm)cm.destroy();cm=new Chart(cum,{type:'line',data:{datasets:Y.map(y=>({label:String(y)+(y==2022?' (SOS releases)':''),data:ser(y).filter(r=>r[mm]!=null&&r.days_out>=0&&r.days_out<=45).map(r=>({x:r.days_out,y:r[mm],d:r.date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?5:(y==2022?6:2),pointStyle:y==2022?'rectRot':'circle',showLine:y!=2022,borderDash:y==2026?[]:[5,4]}))},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:45,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:3}},y:{beginAtZero:true,title:{display:true,text:M[mm]},ticks:{callback:v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K'}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.m==mm))};
+document.getElementById('tog').innerHTML=Object.entries(M).map(([m,l])=>`<button data-m="${m}">${l}</button>`).join('');
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>{mm=b.dataset.m;draw()});draw();
+const l7=s26.slice(-8),ad=l7.slice(1).map((r,i)=>({l:r.date.slice(5).replace('-','/'),a:r.returned-l7[i].returned,e:r.ev_day}));
+new Chart(daily,{type:'bar',data:{labels:ad.map(a=>a.l),datasets:[{label:'Early in-person',data:ad.map(a=>a.e),backgroundColor:'#14213d'},{label:'Absentee returned (change)',data:ad.map(a=>a.a),backgroundColor:'#f4a582'}]},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{callback:v=>(v/1e3)+'K'}}}}});
+new Chart(rate,{type:'line',data:{datasets:[2026,2024].map(y=>({label:String(y),data:ser(y).filter(r=>r.sent&&r.days_out>=0&&r.days_out<=45).map(r=>({x:r.days_out,y:rr(r),d:r.date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?4:1.5,borderDash:y==2026?[]:[5,4]}))},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{type:'linear',reverse:true,min:0,max:45,title:{display:true,text:'Days before Election Day'}},y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}}}}});
+const ev=y=>ser(y).filter(r=>r.ev_day>0).map(r=>({x:r.days_out,y:r.ev_day,d:r.date}));
+new Chart(evday,{type:'bar',data:{datasets:[2026,2024].map(y=>({label:String(y),data:ev(y),backgroundColor:COL[y]}))},options:{maintainAspectRatio:false,parsing:{xAxisKey:'x',yAxisKey:'y'},plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:18,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:1}},y:{beginAtZero:true,ticks:{callback:v=>(v/1e3)+'K'}}}}});
+const CT=MIDATA.ctab;document.getElementById('cth').textContent=`Absentee ballots returned as of ${CT.date} (${CT.days_out} days out) vs ${CT.d24} in 2024. 15 counties with the most 2024 returns at that point.`;
+document.getElementById('ctab').innerHTML='<table><tr><th>County</th><th>2026</th><th>2024</th><th>Change</th></tr>'+CT.rows.map(r=>`<tr><td>${r.county}</td><td>${f(r.r26)}</td><td>${f(r.r24)}</td><td class="${r.r26<r.r24?'down':'up'}">${r.r24?ps(pc(r.r26,r.r24)):'–'}</td></tr>`).join('')+'</table>';
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Points</th><th>First → last</th><th>Fields</th></tr>'+Y.map(y=>{const a=ser(y);return`<tr><td>${y}</td><td>${a.length}</td><td>${a[0].date} → ${a[a.length-1].date}</td><td>${y==2022?'Absentee returned (+ rounded requests); SOS press releases':'Requested (permanent-list split), sent, returned, early in-person; by county'}</td></tr>`}).join('')+`</table><p class="hint">Daily including weekends. Dashboard pulled on the box 4x/day (last pull ${MIDATA.fetched}); every changed pull is archived, since the SOS removes past cycles from the dashboard. Data: <a href="mi-data.csv">mi-data.csv</a>.</p>`;
+document.getElementById('src').innerHTML=['<li>Michigan SOS Voter Participation Dashboard: https://www.michigan.gov/sos/elections/election-results-and-data/voter-participation-dashboard (public Power BI report)</li>'].concat(R.filter(r=>r.year==2022).map(r=>`<li>2022, ${r.date}: ${r.source}${r.approx?' ('+r.approx+')':''}</li>`)).join('');
+</script></body></html>
