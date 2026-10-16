@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 Early Vote Overview: 8 States (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+.lawnote{border-left:4px solid #ffb703}
+.approx{font-style:italic;color:var(--mute)}.warn{background:#fff7e0;border-left:4px solid #ffb703}
+</style></head><body>
+<header><h1>Early Voting Overview — 8 States, Nov 3, 2026 <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="overview.html" class=on><span title="Overview of all states">US</span></a><a href="index.html"><span title="Florida">FL</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="nc.html"><span title="North Carolina">NC</span></a><a href="ia.html"><span title="Iowa">IA</span></a><a href="tx.html"><span title="Texas">TX</span></a><a href="mi.html"><span title="Michigan">MI</span></a><a href="me.html"><span title="Maine">ME</span></a><a href="ks.html"><span title="Kansas">KS</span></a></nav></header><main>
+<div class="card warn"><b>Not a national sample.</b> This page combines only the 8 states this dashboard tracks (FL, OH, NC, IA, TX, MI, ME, KS). They were picked for competitive races and good data, not to represent the country. Each state counts different things (mail only, mail plus in person), reports on different schedules, and changed its laws between cycles. Read the state-by-state bars first; the combined total is a rough summary.</div>
+<section class="kpis" id="kpis" style="margin-top:12px"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>2026 pace vs past cycles, by state (same days before Election Day)</h2><p class="hint">Percent change in ballots cast before Election Day, 2026 vs the chosen year, at the same number of days out. Each state uses its own measure (see table below). Lighter bars = nearest available day, not an exact match. Pick a comparison year:</p>
+<div class="tog" id="tog"></div><div class="ch" style="height:360px"><canvas id="pct"></canvas></div></div>
+<div class="card"><h2>Combined total, comparable states</h2><p class="hint" id="combh"></p><div class="ch"><canvas id="comb"></canvas></div></div>
+<div class="card"><h2>Party margin of early ballots: 2026 vs 2022</h2><p class="hint">Democratic minus Republican share of ballots cast so far, in percentage points, at the same days out. States with party registration only. Bars to the right = more Democratic than 2022 at this point.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card full"><h2>State by state</h2><div id="tab" style="overflow:auto"></div></div>
+<div class="card full"><h2>How the comparisons differ</h2><ul class="take" style="font-size:.88rem">
+<li><b>Presidential vs midterm:</b> 2024 was a presidential election, so nearly every state trails it. 2022 and 2018 (midterms) are the fairer comparisons.</li>
+<li><b>Different measures:</b> Florida, Texas (so far) and Michigan are mostly mail ballots because early in-person voting hasn't opened. North Carolina, Kansas and Ohio include early in-person voting, which started earlier in some states this year than in past years.</li>
+<li><b>Different calendars:</b> early voting start dates moved between cycles (NC started Oct 15 this year vs Oct 20 in 2022; Iowa cut early voting from 29 to 20 days in 2021). A state can look far ahead or behind just because its window opened on a different day.</li>
+<li><b>Reporting lags:</b> Maine's latest file is from Oct 13, Ohio's from Oct 13; most others are from Oct 15–16. Each state is compared at its own latest day. Texas's 2026 statewide mail count has barely moved in recent days (38,050 → 38,054), which may be a reporting lag rather than a real drop.</li>
+<li><b>Law changes:</b> Ohio (SB 293) and Kansas (SB 4) now require mail ballots to arrive by Election Day; Maine opened its ongoing absentee list to everyone; Michigan created a permanent absentee list in 2022; Florida's SB 90 (2021) made voters re-request mail ballots more often. Details are on each state page.</li>
+<li><b>Combined total:</b> only states with an exact same-day statewide match are added up, and big states (Florida, Michigan) dominate the sum.</li></ul></div>
+<div class="card full"><h2>Sources</h2><ul class="src" id="src"></ul><p class="hint">Every number comes from the state pages, which cite official sources. Data: <a href="overview-data.js">overview-data.js</a>.</p></div>
+</div></main><footer>Built <span id="built"></span> · Combines the dashboard's 8 state pages · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="overview-data.js"></script><script>
+const S=OVDATA.states,C=OVDATA.combined,f=n=>Number(n).toLocaleString('en-US'),ps=v=>`${v>0?'+':''}${v.toFixed(0)}%`,cls=v=>v<0?'down':'up';
+document.getElementById('built').textContent=OVDATA.built;
+document.getElementById('asof').textContent=`Latest state data: ${S.map(s=>s.code+' '+s.date.slice(5).replace('-','/')).join(' · ')} · ${Math.round((new Date('2026-11-03T12:00')-new Date())/864e5)} days until Election Day`;
+const yc=y=>S.filter(s=>s.comps[y]);
+let k='';for(const y of [2022,2024,2018]){const c=C[y];if(!c.vpast)continue;k+=`<div class="card kpi"><div class="lab">Combined vs ${y}${y==2024?' (presidential)':''}</div><div class="val ${cls(c.pct)}">${ps(c.pct)}</div><div class="sub">${f(c.v26)} vs ${f(c.vpast)} · ${c.states.join(', ')}</div></div>`}
+const a22=yc(2022).filter(s=>s.comps[2022].pct>0).length;
+k+=`<div class="card kpi"><div class="lab">States ahead of 2022 pace</div><div class="val">${a22} of ${yc(2022).length}</div><div class="sub">${yc(2022).filter(s=>s.comps[2022].pct>0).map(s=>s.code).join(', ')}</div></div>`;
+document.getElementById('kpis').innerHTML=k;
+const take=[],s22=yc(2022).sort((a,b)=>b.comps[2022].pct-a.comps[2022].pct);
+take.push(`Against the 2022 midterm, <b>${a22} of ${s22.length} states are ahead</b>: ${s22.filter(s=>s.comps[2022].pct>0).map(s=>`${s.name} ${ps(s.comps[2022].pct)}`).join(', ')}. Behind: ${s22.filter(s=>s.comps[2022].pct<=0).map(s=>`${s.name} ${ps(s.comps[2022].pct)}`).join(', ')}.`);
+take.push(`Added together, the ${C[2022].states.length} states with exact matches are <b>${ps(C[2022].pct)} vs 2022</b> (${f(C[2022].v26)} vs ${f(C[2022].vpast)}). Florida and Texas, both behind and both mostly mail so far, pull the total down.`);
+take.push(`<b>Where early in-person voting has opened, 2026 tends to be ahead</b> (North Carolina, Kansas, Maine's in-office voting). Mail-heavy counts are mixed: Michigan is about even with 2022, Florida and Texas trail.`);
+const pm=S.filter(s=>s.comps[2022]&&s.comps[2022].m26!=null);
+take.push(`Party margins of early ballots are more Democratic than at this point in 2022 in ${pm.filter(s=>s.comps[2022].m26>s.comps[2022].mpast).length} of ${pm.length} states with party data (${pm.map(s=>`${s.code} ${(s.comps[2022].m26-s.comps[2022].mpast)>0?'+':''}${(s.comps[2022].m26-s.comps[2022].mpast).toFixed(0)} pts`).join(', ')}). Early ballots lean Democratic in most states and aren't a forecast of results.`);
+take.push(`Every state trails presidential-year 2024, as expected.`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';const COL={2018:'#9c6ade',2022:'#2b9348',2024:'#4c6ef5'};
+let ch,yy=2022;const draw=()=>{if(ch)ch.destroy();const L=yc(yy).sort((a,b)=>b.comps[yy].pct-a.comps[yy].pct);
+ ch=new Chart(pct,{type:'bar',data:{labels:L.map(s=>`${s.name} (${s.comps[yy].days_past}d)`),datasets:[{data:L.map(s=>s.comps[yy].pct),backgroundColor:L.map(s=>(s.comps[yy].pct<0?'#c0392b':'#2b9348')+(s.comps[yy].exact?'':'66'))}]},
+ options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const s=L[c.dataIndex],x=s.comps[yy];return[`${ps(x.pct)}: ${f(x.v26)} (2026, ${x.days26} days out) vs ${f(x.vpast)} (${yy}, ${x.days_past} days out)`,s.metric+(x.scope!='statewide'?' · '+x.scope:'')+(x.exact?'':' · nearest day')]}}}},
+ scales:{x:{title:{display:true,text:`2026 vs ${yy}, % change at same days out`},ticks:{callback:v=>v+'%'}},y:{ticks:{font:{size:13}}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.y==yy))};
+document.getElementById('tog').innerHTML=[2022,2018,2024].map(y=>`<button data-y="${y}">vs ${y}${y==2024?' (presidential)':''}</button>`).join('');
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>{yy=+b.dataset.y;draw()});draw();
+const CY=[2018,2022,2024].filter(y=>C[y].vpast);
+document.getElementById('combh').textContent='Sum across states with an exact same-day statewide match (states listed under each bar). Each pair uses only the states available for that year.';
+new Chart(comb,{type:'bar',data:{labels:CY.map(y=>[`vs ${y}`,C[y].states.join(' ')]),datasets:[{label:'Past cycle',data:CY.map(y=>C[y].vpast),backgroundColor:CY.map(y=>COL[y])},{label:'2026',data:CY.map(y=>C[y].v26),backgroundColor:'#e4572e'}]},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K'}}}}});
+new Chart(party,{type:'bar',data:{labels:pm.map(s=>s.name),datasets:[{data:pm.map(s=>s.comps[2022].m26-s.comps[2022].mpast),backgroundColor:pm.map(s=>s.comps[2022].m26>s.comps[2022].mpast?'#2f6fdb':'#d64545')}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const x=pm[c.dataIndex].comps[2022];return`D−R margin: ${x.m26>0?'D+':'R+'}${Math.abs(x.m26).toFixed(1)} (2026) vs ${x.mpast>0?'D+':'R+'}${Math.abs(x.mpast).toFixed(1)} (2022)${x.exact?'':' · nearest day'}`}}}},scales:{x:{title:{display:true,text:'Change in D−R margin vs 2022 (pts)'}}}}});
+const cell=(s,y)=>{const x=s.comps[y];return x?`<td class="${cls(x.pct)}${x.exact?'':' approx'}" title="${f(x.v26)} vs ${f(x.vpast)}">${ps(x.pct)}${x.exact?'':'*'}${x.days_past!=s.days_out?` <small>(${x.days_past}d)</small>`:''}</td>`:'<td>–</td>'};
+document.getElementById('tab').innerHTML='<table><tr><th>State</th><th>Measure</th><th>Latest 2026</th><th>Days out</th><th>vs 2022</th><th>vs 2018</th><th>vs 2024</th><th>D−R margin 2026 (2022)</th><th style="text-align:left">Notes</th></tr>'+S.map(s=>{const x=s.comps[2022]||{};return`<tr><td><a href="${s.page}">${s.name}</a></td><td style="text-align:left">${s.metric}</td><td>${f(s.v26)}</td><td>${s.days_out}</td>${cell(s,2022)}${cell(s,2018)}${cell(s,2024)}<td>${x.m26!=null?`${x.m26>0?'D+':'R+'}${Math.abs(x.m26).toFixed(0)} (${x.mpast>0?'D+':'R+'}${Math.abs(x.mpast).toFixed(0)})`:'–'}</td><td style="text-align:left;font-size:.8rem">${s.note}</td></tr>`}).join('')+'</table><p class="hint">* nearest available day, not an exact same-day match (e.g., Ohio 2024 at 20 days vs 2026 at 21; Florida 2018 at 20 vs 2026 at 18). "(21d)" = comparison made at that many days out because that is the latest day both years have. – = no comparable figure.</p>';
+document.getElementById('src').innerHTML=S.map(s=>`<li><a href="${s.page}">${s.name}</a>: ${s.metric}. Official sources are listed on the state page.</li>`).join('');
+</script></body></html>
