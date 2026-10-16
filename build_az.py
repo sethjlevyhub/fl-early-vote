@@ -44,8 +44,17 @@ for r in csv.DictReader(open(AZ+'/stealth_totals.csv')):
         source='https://www.stealth-analytics.com/early-ballots',source_who='Stealth Analytics (county daily files)'))
 mar=[dict(date=dt.datetime.strptime(r['data_edit'],'%Y%m%d-%H%M').date().isoformat(),returned=int(r['returns']),requested=int(r['requests'])) for r in csv.DictReader(open(AZ+'/totals.csv'))]
 mpast=[dict(year=2022,date='2022-10-19',days_out=20,returned=55543,y2018_same_day=92000,src=X+'Garrett_Archer/status/1582846620315492357',note='Maricopa County Elections press conference, via Garrett Archer; 2018 same day "~92,000"')]
+# 2026 party split of returned early ballots, statewide, from Stealth Analytics (@StealthPolling) daily tracker posts on X
+PARTY26=[('2026-10-13',31.5,46.0,22.5,'statewide','https://x.com/StealthPolling/status/2110048076295778385'),
+ ('2026-10-14',33.8,43.9,22.4,'statewide','https://x.com/StealthPolling/status/2110397081198469411'),
+ ('2026-10-15',36.7,40.9,22.3,'Maricopa','https://x.com/StealthPolling/status/2110776228819169369'),
+ ('2026-10-16',36.9,40.8,22.3,'statewide','https://x.com/StealthPolling/status/2111127598822740242')]
+party26=[dict(date=d,days_out=(ED[2026]-dt.date.fromisoformat(d)).days,rep_pct=r,dem_pct=dm,oth_pct=o,d_minus_r_pts=round(dm-r,1),scope=sc,source=u) for d,r,dm,o,sc,u in PARTY26]
+for r in rows:
+    m=[q for q in party26 if q['date']==r['date'] and q['scope']=='statewide' and r['year']==2026]
+    if m: r.update(rep_pct=m[0]['rep_pct'],dem_pct=m[0]['dem_pct'],oth_pct=m[0]['oth_pct'],d_minus_r_pts=m[0]['d_minus_r_pts'])
 rows.sort(key=lambda r:(r['year'],r['date']))
 with open(ROOT+'/site/az-data.csv','w',newline='') as f: w=csv.DictWriter(f,list(rows[0])); w.writeheader(); w.writerows(rows)
-open(ROOT+'/site/az-data.js','w').write('window.AZDATA='+json.dumps(dict(built=dt.datetime.now().strftime('%b %-d, %Y %-I:%M %p ET'),ed={k:v.isoformat() for k,v in ED.items()},maricopa=mar,maricopa_past=mpast,rows=rows))+';')
+open(ROOT+'/site/az-data.js','w').write('window.AZDATA='+json.dumps(dict(built=dt.datetime.now().strftime('%b %-d, %Y %-I:%M %p ET'),ed={k:v.isoformat() for k,v in ED.items()},maricopa=mar,maricopa_past=mpast,party26=party26,rows=rows))+';')
 for r in rows:
     if r['days_out'] in(18,19,20): print(r['year'],r['date'],r['days_out'],r['returned'],r['d_minus_r_pts'])
