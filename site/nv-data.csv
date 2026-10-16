@@ -1,0 +1,203 @@
+series,year,date,days_out,total,dem,rep,other_or_value,source
+statewide_returned_civicapi,2026,2026-09-29,35,507,268,88,151,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-09-30,34,707,374,124,209,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-01,33,1064,591,166,307,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-02,32,1242,687,201,354,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-03,31,1374,764,218,392,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-04,30,1458,812,231,415,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-05,29,1458,812,231,415,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-06,28,1454,812,228,414,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-07,27,1592,885,257,450,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-08,26,1897,1042,314,541,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-09,25,2507,1297,489,721,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-10,24,2507,1297,489,721,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-11,23,2571,1312,524,735,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-12,22,3161,1503,738,920,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-13,21,3161,1503,738,920,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-14,20,6328,2702,1825,1801,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-15,19,14538,5805,4616,4117,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi,2026,2026-10-16,18,31457,11872,10499,9086,https://civicapi.org/api/v2/early-vote/NV/returned/history
+clark_mail_received_official,2022,2022-09-26,43,0,0,0,0,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-09-27,42,66,44,11,11,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-09-28,41,129,77,27,25,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-09-29,40,147,89,29,29,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-03,36,178,107,37,34,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-04,35,244,138,52,54,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-05,34,268,150,56,62,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-06,33,324,174,66,84,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-07,32,357,184,70,103,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-08,31,384,196,72,116,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-10,29,449,231,84,134,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-11,28,482,248,89,145,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-12,27,513,265,93,155,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-13,26,555,288,97,170,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-14,25,599,308,99,192,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-17,22,647,341,106,200,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-18,21,692,358,120,214,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-19,20,725,381,122,222,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-20,19,757,401,128,228,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-23,16,39183,19129,10045,10009,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-24,15,40283,19663,10325,10295,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-25,14,56050,27894,14156,14000,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-26,13,78104,38876,19546,19682,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-27,12,105884,52357,26631,26896,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-28,11,120880,59614,30325,30941,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-29,10,133824,65855,33604,34365,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-30,9,139098,68505,34960,35633,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-10-31,8,149256,73354,37542,38360,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-01,7,173168,84857,43492,44819,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-02,6,183623,89535,46102,47986,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-03,5,202080,98013,50707,53360,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-04,4,220447,106768,54900,58779,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-05,3,247501,120110,60575,66816,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-06,2,248136,120390,60710,67036,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-07,1,260322,125908,63346,71068,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-08,0,275444,132320,66709,76415,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-09,-1,302731,143055,73341,86335,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-10,-2,339209,158091,82387,98731,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-11,-3,339707,158302,82490,98915,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-12,-4,341102,158889,82812,99401,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-13,-5,342630,159647,83054,99929,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-14,-6,345811,161238,83544,101029,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-15,-7,345845,161249,83553,101043,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-16,-8,345972,161305,83583,101084,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2022,2022-11-17,-9,346005,161318,83589,101098,Clark County Election Dept MBREQ22G.txt
+clark_mail_received_official,2024,2024-10-17,19,1,0,1,0,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-18,18,743,299,183,261,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-19,17,80107,36260,21584,22263,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-20,16,86576,39402,23283,23891,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-21,15,109176,49568,29644,29964,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-22,14,139639,63067,37650,38922,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-23,13,163985,73790,44140,46055,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-24,12,183745,82476,49248,52021,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-25,11,201634,90172,53641,57821,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-26,10,219727,98043,58154,63530,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-27,9,225985,100826,59706,65453,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-28,8,245810,109039,64749,72022,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-29,7,271363,119575,70817,80971,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-30,6,294459,129062,76112,89285,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-10-31,5,315081,137401,80685,96995,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-01,4,343601,149035,86775,107791,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-02,3,353778,153038,88844,111896,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-03,2,353781,153039,88845,111897,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-04,1,366408,158078,91270,117060,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-05,0,411159,174436,99623,137100,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-06,-1,443777,186230,105398,152149,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-07,-2,446460,187095,105963,153402,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-08,-3,449567,188279,106501,154787,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-09,-4,450651,188730,106675,155246,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-10,-5,450935,188813,106731,155391,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-11,-6,451129,188889,106767,155473,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-12,-7,451596,189031,106866,155699,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-13,-8,451597,189031,106867,155699,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2024,2024-11-20,-15,451598,189032,106867,155699,Clark County Election Dept mbreq24G_20241114_23300216.csv
+clark_mail_received_official,2026,2026-09-18,46,70,40,8,22,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-19,45,92,49,12,31,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-21,43,137,71,18,48,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-22,42,156,80,21,55,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-23,41,179,91,25,63,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-24,40,200,102,27,71,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-25,39,200,102,27,71,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-26,38,200,102,27,71,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-27,37,200,102,27,71,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-28,36,283,137,46,100,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-29,35,632,347,91,194,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-09-30,34,723,399,108,216,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-01,33,745,410,112,223,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-02,32,745,410,112,223,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-03,31,745,410,112,223,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-04,30,745,410,112,223,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-05,29,745,410,112,223,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-06,28,985,535,153,297,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-07,27,1028,548,164,316,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-08,26,1180,626,190,364,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-09,25,1258,667,202,389,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-10,24,1841,855,416,570,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-11,23,1957,918,436,603,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-12,22,2717,1215,682,820,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-13,21,3249,1434,820,995,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-14,20,9102,3730,2621,2751,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-15,19,20239,7838,6227,6174,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+clark_mail_received_official,2026,2026-10-16,18,20681,8033,6350,6298,Clark County Election Dept mbreq26GE_20261015_23300167.csv
+ralston_statewide_d_minus_r,2024,2024-10-20,16,,,,1800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-21,15,,,,-8000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-10-21,15,,,,250000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-22,14,,,,-6000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-10-22,14,,,,6500,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-23,13,,,,-12000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-10-23,13,,,,333000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-10-23,13,,,,5000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-10-24,12,,,,425327,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-24,12,,,,-16000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-10-25,11,,,,486205,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-25,11,,,,-22000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_rural_d_minus_r,2024,2024-10-25,11,,,,-25000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-10-25,11,,,,5500,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_washoe_d_minus_r,2024,2024-10-25,11,,,,-3000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-26,10,,,,-29000,https://x.com/RalstonReports/status/1850171413019398333
+ralston_statewide_d_minus_r,2024,2024-10-27,9,,,,-31000,https://x.com/RalstonReports/status/1850613452928401853
+ralston_statewide_d_minus_r,2024,2024-10-28,8,,,,-32000,https://x.com/RalstonReports/status/1850878231756636498
+ralston_total_ballots,2024,2024-10-28,8,,,,645000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_rural_d_minus_r,2024,2024-10-28,8,,,,-33000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-10-28,8,,,,6000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_washoe_d_minus_r,2024,2024-10-28,8,,,,-5000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-28,8,,,,-40000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-10-28,8,,,,700000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-10-28,8,,,,2800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_rural_d_minus_r,2024,2024-10-28,8,,,,-37000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_washoe_d_minus_r,2024,2024-10-28,8,,,,-5800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_mail_ballots,2024,2024-10-28,8,,,,234000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-29,7,,,,-38000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_mail_ballots,2024,2024-10-29,7,,,,250000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-29,7,,,,-42800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-10-29,7,,,,774000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_mail_ballots,2024,2024-10-29,7,,,,260000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-30,6,,,,-40500,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-10-30,6,,,,790000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-10-30,6,,,,6200,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-10-31,5,,,,-47300,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-11-01,4,,,,-44400,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_mail_ballots,2024,2024-11-01,4,,,,321000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-11-02,3,,,,-44000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-11-02,3,,,,17000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-11-03,2,,,,-43000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_mail_ballots,2024,2024-11-03,2,,,,361000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_statewide_d_minus_r,2024,2024-11-04,1,,,,-41800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_total_ballots,2024,2024-11-04,1,,,,1100000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2024,2024-11-04,1,,,,21000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_rural_d_minus_r,2024,2024-11-04,1,,,,-54000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_washoe_d_minus_r,2024,2024-11-04,1,,,,-9000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_mail_ballots,2024,2024-11-04,1,,,,372000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
+ralston_clark_d_minus_r,2022,2022-10-26,13,,,,9000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-10-27,12,,,,12363,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-10-29,10,,,,20000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-10-29,10,,,,10500,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_total_ballots,2022,2022-10-29,10,,,,284000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-10-30,9,,,,21000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-10-31,8,,,,10400,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-10-31,8,,,,21000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_washoe_d_minus_r,2022,2022-10-31,8,,,,1800,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_total_ballots,2022,2022-11-01,7,,,,382000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-11-01,7,,,,12500,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-11-01,7,,,,25000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-11-02,6,,,,8300,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-11-02,6,,,,23000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-11-04,4,,,,5200,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-11-04,4,,,,25500,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-11-05,3,,,,7700,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-11-05,3,,,,29000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_total_ballots,2022,2022-11-05,3,,,,620500,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-11-06,2,,,,8000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-11-06,2,,,,37000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_total_ballots,2022,2022-11-06,2,,,,660000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_statewide_d_minus_r,2022,2022-11-07,1,,,,8300,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_total_ballots,2022,2022-11-08,0,,,,672000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2022,2022-11-08,0,,,,39000,https://thenevadaindependent.com/article/the-early-voting-blog-2022
+ralston_clark_d_minus_r,2018,2018-10-29,8,,,,28000,https://x.com/RalstonReports/status/1057140212243955712
+ralston_clark_d_minus_r,2018,2018-10-30,7,,,,31000,https://x.com/RalstonReports/status/1057495723103739908
+ralston_statewide_d_minus_r,2018,2018-10-31,6,,,,12000,https://x.com/RalstonReports/status/1057768176316870656
+ralston_clark_d_minus_r,2018,2018-10-31,6,,,,33000,https://x.com/RalstonReports/status/1057858196256174080
+ralston_clark_d_minus_r,2018,2018-11-01,5,,,,37500,https://x.com/RalstonReports/status/1058229395268104193
+ralston_statewide_d_minus_r,2018,2018-11-02,4,,,,15000,https://x.com/RalstonReports/status/1058442434747686912
+ralston_clark_d_minus_r,2018,2018-11-03,3,,,,47000,https://x.com/RalstonReports/status/1058726829773582336
+ralston_statewide_d_minus_r,2018,2018-11-05,1,,,,21500,https://x.com/RalstonReports/status/1059510961587990532
