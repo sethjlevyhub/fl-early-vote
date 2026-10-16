@@ -57,7 +57,7 @@ ST['KS']=dict(name='Kansas',page='ks.html',metric='Mail returned + early in pers
 # Arizona: early ballots returned statewide (2018 AZ SOS via Garrett Archer; 2022/2024 Sam Almy tracker; 2026 Stealth Analytics) - secondary sources
 s=collections.defaultdict(dict)
 for r in rd('az-data.csv'):
-    s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['returned']),D=None,R=None,date=r['date'])
+    s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['returned']),D=None,R=None,date=r['date'],m=float(r['d_minus_r_pts']) if r['d_minus_r_pts'] else None,dp=float(r['dem_pct']) if r['dem_pct'] else None,rp=float(r['rep_pct']) if r['rep_pct'] else None)
 ST['AZ']=dict(name='Arizona',page='az.html',metric='Early ballots returned (mail, all counties)',series=s,secondary=True,note='Secondary sources: 2018 AZ SOS daily update via Garrett Archer; 2022/2024 Sam Almy\'s county-file tracker (AZ Dem. Party), rounded; 2026 Stealth Analytics county-file totals (some county files 1-8 days old).')
 PRES={2024}
 out=[];comb={}
@@ -74,9 +74,15 @@ for k,st in ST.items():
             d=min(near,key=lambda x:(abs(x-d26),x)); a,b=ser26[d26],past[d]; ex=False
         c=dict(days26=[x for x in ser26 if ser26[x] is a][0],days_past=d,v26=a['total'],vpast=b['total'],date26=a['date'],datepast=b['date'],pct=round((a['total']/b['total']-1)*100,1),exact=ex,
                scope='30 largest counties' if y in st.get('alt',{}) else 'statewide')
-        if a['D'] is not None and b['D'] is not None and a['R'] is not None and b['R'] is not None:
-            c['m26']=round((a['D']-a['R'])/a['total']*100,1); c['mpast']=round((b['D']-b['R'])/b['total']*100,1)
-            c['d26']=round(a['D']/a['total']*100,1);c['r26']=round(a['R']/a['total']*100,1);c['dpast']=round(b['D']/b['total']*100,1);c['rpast']=round(b['R']/b['total']*100,1)
+        # party: D-R share of ballots. Use the matched day if both sides have it; else nearest pair (each within 2 days of the
+        # 2026 latest point, past within 2 days of the 2026 day) where both sides have party data, flagged party_exact=False.
+        M=lambda e:e.get('m') if e.get('m') is not None else (round((e['D']-e['R'])/e['total']*100,1) if e.get('D') is not None and e.get('R') is not None else None)
+        pairs=[(abs(x-d26)+abs(z-x),x!=z,x,z) for x in ser26 if x-d26<=2 and M(ser26[x]) is not None for z in past if abs(z-x)<=2 and M(past[z]) is not None]
+        if pairs:
+            _,_,x,z=min(pairs); A,Bp=ser26[x],past[z]
+            c.update(m26=M(A),mpast=M(Bp),party_days26=x,party_dayspast=z,party_date26=A['date'],party_datepast=Bp['date'],party_exact=(x==z))
+            if A.get('D') is not None: c.update(d26=round(A['D']/A['total']*100,1),r26=round(A['R']/A['total']*100,1))
+            if Bp.get('D') is not None: c.update(dpast=round(Bp['D']/Bp['total']*100,1),rpast=round(Bp['R']/Bp['total']*100,1))
         comps[y]=c
     out.append(dict(code=k,secondary=st.get('secondary',False),name=st['name'],page=st['page'],metric=st['metric'],note=st['note'],days_out=d26,date=cur['date'],v26=cur['total'],comps=comps))
 for y in (2018,2022,2024):
@@ -84,5 +90,5 @@ for y in (2018,2022,2024):
     comb[y]=dict(states=[o['code'] for o in inc],v26=sum(o['comps'][y]['v26'] for o in inc),vpast=sum(o['comps'][y]['vpast'] for o in inc))
     if comb[y]['vpast']: comb[y]['pct']=round((comb[y]['v26']/comb[y]['vpast']-1)*100,1)
 open(os.path.join(S,'overview-data.js'),'w').write('window.OVDATA='+json.dumps(dict(built=dt.datetime.now().strftime('%b %-d, %Y %-I:%M %p ET'),states=out,combined=comb))+';')
-for o in out: print(o['code'],o['days_out'],o['v26'],{y:(c['days_past'],c['days26'],c['pct'],c['exact'],c.get('m26'),c.get('mpast')) for y,c in o['comps'].items()})
+for o in out: print(o['code'],o['days_out'],o['v26'],{y:(c['days_past'],c['days26'],c['pct'],c['exact'],c.get('m26'),c.get('mpast'),c.get('party_days26'),c.get('party_dayspast')) for y,c in o['comps'].items()})
 print(comb)
