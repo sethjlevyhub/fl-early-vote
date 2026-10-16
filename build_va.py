@@ -82,3 +82,10 @@ print('D',D,tot); [print(g) for g in groups]
 with open(ROOT+'/site/va-localities.csv','w',newline='') as f: w=csv.DictWriter(f,list(LT[0])); w.writeheader(); w.writerows(sorted(LT,key=lambda x:-x['v26']))
 js=open(ROOT+'/site/va-data.js').read().rstrip(';')
 open(ROOT+'/site/va-data.js','w').write(js[:-1]+',"lean":'+json.dumps(dict(days_out=D,groups=groups,tot=tot,top=sorted(LT,key=lambda x:-x['v26'])[:15],src_enr=ENR,src_t22=T22))+'};')
+
+# ---- Experimental model estimate (from /workspace/va-backtest/apply2026.py; rerun that to refresh) ----
+EP='/workspace/va-backtest/est2026.json'
+if os.path.exists(EP):
+    E_=json.load(open(EP)); js=open(ROOT+'/site/va-data.js').read()
+    open(ROOT+'/site/va-data.js','w').write(js[:-2]+',"est":'+json.dumps(dict(days_out=E_['days_out'],est=E_['est'],current=E_['current'],
+        bt=[dict(test='2022→2024',pred=17.0,actual=16.1,err=1.0),dict(test='2024→2025',pred=17.0,actual=24.3,err=-7.3)]))+'};')
