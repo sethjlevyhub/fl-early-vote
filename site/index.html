@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Florida 2026 Early & Mail Vote Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+</style></head><body>
+<header><h1>Florida Early &amp; Mail Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Mail ballots returned, by days before Election Day</h2><p class="hint">Cumulative statewide vote-by-mail ballots returned. 2026 in bold; prior cycles aligned to the same days-out. Dots = dated official figures only (no interpolation between them).</p><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>Ballots added per day — last 7 days</h2><p class="hint">Change between consecutive daily state reports. Gray "no data" = no captured report that day (the state only publishes the latest file).</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>Who has returned mail ballots (party share)</h2><p class="hint">Share of returned mail ballots by registered party, closest dated figure to 18 days out.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card full"><h2>Early in-person voting</h2><p class="hint">Florida's mandatory early-voting period is Oct 24–31, 2026; the state reports 0 early in-person votes so far. Final totals from prior cycles for scale:</p><div class="ch" style="height:260px"><canvas id="final"></canvas></div><p class="hint">Day-by-day early-vote history for 2018/2022/2024 at the same days-out is <span class="miss">not available</span> from an official or verifiable archive yet.</p></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources</h2><p class="hint">Every number traces to a row in <a href="data.csv">data.csv</a> with its source URL. Days-out = Election Day minus the date the state report was posted (reports are cumulative through the prior day).</p><ul class="src" id="src"></ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Florida Division of Elections · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="data.js"></script><script>
+const R=FLDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
+const vbm=y=>R.filter(r=>r.year==y&&r.method=='vbm_returned'&&r.days_out>0).sort((a,b)=>b.days_out-a.days_out);
+const v26=vbm(2026),cur=v26[v26.length-1],D=cur.days_out,prev=v26[v26.length-2];
+const at=(y,d)=>vbm(y).find(r=>r.days_out==d);
+document.getElementById('asof').textContent=`Latest state report: ${cur.report_date} · ${D} days until Election Day · statewide vote-by-mail returns`;
+document.getElementById('built').textContent=FLDATA.built;
+let k=`<div class="card kpi"><div class="lab">2026 mail ballots returned</div><div class="val" style="color:${COL[2026]}">${f(cur.total)}</div><div class="sub">${prev?`+${f(cur.total-prev.total)} since ${prev.report_date} report`:''}</div></div>`;
+const take=[];
+for(const y of [2024,2022,2018]){const p=at(y,D);if(p){const pc=(cur.total/p.total-1)*100;k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out</div><div class="val ${pc<0?'down':'up'}">${pc>0?'+':''}${pc.toFixed(1)}%</div><div class="sub">${y}: ${f(p.total)} returned</div></div>`;take.push(`2026 is <b>${Math.abs(pc).toFixed(0)}% ${pc<0?'behind':'ahead of'}</b> ${y} at the same point (${f(cur.total)} vs ${f(p.total)}).`)}
+ else{const near=vbm(y).reduce((a,r)=>!a||Math.abs(r.days_out-D)<Math.abs(a.days_out-D)?r:a,null);k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out</div><div class="val miss" style="font-size:1.2rem">No figure</div><div class="sub">${near?`Closest: ${f(near.total)} at ${near.days_out} days out`:''}</div></div>`}}
+document.getElementById('kpis').innerHTML=k;
+if(prev)take.push(`About <b>${f(cur.total-prev.total)}</b> mail ballots came in between the last two daily reports.`);
+const sh=(r,p)=>(r[p]/r.total*100);take.push(`Democrats account for <b>${sh(cur,'dem').toFixed(0)}%</b> of 2026 mail returns and Republicans <b>${sh(cur,'rep').toFixed(0)}%</b>, the usual Florida mail-ballot pattern; Republicans have historically closed the gap in in-person early voting and on Election Day.`);
+const out=R.find(r=>r.year==2026&&r.method=='vbm_outstanding'&&r.report_date==cur.report_date);if(out)take.push(`Another <b>${f(out.total)}</b> mail ballots have been sent out but not yet returned.`);
+take.push(`In-person early voting hasn't started statewide yet (mandatory Oct 24–31).`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';
+const tt={callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}};
+new Chart(cum,{type:'line',data:{datasets:Y.map(y=>({label:String(y),data:vbm(y).filter(r=>r.days_out<=30).map(r=>({x:r.days_out,y:+r.total,d:r.report_date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?6:4,borderDash:y==2026?[]:[5,4],spanGaps:true}))},
+ options:{maintainAspectRatio:false,parsing:true,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:14,max:24,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:1}},y:{beginAtZero:true,title:{display:true,text:'Mail ballots returned'},ticks:{callback:v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K'}}}}});
+// daily adds, last 7 days
+const days=[];const end=new Date(cur.report_date+'T12:00');for(let i=6;i>=0;i--){const d=new Date(end);d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10))}
+const byd=Object.fromEntries(v26.map(r=>[r.report_date,+r.total]));
+const adds=days.map(d=>{const p=new Date(d+'T12:00');p.setDate(p.getDate()-1);const pd=p.toISOString().slice(0,10);return byd[d]!=null&&byd[pd]!=null?byd[d]-byd[pd]:null});
+new Chart(daily,{type:'bar',data:{labels:days.map(d=>d.slice(5).replace('-','/')),datasets:[{label:'Added',data:adds,backgroundColor:adds.map((a,i)=>i==6?COL[2026]:'#f4a582')},{label:'no data',data:adds.map(a=>a==null?1:null),backgroundColor:'#e5e7eb',barPercentage:.9,yAxisID:'y2'}]},
+ options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{filter:c=>c.datasetIndex==0,callbacks:{label:c=>`+${f(c.parsed.y)} ballots`}}},scales:{x:{title:{display:true,text:'State report date (2026)'},stacked:true},y:{beginAtZero:true,title:{display:true,text:'Ballots added'}},y2:{display:false,min:0,max:1}}}});
+// party share
+const pick=Y.map(y=>vbm(y).filter(r=>r.rep!=='').reduce((a,r)=>!a||Math.abs(r.days_out-D)<Math.abs(a.days_out-D)?r:a,null)).filter(Boolean);
+const P=[['rep','Republican','#d64545'],['dem','Democrat','#2f6fdb'],['npa','No party','#8a8f98'],['oth','Other','#c9a227']];
+new Chart(party,{type:'bar',data:{labels:pick.map(r=>`${r.year} (${r.days_out}d out)`),datasets:[...P.map(([k,l,c])=>({label:l,backgroundColor:c,data:pick.map(r=>r[k]===''?null:r[k]/r.total*100)})),{label:'NPA+Other (combined, not broken out)',backgroundColor:'#c4c8cf',data:pick.map(r=>r.npa===''?(r.total-r.rep-r.dem)/r.total*100:null)}]},
+ options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)}%`}}},scales:{x:{stacked:true,max:100,title:{display:true,text:'% of returned mail ballots'}},y:{stacked:true}}}});
+// finals
+const fin=m=>[2018,2022,2024].map(y=>+(R.find(r=>r.year==y&&r.method==m&&r.source_type.includes('final'))||{}).total||null);
+new Chart(final,{type:'bar',data:{labels:['2018','2022','2024','2026 so far'],datasets:[{label:'Early in-person (final)',backgroundColor:'#14213d',data:[...fin('early_in_person'),0]},{label:'Mail returned (final)',backgroundColor:'#f4a582',data:[...fin('vbm_returned'),cur.total]}]},options:{maintainAspectRatio:false,plugins:{tooltip:tt},scales:{y:{title:{display:true,text:'Ballots'},ticks:{callback:v=>(v/1e6)+'M'}}}}});
+// coverage
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Mail-return dated points (days out)</th><th>Same-day (18) figure?</th><th>Early in-person by day</th></tr>'+Y.map(y=>`<tr><td>${y}</td><td>${vbm(y).map(r=>r.days_out).join(', ')||'—'}</td><td>${at(y,D)?'Yes':'<span class=miss>Missing</span>'}</td><td>${y==2026?'starts ~Oct 24':'<span class=miss>Final only</span>'}</td></tr>`).join('')+'</table>';
+document.getElementById('src').innerHTML=[...new Set(R.map(r=>r.source_type+' — '+r.source_url))].map(s=>{const[a,u]=s.split(' — ');return`<li>${a}: <a href="${u}">${u}</a></li>`}).join('');
+</script></body></html>
