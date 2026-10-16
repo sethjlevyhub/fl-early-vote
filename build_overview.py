@@ -64,6 +64,16 @@ s=collections.defaultdict(dict)
 for r in rd('ga-data.csv'):
     if r['total_cum']: s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['total_cum']),D=None,R=None,date=r['date'])
 ST['GA']=dict(name='Georgia',page='ga.html',metric='Mail returned + early in person (accepted)',series=s,note='Official SOS voter files for every year; 2026 file loaded by hand (as-of date on page). Early voting began Oct 13, 2026 (Oct 15 in 2018/2024, Oct 17 in 2022). No party registration.')
+# Pennsylvania: mail ballots returned, official PA DOS data.pa.gov files (all years), with party
+s=collections.defaultdict(dict)
+for r in rd('pa-data.csv'):
+    s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['returned']),D=I(r['dem']),R=I(r['rep']),date=r['date'])
+ST['PA']=dict(name='Pennsylvania',page='pa.html',metric='Mail ballots returned',series=s,note='Official PA DOS files. No in-person early voting. No 2018 comparison: no-excuse mail voting began with Act 77 (2019).')
+# Virginia: early in person + mail (secondary: VPAP 2022, EPEC 2024/2026, both from the ELECT Daily Absentee List)
+s=collections.defaultdict(dict)
+for r in rd('va-data.csv'):
+    s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['total']),D=None,R=None,date=r['date'])
+ST['VA']=dict(name='Virginia',page='va.html',metric='Early in person + mail returned',series=s,secondary=True,note='Secondary sources built from the official ELECT Daily Absentee List (VPAP for 2022, EPEC for 2024/2026). No 2018: excuse required then. No party registration.')
 PRES={2024}
 out=[];comb={}
 for k,st in ST.items():
