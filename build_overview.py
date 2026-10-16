@@ -54,6 +54,11 @@ s=collections.defaultdict(dict)
 for r in rd('ks-data.csv'):
     s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['total']) if r['total'] else I(r['mail_ret']),D=(I(r['mail_ret_d']) or 0)+(I(r['ev_d']) or 0) if r['mail_ret_d'] else None,R=(I(r['mail_ret_r']) or 0)+(I(r['ev_r']) or 0) if r['mail_ret_r'] else None,date=r['date'])
 ST['KS']=dict(name='Kansas',page='ks.html',metric='Mail returned + early in person',series=s,note='Early voting began this week. SB 4 (2025) ended the 3-day mail grace period. 2018 has only a 4-days-out point.')
+# Arizona: early ballots returned statewide (2018 AZ SOS via Garrett Archer; 2022/2024 Sam Almy tracker; 2026 Stealth Analytics) - secondary sources
+s=collections.defaultdict(dict)
+for r in rd('az-data.csv'):
+    s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['returned']),D=None,R=None,date=r['date'])
+ST['AZ']=dict(name='Arizona',page='az.html',metric='Early ballots returned (mail, all counties)',series=s,secondary=True,note='Secondary sources: 2018 AZ SOS daily update via Garrett Archer; 2022/2024 Sam Almy\'s county-file tracker (AZ Dem. Party), rounded; 2026 Stealth Analytics county-file totals (some county files 1-8 days old).')
 PRES={2024}
 out=[];comb={}
 for k,st in ST.items():
@@ -73,7 +78,7 @@ for k,st in ST.items():
             c['m26']=round((a['D']-a['R'])/a['total']*100,1); c['mpast']=round((b['D']-b['R'])/b['total']*100,1)
             c['d26']=round(a['D']/a['total']*100,1);c['r26']=round(a['R']/a['total']*100,1);c['dpast']=round(b['D']/b['total']*100,1);c['rpast']=round(b['R']/b['total']*100,1)
         comps[y]=c
-    out.append(dict(code=k,name=st['name'],page=st['page'],metric=st['metric'],note=st['note'],days_out=d26,date=cur['date'],v26=cur['total'],comps=comps))
+    out.append(dict(code=k,secondary=st.get('secondary',False),name=st['name'],page=st['page'],metric=st['metric'],note=st['note'],days_out=d26,date=cur['date'],v26=cur['total'],comps=comps))
 for y in (2018,2022,2024):
     inc=[o for o in out if y in o['comps'] and o['comps'][y]['exact'] and o['comps'][y]['scope']=='statewide']
     comb[y]=dict(states=[o['code'] for o in inc],v26=sum(o['comps'][y]['v26'] for o in inc),vpast=sum(o['comps'][y]['vpast'] for o in inc))
