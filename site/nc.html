@@ -14,7 +14,7 @@ ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%
 nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
 </style></head><body>
 <header><h1>North Carolina Early Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
-<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html">Ohio</a><a href="nc.html" class=on>North Carolina</a><a href="ia.html">Iowa</a></nav></header><main>
+<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html">Ohio</a><a href="nc.html" class=on>North Carolina</a><a href="ia.html">Iowa</a><a href="tx.html">Texas</a></nav></header><main>
 <section class="kpis" id="kpis"></section>
 <div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
 <div class="grid">
@@ -31,6 +31,12 @@ nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-dec
 <li>Party and race are as recorded in each file (a voter's registration then). Unaffiliated voters are now the largest NC group, so D/R shares alone understate turnout among UNA.</li>
 <li>The 2026 file currently lists only ballots that have been returned or cast, so <b>outstanding mail requests are not available</b> for 2026 and mail requests are not compared.</li>
 <li>Days-out = Election Day minus the date the ballot was cast. The state's file is posted early each morning and runs through the previous day.</li></ul></div>
+<div class="card full lawnote" id="law-changes"><h2>Law changes that affect comparisons</h2>
+<p class="hint">North Carolina's rules changed in 2023–2024, so 2018 and 2022 were run under different rules than 2026.</p>
+<ul class="src">
+<li><b>2023 · Senate Bill 747 (S.L. 2023-140):</b> mail ballots must arrive by <b>7:30 p.m. on Election Day</b>; the old 3-day grace period for postmarked ballots ended (military/overseas excepted). Same-day registrants during early voting now cast a "retrievable" ballot that can be pulled if address verification fails. <a href="https://dashboard.ncleg.gov/api/Services/BillSummary/2023/S747-SMBK-77(sl)-v-6">NC General Assembly bill summary</a> · <a href="https://www.ncleg.gov/sessions/2023/bills/senate/html/s747v6.html">bill text</a></li>
+<li><b>Photo ID</b> has been required since the 2024 primaries (not in place in 2018 or 2022). <a href="https://www.ncsbe.gov/voting/voter-id">NC State Board of Elections</a></li>
+</ul></div>
 </div></main><footer>Built <span id="built"></span> · Data: North Carolina State Board of Elections absentee/one-stop files · Prototype, not for publication</footer>
 <script src="vendor/chart.umd.min.js"></script><script src="nc-data.js"></script><script>
 const R=NCDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');

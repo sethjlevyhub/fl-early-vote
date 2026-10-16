@@ -14,7 +14,7 @@ ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%
 nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
 </style></head><body>
 <header><h1>Iowa Early &amp; Absentee Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
-<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html">Ohio</a><a href="nc.html">North Carolina</a><a href="ia.html" class=on>Iowa</a></nav></header><main>
+<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html">Ohio</a><a href="nc.html">North Carolina</a><a href="ia.html" class=on>Iowa</a><a href="tx.html">Texas</a></nav></header><main>
 <section class="kpis" id="kpis"></section>
 <div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
 <div class="grid">
@@ -31,6 +31,11 @@ nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-dec
 <li>Reports post on weekday mornings (data pulled ~3–4 AM ET) and replace the previous day's file. Each point is dated by the report date. Past cycles come from SOS archive PDFs that bundle every daily report.</li>
 <li>Party = voter registration (Democrat, Republican, No Party; Libertarian/Green/other grouped as Other). Party splits are shown only where the county lines add up exactly to the state total.</li>
 <li>When the SOS posted two versions on the same date, the later (larger) one is used.</li></ul></div>
+<div class="card full lawnote" id="law-changes"><h2>Law changes that affect comparisons</h2>
+<p class="hint">Iowa shortened its early-voting window in 2021, so 2018 had a longer runway than 2022 and 2026.</p>
+<ul class="src">
+<li><b>2021 · Senate File 413:</b> early in-person voting and mailing of absentee ballots now start <b>20 days</b> before Election Day (was 29); absentee ballots must be <b>received by the county auditor when polls close</b> on Election Day; counties can't mail absentee request forms unless the voter asks. Compare 2018 at the same days-out with care. <a href="https://www.legis.iowa.gov/legislation/BillBook?ba=SF413&ga=89">Iowa Legislature: SF 413</a> · <a href="https://elections.scottcountyiowa.gov/files/2021_election_law_changes_for_iowa_voters_revised_74371.pdf">Scott County Auditor summary</a></li>
+</ul></div>
 </div></main><footer>Built <span id="built"></span> · Data: Iowa Secretary of State absentee ballot statistics · Prototype, not for publication</footer>
 <script src="vendor/chart.umd.min.js"></script><script src="ia-data.js"></script><script>
 const R=IADATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');

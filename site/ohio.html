@@ -14,7 +14,7 @@ ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%
 nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
 </style></head><body>
 <header><h1>Ohio Early &amp; Absentee Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
-<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html" class=on>Ohio</a><a href="nc.html">North Carolina</a></nav></header><main>
+<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html" class=on>Ohio</a><a href="nc.html">North Carolina</a><a href="ia.html">Iowa</a><a href="tx.html">Texas</a></nav></header><main>
 <section class="kpis" id="kpis"></section>
 <div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
 <div class="grid">
@@ -30,6 +30,13 @@ nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-dec
 <div class="full"><h2 style="font-size:.95rem">Cuyahoga only: early ballots cast by days out vs past cycles</h2><p class="hint">Rebuilt from Cuyahoga's per-voter return dates. <b>Past cycles undercount</b>: today's files for 2018 and 2022 are roughly 25–30% below those cycles' official Cuyahoga totals, likely because voters later removed from the rolls drop out of the files. Read the past lines as rough shape, not exact levels.</p><div class="ch" style="height:280px"><canvas id="cuyh"></canvas></div></div></div></div>
 <div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
 <div class="card full"><h2>Sources</h2><p class="hint">Every number traces to a row in <a href="ohio-data.csv">ohio-data.csv</a> with its source URL. Days-out = Election Day minus the date the data is "as of" (or the release date when the release gives no as-of date; see each row's note). Early voting began Oct 10, 2018; Oct 12, 2022; Oct 8, 2024; Oct 6, 2026.</p><ul class="src" id="src"></ul></div>
+<div class="card full lawnote" id="law-changes"><h2>Law changes that affect comparisons</h2>
+<p class="hint">Ohio's rules changed after 2022, which helps explain why 2026 shows far more in-person early voting and fewer mail ballots than past years.</p>
+<ul class="src">
+<li><b>2023 · House Bill 458</b> (in effect April 7, 2023): only <b>one ballot drop box per county</b>, at the board of elections; the deadline to request a mail ballot moved up to <b>7 days before Election Day</b>; mailed ballots had to arrive within 4 days after Election Day (down from 10); and <b>early voting on the Monday before Election Day was eliminated</b> (those hours moved earlier). Photo ID also became required. <a href="https://www.ohiosos.gov/media-center/press-releases/2023/2023-01-09/">Ohio SOS</a> · <a href="https://www.acluohio.org/cases/league-women-voters-ohio-et-al-v-larose-et-al-hb458/">ACLU of Ohio summary</a></li>
+<li><b>2025 · Senate Bill 293</b> (in effect March 20, 2026): mail ballots must now be <b>received by 7:30 p.m. on Election Day</b>; the post-election grace period for postmarked ballots is gone (except military/overseas). 2026 is the first general election under this rule. <a href="https://search-prod.lis.state.oh.us/api/v2/general_assembly_136/legislation/sb293/02_PS/attachments/analysis/">Legislative Service Commission analysis</a> · <a href="https://elections.bcohio.gov/voters/elc.php">Butler County BOE</a></li>
+<li>So 2018 and 2022 had more drop boxes, later mail deadlines, and the extra Monday; the 2026 "in-person up, mail down" shift partly reflects these rules, not just enthusiasm.</li>
+</ul></div>
 </div></main><footer>Built <span id="built"></span> · Data: Ohio Secretary of State (press releases &amp; dashboard, as published or quoted) · Prototype, not for publication</footer>
 <script src="vendor/chart.umd.min.js"></script><script src="ohio-data.js"></script><script src="ohio-county-data.js"></script><script>
 const R=OHDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');

@@ -14,7 +14,7 @@ ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%
 nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
 </style></head><body>
 <header><h1>Florida Early &amp; Mail Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
-<p id="asof"></p><nav class="states"><a href="index.html" class=on>Florida</a><a href="ohio.html">Ohio</a><a href="nc.html">North Carolina</a><a href="ia.html">Iowa</a></nav></header><main>
+<p id="asof"></p><nav class="states"><a href="index.html" class=on>Florida</a><a href="ohio.html">Ohio</a><a href="nc.html">North Carolina</a><a href="ia.html">Iowa</a><a href="tx.html">Texas</a></nav></header><main>
 <section class="kpis" id="kpis"></section>
 <div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
 <div class="grid">
@@ -24,6 +24,12 @@ nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-dec
 <div class="card full"><h2>Early in-person voting</h2><p class="hint">Florida's mandatory early-voting period is Oct 24–31, 2026; the state reports 0 early in-person votes so far. Final totals from prior cycles for scale:</p><div class="ch" style="height:260px"><canvas id="final"></canvas></div><p class="hint">Day-by-day early-vote history for 2018/2022/2024 at the same days-out is <span class="miss">not available</span> from an official or verifiable archive yet.</p></div>
 <div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
 <div class="card full"><h2>Sources</h2><p class="hint">Every number traces to a row in <a href="data.csv">data.csv</a> with its source URL. Days-out = Election Day minus the date the state report was posted (reports are cumulative through the prior day).</p><ul class="src" id="src"></ul></div>
+<div class="card full lawnote" id="law-changes"><h2>Law changes that affect comparisons</h2>
+<p class="hint">Florida's mail-ballot rules changed in 2021, which lowers mail requests compared with 2018.</p>
+<ul class="src">
+<li><b>2021 · Senate Bill 90:</b> a vote-by-mail request now lasts only through the end of the year of the <b>next</b> general election (one cycle instead of two), so voters must re-request every cycle. Mail requests were much higher before this took effect, so 2018 mail numbers aren't a like-for-like comparison. SB 90 also limited drop boxes to early-voting hours/locations (staffed). <a href="https://www.flsenate.gov/Session/Bill/2021/90/">Florida Senate: SB 90</a> · <a href="https://dos.fl.gov/elections/for-voters/voting/vote-by-mail">FL Division of Elections</a></li>
+<li><b>2023 · Senate Bill 7050:</b> further vote-by-mail and registration-procedure changes. <a href="https://www.flsenate.gov/Session/Bill/2023/7050/">Florida Senate: SB 7050</a></li>
+</ul></div>
 </div></main><footer>Built <span id="built"></span> · Data: Florida Division of Elections · Prototype, not for publication</footer>
 <script src="vendor/chart.umd.min.js"></script><script src="data.js"></script><script>
 const R=FLDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
