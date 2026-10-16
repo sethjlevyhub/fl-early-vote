@@ -1,0 +1,30 @@
+year,date,days_out,ev_day,inperson_day,mail_day,inperson_cum,mail_cum,total_cum,rounded,source,measure,value,note
+2026,2026-09-21,43,,0,31,0,51,51,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-09-22,42,,0,27,0,78,78,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-09-23,41,,0,18,0,96,96,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-09-24,40,,0,44,0,140,140,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-09-25,39,,0,48,0,188,188,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-09-28,36,,0,144,0,332,332,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-09-29,35,,0,84,0,416,416,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-09-30,34,,0,64,0,480,480,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-01,33,,0,137,0,617,617,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-02,32,,0,96,0,713,713,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-03,31,,0,1,0,714,714,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-05,29,,0,259,0,973,973,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-06,28,,0,186,0,1159,1159,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-07,27,,0,518,0,1677,1677,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-08,26,,0,1110,0,2787,2787,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-09,25,,2,1544,2,4331,4333,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-10,24,,0,85,2,4416,4418,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-11,23,,0,10,2,4426,4428,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-12,22,,0,1390,2,5816,5818,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-13,21,1,190392,6358,190394,12174,202568,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-14,20,2,174521,5635,364915,17809,382724,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2026,2026-10-15,19,3,163882,5456,528797,23265,552062,0,"Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated 2026-10-16 08:13",,,
+2018,2018-10-15,22,1,,,,,,0,https://truthout.org/articles/the-first-2-days-of-early-voting-in-georgia-midterms-have-been-record-breaking/,inperson_day,70849,"2018 first day of early voting, per SOS (cited in 2022 coverage)"
+2022,2022-10-17,22,1,,,,,,0,https://www.atlantanewsfirst.com/2022/10/19/record-turnout-keeps-pace-day-2-early-voting-georgia/,inperson_day,134045,"Day 1 in-person, SOS website (reconciled; initial report 131,318)"
+2022,2022-10-18,21,2,,,,,,0,https://www.atlantanewsfirst.com/2022/10/19/record-turnout-keeps-pace-day-2-early-voting-georgia/,inperson_day,134005,"Day 2 in-person, SOS website"
+2022,2022-10-18,21,2,,,,,,0,https://truthout.org/articles/the-first-2-days-of-early-voting-in-georgia-midterms-have-been-record-breaking/,inperson_cum,268050,"In-person through day 2, SOS figures"
+2024,2024-10-15,21,1,,,,,,1,https://thehill.com/homenews/campaign/4935954-georgia-early-voting-record-shattered/,total_cum,328000,"""over 328,000 total votes"" incl. accepted absentees, Gabriel Sterling (SOS COO)"
+2024,2024-10-16,20,2,,,,,,0,https://www.washingtonpost.com/politics/2024/10/16/georgia-early-voting-numbers-record-election-2024/,inperson_cum,581902,Two-day early in-person total
+2024,2024-10-16,20,2,,,,,,1,https://thehill.com/homenews/campaign/4938585-georgia-early-voting-records-set/,total_cum,620000,"""nearly 620,000 total votes"" (~590,000 early + 34,272 accepted absentees), Sterling"
