@@ -1,0 +1,80 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kansas 2026 Advance Voting Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+.lawnote{border-left:4px solid #ffb703}
+</style></head><body>
+<header><h1>Kansas Advance Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="index.html"><span title="Florida">FL</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="nc.html"><span title="North Carolina">NC</span></a><a href="ia.html"><span title="Iowa">IA</span></a><a href="tx.html"><span title="Texas">TX</span></a><a href="mi.html"><span title="Michigan">MI</span></a><a href="me.html"><span title="Maine">ME</span></a><a href="ks.html" class=on><span title="Kansas">KS</span></a></nav></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Advance ballots cast, by days before Election Day</h2><p class="hint">Statewide, from the Kansas SOS daily advance-voting reports (one each weekday morning, covering through the prior day). 2026 in bold; dots = actual reports. <b>Early in person</b> = advance in-person votes; <b>Mail returned</b> = mail ballots received by county offices. 2018 = one SOS press-release figure.</p>
+<div class="tog" id="tog"></div><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>Added per report: 2026</h2><p class="hint">Change since the previous weekday report. Monday reports cover the weekend.</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>Party share, same point in each cycle</h2><p class="hint">Party registration of voters whose advance ballots (mail returned + early in person) were counted by this many days out.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card"><h2>Mail return rate: returned ÷ sent</h2><p class="hint">Share of mail ballots sent that have come back, by days out.</p><div class="ch"><canvas id="rate"></canvas></div></div>
+<div class="card"><h2>By party and method</h2><p class="hint" id="pth"></p><div id="ptab"></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources &amp; caveats</h2><ul class="src" id="src"></ul><ul class="take" style="font-size:.85rem">
+<li><b>Where the numbers come from:</b> the Kansas SOS issues three voter-level reports each weekday (mail requested/sent, mail returned, early in person). The SOS dashboard shows statewide totals only. The party splits and the 2022/2024 daily history come from IKE Lab at Wichita State University, which tabulates those same SOS reports. Spot checks match: 2026 IKE vs SOS dashboard (942 vs 943 returned, 6,210 vs 6,210 in person), and 2022 IKE vs the SOS Nov 4, 2022 release (91,543 vs 91,544 mail returned; 191,140 in person, exact).</li>
+<li><b>Dates are report dates.</b> Each report is issued in the morning and covers through the previous day. Counties can fall behind in logging mail returns, so mail counts lag actual receipt.</li>
+<li><b>2018:</b> no daily series exists publicly. The only 2018 figure is the SOS's "same period" comparison in its Nov 4, 2022 release (mail sent and returned); its 2018 in-person figure (180,703) isn't clearly same-period, so it's left out.</li>
+<li><b>2024 was a presidential year.</b> 2022 (midterm, with an open governor's race and a Senate race) is the closer comparison.</li>
+<li>Kansas registers by party; "Unaffiliated" includes Libertarians in the totals but not in the D/R/U breakdown.</li></ul></div>
+<div class="card full lawnote" id="law-changes"><h2>Law changes that affect comparisons</h2>
+<p class="hint">Rule changes between cycles can shift how (not just how many) people vote early. Keep these in mind when comparing to past years.</p>
+<ul class="src">
+<li><b>2021 · HB 2183 (veto overridden, effective July 1, 2021):</b> limited one person to delivering 10 other voters' mail ballots, required signature matching on mail ballots, and removed the Secretary of State's power to extend the deadline for receiving them. In effect for 2022 and 2024. <a href="https://www.kslegislature.gov/li_2022/b2021_22/measures/hb2183/">Source</a></li>
+<li><b>2025 · SB 4 (veto overridden, effective Jan 1, 2026):</b> mail ballots must now arrive by 7 p.m. on Election Day. The 3-day post-election grace period used in 2018, 2022 and 2024 is gone. <b>2026 is the first general election under this rule</b>, which may push voters from mail to early in-person voting or to return ballots earlier. <a href="https://www.kslegislature.gov/b2025_26/bills/SB4/">Source</a> · <a href="https://sos.ks.gov/publications/session-laws-archive.html">Session laws (effective date)</a></li>
+</ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Kansas Secretary of State advance voting reports (via SOS dashboard and IKE Lab, Wichita State) · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="ks-data.js"></script><script>
+const R=KSDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
+const M={total:'Total advance ballots (mail returned + in person)',ev:'Early in-person votes',mail_ret:'Mail ballots returned',mail_sent:'Mail ballots sent'};
+const ser=y=>R.filter(r=>r.year==y).sort((a,b)=>b.days_out-a.days_out);
+const s26=ser(2026),cur=s26[s26.length-1],prev=s26[s26.length-2],D=cur.days_out,at=(y,d)=>ser(y).filter(r=>r.days_out>=d).pop();
+const pc=(a,b)=>(a/b-1)*100,ps=v=>`${v>0?'+':''}${v.toFixed(0)}%`,cls=v=>v<0?'down':'up';
+document.getElementById('asof').textContent=`Latest SOS report: ${cur.date} (${D} days out) · ${Math.round((new Date(KSDATA.ed[2026]+'T12:00')-new Date())/864e5)} days until Election Day · mail ballots must arrive by 7 p.m. Nov 3 (new this year)`;
+document.getElementById('built').textContent=KSDATA.built;
+const p22=at(2022,D),p24=at(2024,D);
+const pd=r=>r.mail_ret_d+r.ev_d,pr=r=>r.mail_ret_r+r.ev_r,pu=r=>r.mail_ret_u+r.ev_u,pt=r=>pd(r)+pr(r)+pu(r);
+let k=`<div class="card kpi"><div class="lab">2026 advance ballots cast</div><div class="val" style="color:${COL[2026]}">${f(cur.total)}</div><div class="sub">${f(cur.ev)} early in person · ${f(cur.mail_ret)} mail returned of ${f(cur.mail_sent)} sent${prev?` · +${f(cur.total-prev.total)} since ${prev.date}`:''}</div></div>`;
+k+=`<div class="card kpi"><div class="lab">vs 2022 midterm at ${D} days out</div><div class="val ${cls(pc(cur.total,p22.total))}">${ps(pc(cur.total,p22.total))}</div><div class="sub">2022: ${f(p22.total)} (${f(p22.ev)} in person, ${f(p22.mail_ret)} mail)</div></div>`;
+k+=`<div class="card kpi"><div class="lab">vs 2024 at ${D} days out</div><div class="val ${cls(pc(cur.total,p24.total))}">${ps(pc(cur.total,p24.total))}</div><div class="sub">2024: ${f(p24.total)} (presidential year)</div></div>`;
+k+=`<div class="card kpi"><div class="lab">Party split of advance ballots</div><div class="val" style="font-size:1.15rem"><span style="color:var(--dem)">D ${(pd(cur)/pt(cur)*100).toFixed(0)}%</span> · <span style="color:var(--rep)">R ${(pr(cur)/pt(cur)*100).toFixed(0)}%</span> · U ${(pu(cur)/pt(cur)*100).toFixed(0)}%</div><div class="sub">2022 same point: D ${(pd(p22)/pt(p22)*100).toFixed(0)}% · R ${(pr(p22)/pt(p22)*100).toFixed(0)}% · U ${(pu(p22)/pt(p22)*100).toFixed(0)}%</div></div>`;
+document.getElementById('kpis').innerHTML=k;
+const take=[];
+take.push(`Early in-person voting is <b>${ps(pc(cur.ev,p22.ev))} vs 2022</b> after its first days (${f(cur.ev)} vs ${f(p22.ev)} at ${D} days out) and ${ps(pc(cur.ev,p24.ev))} vs 2024 (${f(p24.ev)}).`);
+take.push(`<b>Mail ballots sent are down:</b> ${f(cur.mail_sent)} vs ${f(p22.mail_sent)} in 2022 (${ps(pc(cur.mail_sent,p22.mail_sent))}) and ${f(p24.mail_sent)} in 2024. This is the first general election since mail ballots must arrive by Election Day (SB 4). Mail returned: ${f(cur.mail_ret)} vs ${f(p22.mail_ret)} in 2022.`);
+take.push(`Party mix: Democrats ${f(pd(cur))}, Republicans ${f(pr(cur))}, unaffiliated ${f(pu(cur))}. At this point in 2022 Republicans led (${f(pr(p22))} R vs ${f(pd(p22))} D). Early in person alone: ${f(cur.ev_d)} D vs ${f(cur.ev_r)} R (2022: ${f(p22.ev_d)} D vs ${f(p22.ev_r)} R). It's very early, and in 2022 Republicans pulled ahead in person over the final two weeks.`);
+const f22=ser(2022).pop(),f24=ser(2024).pop();
+take.push(`Final 2022 benchmark: ${f(f22.total)} advance ballots (${f(f22.ev)} in person, ${f(f22.mail_ret)} mail). 2024: ${f(f24.total)}. 2018 at 4 days out (SOS): ${f(ser(2018)[0].mail_ret)} mail ballots returned of ${f(ser(2018)[0].mail_sent)} sent.`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';const kf=v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K';
+let cm,mm='total';const draw=()=>{if(cm)cm.destroy();cm=new Chart(cum,{type:'line',data:{datasets:Y.map(y=>({label:String(y)+(y==2018?' (SOS release)':''),data:ser(y).filter(r=>r[mm]!=null).map(r=>({x:r.days_out,y:r[mm],d:r.date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?5:(y==2018?7:2),pointStyle:y==2018?'rectRot':'circle',showLine:y!=2018,borderDash:y==2026?[]:[5,4]}))},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:21,title:{display:true,text:'Days before Election Day (report date)'},ticks:{stepSize:1}},y:{beginAtZero:true,title:{display:true,text:M[mm]},ticks:{callback:kf}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.m==mm))};
+document.getElementById('tog').innerHTML=Object.entries(M).map(([m,l])=>`<button data-m="${m}">${l}</button>`).join('');
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>{mm=b.dataset.m;draw()});draw();
+const ad=s26.slice(1).map((r,i)=>({l:r.date.slice(5).replace('-','/'),e:r.ev-s26[i].ev,m:r.mail_ret-s26[i].mail_ret}));
+new Chart(daily,{type:'bar',data:{labels:ad.map(a=>a.l),datasets:[{label:'Early in person',data:ad.map(a=>a.e),backgroundColor:'#14213d'},{label:'Mail returned',data:ad.map(a=>a.m),backgroundColor:'#f4a582'}]},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{callback:kf}}}}});
+const PY=[2022,2024,2026],PK=[[pd,'Democratic','#2f6fdb'],[pr,'Republican','#d64545'],[pu,'Unaffiliated','#8a8f98']];
+new Chart(party,{type:'bar',data:{labels:PY.map(String),datasets:PK.map(([fn,l,c])=>({label:l,data:PY.map(y=>fn(at(y,D))/pt(at(y,D))*100),backgroundColor:c}))},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)}% (${f(PK[c.datasetIndex][0](at(PY[c.dataIndex],D)))})`}}},scales:{x:{stacked:true,max:100,ticks:{callback:v=>v+'%'}},y:{stacked:true}}}});
+new Chart(rate,{type:'line',data:{datasets:[2026,2024,2022].map(y=>({label:String(y),data:ser(y).map(r=>({x:r.days_out,y:r.mail_ret/r.mail_sent*100})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?4:1.5,borderDash:y==2026?[]:[5,4]}))},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{type:'linear',reverse:true,min:0,max:21,title:{display:true,text:'Days before Election Day'}},y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}}}}});
+document.getElementById('pth').textContent=`At ${D} days out (2026 report ${cur.date}; 2022 report ${p22.date}).`;
+const tr=(l,a,b)=>`<tr><td>${l}</td><td>${f(a)}</td><td>${f(b)}</td><td class="${cls(pc(a,b))}">${b?ps(pc(a,b)):'–'}</td></tr>`;
+document.getElementById('ptab').innerHTML='<table><tr><th></th><th>2026</th><th>2022</th><th>Change</th></tr>'+tr('In person: Dem',cur.ev_d,p22.ev_d)+tr('In person: Rep',cur.ev_r,p22.ev_r)+tr('In person: Unaff.',cur.ev_u,p22.ev_u)+tr('Mail returned: Dem',cur.mail_ret_d,p22.mail_ret_d)+tr('Mail returned: Rep',cur.mail_ret_r,p22.mail_ret_r)+tr('Mail returned: Unaff.',cur.mail_ret_u,p22.mail_ret_u)+tr('Mail sent (all)',cur.mail_sent,p22.mail_sent)+'</table>';
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Reports</th><th>First → last</th><th>Fields</th></tr>'+Y.map(y=>{const a=ser(y);return`<tr><td>${y}</td><td>${a.length}</td><td>${a[0].date} → ${a[a.length-1].date}</td><td>${y==2018?'Mail sent & returned at 4 days out (SOS release)':'Mail sent/returned and early in person, by party'}</td></tr>`}).join('')+'</table><p class="hint">Weekday reports only. Official SOS dashboard (2026, statewide): '+KSDATA.sos.map(s=>`${s.date}: ${f(s.returned)} returned, ${f(s.in_person)} in person`).join(' · ')+'. Data: <a href="ks-data.csv">ks-data.csv</a>.</p>';
+document.getElementById('src').innerHTML=['<li>Kansas SOS Advance Voting Data (official dashboard, 2026 General): https://sos.ks.gov/elections/advance-voting-data.html</li>','<li>IKE Lab, Wichita State University, daily statewide tables from SOS reports: https://ike-lab.com/advancevoting.html (2022: https://ike-lab.com/dailyev_221108_Statewide.html · 2024: https://ike-lab.com/dailyev_241105_Statewide.html · 2026: https://ike-lab.com/dailyev_261103_Statewide.html)</li>',`<li>2018: ${ser(2018)[0].source}</li>`].join('');
+</script></body></html>
