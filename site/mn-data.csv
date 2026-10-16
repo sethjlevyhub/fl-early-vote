@@ -1,0 +1,20 @@
+year,date,days_out,accepted,mail,in_person,requested,approx_date,source,source_who
+2018,2018-09-25,42,11353,,,,1,http://www.minnpost.com/elections/2022/10/the-state-of-2022-early-voting-in-minnesota-its-not-2020-anymore/,MinnPost chart of MN SOS data (6 weeks before Election Day; exact as-of day approximate)
+2018,2018-10-02,35,42552,,,,1,http://www.minnpost.com/elections/2022/10/the-state-of-2022-early-voting-in-minnesota-its-not-2020-anymore/,MinnPost chart of MN SOS data (5 weeks before Election Day; exact as-of day approximate)
+2018,2018-10-09,28,85438,,,,1,http://www.minnpost.com/elections/2022/10/the-state-of-2022-early-voting-in-minnesota-its-not-2020-anymore/,MinnPost chart of MN SOS data (4 weeks before Election Day; exact as-of day approximate)
+2018,2018-10-16,21,159660,,,,1,http://www.minnpost.com/elections/2022/10/the-state-of-2022-early-voting-in-minnesota-its-not-2020-anymore/,MinnPost chart of MN SOS data (3 weeks before Election Day; exact as-of day approximate)
+2018,2018-10-23,14,249909,,,,1,http://www.minnpost.com/elections/2022/10/the-state-of-2022-early-voting-in-minnesota-its-not-2020-anymore/,MinnPost chart of MN SOS data (2 weeks before Election Day; exact as-of day approximate)
+2018,2018-10-30,7,410238,,,,1,http://www.minnpost.com/elections/2022/10/the-state-of-2022-early-voting-in-minnesota-its-not-2020-anymore/,MinnPost chart of MN SOS data (1 weeks before Election Day; exact as-of day approximate)
+2022,2022-09-29,40,11380,,,,0,https://www.sos.state.mn.us/about-the-office/news-room/absentee-ballot-data-available-for-2022-general-election/,MN SOS press release
+2022,2022-10-13,26,99252,,,,0,https://github.com/ElectIndex/26_early_vote,SOS absentee data page via Internet Archive (ElectIndex)
+2022,2022-10-18,21,152371,,,,0,https://kstp.com/kstp-news/top-news/early-voter-turnout-slightly-ahead-of-2018-levels-in-minnesota/,KSTP citing MN SOS
+2022,2022-10-27,12,282277,,,,0,https://www.startribune.com/minnesota-early-voting-on-pace-to-exceed-2018-midterm-but-fall-far-below-pandemic-numbers/600219929/,Star Tribune citing MN SOS
+2024,2024-09-26,40,32788,,,,1,https://www.sos.state.mn.us/about-the-office/news-room/337-633-ballots-accepted-in-first-four-weeks-for-november-5-election/,MN SOS press release (week 1)
+2024,2024-10-03,33,107421,,,,1,https://www.sos.state.mn.us/about-the-office/news-room/337-633-ballots-accepted-in-first-four-weeks-for-november-5-election/,MN SOS press release (week 2)
+2024,2024-10-10,26,220006,,,,1,https://www.sos.state.mn.us/about-the-office/news-room/337-633-ballots-accepted-in-first-four-weeks-for-november-5-election/,MN SOS press release (week 3)
+2024,2024-10-17,19,337633,,,,0,https://www.sos.state.mn.us/about-the-office/news-room/337-633-ballots-accepted-in-first-four-weeks-for-november-5-election/,MN SOS press release (week 4)
+2024,2024-11-05,0,1271636,,,,0,https://github.com/ElectIndex/26_early_vote,"SOS absentee data page, final (via ElectIndex)"
+2026,2026-09-24,40,12322,3919,8403,384679,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
+2026,2026-10-02,32,63396,37222,26174,424515,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
+2026,2026-10-09,25,127682,79714,47968,468860,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
+2026,2026-10-16,18,202252,121382,80870,519813,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
