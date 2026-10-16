@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maine 2026 Absentee Vote Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+.lawnote{border-left:4px solid #ffb703}
+</style></head><body>
+<header><h1>Maine Absentee Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="index.html"><span title="Florida">FL</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="nc.html"><span title="North Carolina">NC</span></a><a href="ia.html"><span title="Iowa">IA</span></a><a href="tx.html"><span title="Texas">TX</span></a><a href="mi.html"><span title="Michigan">MI</span></a><a href="me.html" class=on><span title="Maine">ME</span></a></nav></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Absentee ballots cast, by days before Election Day</h2><p class="hint">Maine SOS Statewide Absentee Voter Data File (one row per voter). 2026 in bold. Past years are rebuilt from each cycle's final file using the date each ballot was received. <b>In-person absentee</b> = voted in the clerk's office (Maine's version of early voting); <b>by mail/drop box/other</b> = everything else. Rejected ballots excluded.</p>
+<div class="tog" id="tog"></div><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>Ballots received per day: last 14 days (2026)</h2><p class="hint">By date received. Weekends and the Oct 12 holiday are low because town offices are closed. The latest day may still be filling in (clerks enter ballots late).</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>Party share of ballots returned, same point in each cycle</h2><p class="hint">Party enrollment of voters whose ballots were received by this many days out. "Other" = Green, Libertarian, No Labels.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card"><h2>Return rate: returned ÷ requested</h2><p class="hint">Share of accepted absentee requests with a ballot back, by days out.</p><div class="ch"><canvas id="rate"></canvas></div></div>
+<div class="card"><h2>By congressional district</h2><p class="hint" id="cdh"></p><div id="cdtab"></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources &amp; caveats</h2><ul class="src" id="src"></ul><ul class="take" style="font-size:.85rem">
+<li><b>How often it updates:</b> the SOS posts a new statewide file every few days, not daily (Oct 9 and Oct 13 files so far this fall). The box checks for a new file 4 times a day and saves each one.</li>
+<li><b>Past years are rebuilt, not snapshots.</b> 2018, 2022 and 2024 come from each cycle's final file, counted by received date. A file posted in real time lags slightly because clerks enter some ballots late. Between the Oct 9 and Oct 13 files, Oct 9 grew 8% (5,387 → 5,815) and earlier days barely moved, so only the latest day or two is understated.</li>
+<li><b>2024 was a presidential year.</b> 2022 and 2018 (midterms) are the closer comparisons.</li>
+<li>Rejected ballots (final status REJ/RNC) are excluded. A handful of records with impossible received dates (11 in 2018, 2 in 2022, 2 in 2024) are skipped. Party is the voter's enrollment in the file, not how they voted.</li>
+<li>Maine has no separate early-voting system. Voters can request an absentee ballot and vote it at the town office (in-person absentee), which the file codes as "Voted in Clerk's Presence."</li></ul></div>
+<div class="card full lawnote" id="law-changes"><h2>Law changes that affect comparisons</h2>
+<p class="hint">Rule changes between cycles can shift how (not just how many) people vote early. Keep these in mind when comparing to past years.</p>
+<ul class="src">
+<li><b>2021 · LD 1363 (P.L. 2021, c. 273):</b> made secured absentee drop boxes permanent and added online ballot tracking and a process for curing ballot-envelope defects. The 2026 file is the first to code drop-box returns separately ("DB"); in earlier files they were folded into other return methods. <a href="https://lldc.mainelegislature.org/Open/Sums/130/sum130-LD-1363.pdf">Source</a></li>
+<li><b>2021 · P.L. 2021, c. 398, Part UUUU:</b> created "ongoing absentee" status for voters 65 and older or with a disability, so they get a ballot automatically every election. <a href="https://legislature.maine.gov/bills/getPDF.asp?item=3&amp;paper=SP0677&amp;snum=131">Source</a></li>
+<li><b>2023 · LD 1690 (P.L. 2023, c. 404), effective Dec 31, 2025:</b> opened ongoing absentee status to any voter and stopped dropping voters from it for skipping a general election. <b>2026 is the first general election under this rule</b>, so requests start higher and earlier (12,422 ongoing-absentee requests already in the 2026 file). <a href="https://lldc.mainelegislature.org/Open/Sums/131/sum131-LD-1690.pdf">Source</a></li>
+</ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Maine Secretary of State, Statewide Absentee Voter Data File · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="me-data.js"></script><script>
+const R=MEDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
+const M={returned:'All absentee ballots returned',in_person:'In-person absentee (at clerk)',other:'By mail / drop box / other',requested:'Absentee ballots requested'};
+const ser=y=>R.filter(r=>r.year==y).sort((a,b)=>b.days_out-a.days_out);
+const s26=ser(2026),cur=s26[s26.length-1],D=cur.days_out,at=(y,d)=>ser(y).find(r=>r.days_out==d);
+const pc=(a,b)=>(a/b-1)*100,ps=v=>`${v>0?'+':''}${v.toFixed(0)}%`,cls=v=>v<0?'down':'up';
+document.getElementById('asof').textContent=`Latest SOS file: as of ${MEDATA.asof} (${D} days out) · ${Math.round((new Date(MEDATA.ed[2026]+'T12:00')-new Date())/864e5)} days until Election Day · new files are posted every few days`;
+document.getElementById('built').textContent=MEDATA.built;
+const p22=at(2022,D),p18=at(2018,D),p24=at(2024,D),sh=(r,k)=>r[k]/r.returned*100;
+let k=`<div class="card kpi"><div class="lab">2026 absentee ballots returned</div><div class="val" style="color:${COL[2026]}">${f(cur.returned)}</div><div class="sub">${f(cur.in_person)} in person at clerk · ${f(cur.other)} mail/drop box/other · ${f(cur.requested)} requested</div></div>`;
+k+=`<div class="card kpi"><div class="lab">vs 2022 midterm at ${D} days out</div><div class="val ${cls(pc(cur.returned,p22.returned))}">${ps(pc(cur.returned,p22.returned))}</div><div class="sub">2022: ${f(p22.returned)} · 2018: ${f(p18.returned)} (${ps(pc(cur.returned,p18.returned))})</div></div>`;
+k+=`<div class="card kpi"><div class="lab">vs 2024 at ${D} days out</div><div class="val ${cls(pc(cur.returned,p24.returned))}">${ps(pc(cur.returned,p24.returned))}</div><div class="sub">2024: ${f(p24.returned)} returned (presidential year)</div></div>`;
+k+=`<div class="card kpi"><div class="lab">Party split of returns</div><div class="val" style="font-size:1.15rem"><span style="color:var(--dem)">D ${sh(cur,'dem').toFixed(0)}%</span> · <span style="color:var(--rep)">R ${sh(cur,'rep').toFixed(0)}%</span> · U ${sh(cur,'unenr').toFixed(0)}%</div><div class="sub">2022 same point: D ${sh(p22,'dem').toFixed(0)}% · R ${sh(p22,'rep').toFixed(0)}% · U ${sh(p22,'unenr').toFixed(0)}%</div></div>`;
+document.getElementById('kpis').innerHTML=k;
+const take=[];
+take.push(`Ballots returned are <b>${ps(pc(cur.returned,p22.returned))} vs the 2022 midterm</b> at ${D} days out (${f(cur.returned)} vs ${f(p22.returned)}) and well ahead of 2018 (${f(p18.returned)}). They trail presidential-year 2024 (${f(p24.returned)}) by ${Math.abs(pc(cur.returned,p24.returned)).toFixed(0)}%.`);
+take.push(`<b>In-person absentee is running far ahead:</b> ${f(cur.in_person)} at the clerk's office vs ${f(p22.in_person)} in 2022 and ${f(p24.in_person)} in 2024. Mail/drop box/other returns are behind 2022 (${f(cur.other)} vs ${f(p22.other)}).`);
+take.push(`Requests: ${f(cur.requested)} vs ${f(p22.requested)} in 2022 (${ps(pc(cur.requested,p22.requested))}). Return rate is ${(cur.returned/cur.requested*100).toFixed(0)}% vs ${(p22.returned/p22.requested*100).toFixed(0)}% in 2022.`);
+take.push(`Party mix of returns: Democrats ${sh(cur,'dem').toFixed(0)}%, Republicans ${sh(cur,'rep').toFixed(0)}%, unenrolled ${sh(cur,'unenr').toFixed(0)}% (2022 at this point: ${sh(p22,'dem').toFixed(0)}/${sh(p22,'rep').toFixed(0)}/${sh(p22,'unenr').toFixed(0)}). Republican returns are ${f(cur.rep)} vs ${f(p22.rep)} in 2022.`);
+take.push(`Final benchmarks: ${f(at(2022,0).returned)} absentee ballots in 2022, ${f(at(2018,0).returned)} in 2018, ${f(at(2024,0).returned)} in 2024.`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';const kf=v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K';
+let cm,mm='returned';const draw=()=>{if(cm)cm.destroy();cm=new Chart(cum,{type:'line',data:{datasets:Y.map(y=>({label:String(y),data:ser(y).map(r=>({x:r.days_out,y:r[mm],d:r.date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?3:0,borderDash:y==2026?[]:[5,4]}))},
+ options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out`,label:c=>`${c.dataset.label} (${c.raw.d}): ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:45,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:3}},y:{beginAtZero:true,title:{display:true,text:M[mm]},ticks:{callback:kf}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.m==mm))};
+document.getElementById('tog').innerHTML=Object.entries(M).map(([m,l])=>`<button data-m="${m}">${l}</button>`).join('');
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>{mm=b.dataset.m;draw()});draw();
+const l14=s26.slice(-14);
+new Chart(daily,{type:'bar',data:{labels:l14.map(r=>r.date.slice(5).replace('-','/')),datasets:[{label:'In person at clerk',data:l14.map(r=>r.day_inperson),backgroundColor:'#14213d'},{label:'Mail / drop box / other',data:l14.map(r=>r.day-r.day_inperson),backgroundColor:'#f4a582'}]},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{callback:kf}}}}});
+const PY=[2018,2022,2024,2026],PK=[['dem','Democratic','#2f6fdb'],['rep','Republican','#d64545'],['unenr','Unenrolled','#8a8f98'],['oth','Other','#c9a227']];
+new Chart(party,{type:'bar',data:{labels:PY.map(y=>String(y)),datasets:PK.map(([k,l,c])=>({label:l,data:PY.map(y=>sh(at(y,D),k)),backgroundColor:c}))},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)}% (${f(at(PY[c.dataIndex],D)[PK[c.datasetIndex][0]])})`}}},scales:{x:{stacked:true,max:100,ticks:{callback:v=>v+'%'}},y:{stacked:true}}}});
+new Chart(rate,{type:'line',data:{datasets:Y.map(y=>({label:String(y),data:ser(y).map(r=>({x:r.days_out,y:r.returned/r.requested*100})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?3:0,borderDash:y==2026?[]:[5,4]}))},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{type:'linear',reverse:true,min:0,max:45,title:{display:true,text:'Days before Election Day'}},y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}}}}});
+document.getElementById('cdh').textContent=`Absentee ballots returned at ${D} days out. CD2 (northern and western Maine) is the more competitive district.`;
+document.getElementById('cdtab').innerHTML='<table><tr><th>District</th><th>2026</th><th>2022</th><th>vs 2022</th><th>2018</th><th>2024</th></tr>'+['cd1','cd2'].map(c=>`<tr><td>${c.toUpperCase()}</td><td>${f(cur[c])}</td><td>${f(p22[c])}</td><td class="${cls(pc(cur[c],p22[c]))}">${ps(pc(cur[c],p22[c]))}</td><td>${f(p18[c])}</td><td>${f(p24[c])}</td></tr>`).join('')+'</table>';
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Days shown</th><th>First → last</th><th>Built from</th></tr>'+Y.map(y=>{const a=ser(y);return`<tr><td>${y}</td><td>${a.length}</td><td>${a[0].date} → ${a[a.length-1].date}</td><td>${y==2026?'Latest posted file (as of '+MEDATA.asof+')':'Final post-election file'}, by received/request date</td></tr>`}).join('')+'</table><p class="hint">2026 files captured so far: '+MEDATA.snaps.map(s=>`${s.asof} (${f(s.returned)} returned)`).join(' · ')+'. Data: <a href="me-data.csv">me-data.csv</a>.</p>';
+document.getElementById('src').innerHTML=['<li>Maine SOS voter data page: https://www.maine.gov/sos/elections-voting/voter-data · past files: https://www.maine.gov/sos/elections-voting/voter-data/previous-absentee-data · field codes: https://www.maine.gov/sos/elections-voting/absenteelayout</li>'].concat(Y.map(y=>`<li>${y}: ${ser(y)[0].source}</li>`)).join('');
+</script></body></html>
