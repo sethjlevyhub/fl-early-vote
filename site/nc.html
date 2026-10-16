@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>North Carolina 2026 Early Vote Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+</style></head><body>
+<header><h1>North Carolina Early Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html">Ohio</a><a href="nc.html" class=on>North Carolina</a></nav></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Early votes by days before Election Day</h2><p class="hint">Cumulative statewide accepted ballots, by the date each ballot was cast (one-stop) or accepted (mail). 2026 in bold; prior cycles aligned to the same days-out. Rebuilt day by day from NCSBE's per-voter files, so there are no gaps and no interpolation.</p>
+<div class="tog" id="tog"></div><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>Ballots added per day: last 7 days</h2><p class="hint">2026 bars (one-stop + mail). Dashed line = 2024 on the same days-out, for scale. One-stop early voting began Oct 15, 2026.</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>Same day of early voting</h2><p class="hint">Cumulative one-stop votes by day of the early-voting period (day 1 = first day of one-stop), which lines up the different start dates.</p><div class="ch"><canvas id="evday"></canvas></div></div>
+<div class="card"><h2>Who has voted: registered party</h2><p class="hint">Share of early ballots by voter's current registration (NC has party registration: DEM, REP, UNA = unaffiliated, plus LIB/GRE/others) at the same days-out.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card"><h2>Who has voted: race</h2><p class="hint">Share of early ballots by race as recorded on the voter registration, same days-out.</p><div class="ch"><canvas id="race"></canvas></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources &amp; caveats</h2><ul class="src" id="src"></ul><ul class="take" style="font-size:.85rem">
+<li>One-stop = in-person early voting (ballot type "EARLY VOTING" in 2026, "ONE-STOP" in earlier files), accepted ballots only, counted on the day cast. Mail = mail ballots accepted (including cured), counted on the return date.</li>
+<li>Past-cycle files are the final post-election versions. Ballots later spoiled or rejected, or from voters since removed, can differ slightly from what was reported live at that time.</li>
+<li>Party and race are as recorded in each file (a voter's registration then). Unaffiliated voters are now the largest NC group, so D/R shares alone understate turnout among UNA.</li>
+<li>The 2026 file currently lists only ballots that have been returned or cast, so <b>outstanding mail requests are not available</b> for 2026 and mail requests are not compared.</li>
+<li>Days-out = Election Day minus the date the ballot was cast. The state's file is posted early each morning and runs through the previous day.</li></ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: North Carolina State Board of Elections absentee/one-stop files · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="nc-data.js"></script><script>
+const R=NCDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
+const M={total:'Total early votes (one-stop + mail)',onestop:'One-stop (in-person early)',mail_ret:'Mail ballots accepted'};
+const ED=y=>new Date(NCDATA.ed[y]+'T12:00');
+const last=new Date(NCDATA.file_posted+'T12:00');last.setDate(last.getDate()-1);const D=Math.round((ED(2026)-last)/864e5);
+const daily=(y,m)=>{const o={};for(const r of R.filter(r=>r.year==y&&(m=='total'?r.metric!='x':r.metric==m))){const k=r.days_out;o[k]=o[k]||{n:0,D:0,R:0,U:0,O:0,race_W:0,race_B:0,race_O:0};for(const c in o[k])o[k][c]+=r[c]}return o};
+const cumAt=(y,m,d)=>{const o=daily(y,m),s={n:0,D:0,R:0,U:0,O:0,race_W:0,race_B:0,race_O:0};for(const k in o)if(+k>=d)for(const c in s)s[c]+=o[k][c];return s};
+const series=(y,m,lo)=>{const o=daily(y,m);let run=0,pts=[];for(let d=40;d>=lo;d--){run+=(o[d]||{n:0}).n;if(d<=30)pts.push({x:d,y:run})}return pts};
+document.getElementById('asof').textContent=`Statewide file posted ${NCDATA.file_posted} (ballots through ${last.toISOString().slice(0,10)}, ${D} days out) · ${Math.round((ED(2026)-new Date())/864e5)} days until Election Day`;
+document.getElementById('built').textContent=NCDATA.built;
+const c26=cumAt(2026,'total',D),o26=cumAt(2026,'onestop',D),m26=cumAt(2026,'mail_ret',D);
+let k=`<div class="card kpi"><div class="lab">2026 early votes cast</div><div class="val" style="color:${COL[2026]}">${f(c26.n)}</div><div class="sub">${f(o26.n)} one-stop · ${f(m26.n)} mail (through ${D} days out)</div></div>`;const take=[];
+for(const y of [2024,2022,2018]){const p=cumAt(y,'total',D),pc=(c26.n/p.n-1)*100;k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out</div><div class="val ${pc<0?'down':'up'}">${pc>0?'+':''}${pc.toFixed(0)}%</div><div class="sub">${y}: ${f(p.n)} (${f(cumAt(y,'onestop',D).n)} one-stop)</div></div>`;
+ take.push(`Total early votes are <b>${Math.abs(pc).toFixed(0)}% ${pc<0?'behind':'ahead of'}</b> ${y} at ${D} days out (${f(c26.n)} vs ${f(p.n)}).`)}
+document.getElementById('kpis').innerHTML=k;
+// day-of-EV comparison
+const evDay=(y,n)=>{const st=new Date(NCDATA.ev_start[y]+'T12:00'),dd=Math.round((ED(y)-st)/864e5);return cumAt(y,'onestop',dd-n+1).n};
+const nDays=Math.round((last-new Date(NCDATA.ev_start[2026]+'T12:00'))/864e5)+1;
+take.push(`After <b>${nDays} day${nDays>1?'s':''}</b> of one-stop voting: 2026 ${f(evDay(2026,nDays))} vs 2024 ${f(evDay(2024,nDays))}, 2022 ${f(evDay(2022,nDays))}, 2018 ${f(evDay(2018,nDays))}. Start dates differ by cycle; this lines them up by voting day.`);
+const sh=(s,k)=>(s[k]/s.n*100).toFixed(0),p24=cumAt(2024,'total',D),p22=cumAt(2022,'total',D);
+take.push(`Party mix so far: Democrats <b>${sh(c26,'D')}%</b>, Republicans <b>${sh(c26,'R')}%</b>, unaffiliated <b>${sh(c26,'U')}%</b> (2022 at the same point: D ${sh(p22,'D')}% / R ${sh(p22,'R')}% / U ${sh(p22,'U')}%; 2024: D ${sh(p24,'D')}% / R ${sh(p24,'R')}% / U ${sh(p24,'U')}%).`);
+take.push(`Black voters are <b>${sh(c26,'race_B')}%</b> of early ballots so far (2022: ${sh(p22,'race_B')}%, 2024: ${sh(p24,'race_B')}% at the same point).`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';
+let cm;const draw=m=>{if(cm)cm.destroy();cm=new Chart(cum,{type:'line',data:{datasets:Y.map(y=>({label:String(y),data:series(y,m,y==2026?D:0),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?4:0,borderDash:y==2026?[]:[5,4]}))},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{mode:'x',intersect:false,callbacks:{title:c=>`${c[0].raw.x} days out`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:30,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:2}},y:{beginAtZero:true,title:{display:true,text:M[m]},ticks:{callback:v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K'}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.m==m))};
+document.getElementById('tog').innerHTML=Object.entries(M).map(([m,l])=>`<button data-m="${m}">${l}</button>`).join('');
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>draw(b.dataset.m));draw('total');
+const d26=daily(2026,'total'),d24=daily(2024,'total'),ds=[];for(let d=D+6;d>=D;d--)ds.push(d);
+const lab=d=>{const x=new Date(ED(2026));x.setDate(x.getDate()-d);return `${x.getMonth()+1}/${x.getDate()} (${d}d)`};
+new Chart(document.getElementById('daily'),{data:{labels:ds.map(lab),datasets:[{type:'bar',label:'2026 added',data:ds.map(d=>(d26[d]||{n:0}).n),backgroundColor:ds.map(d=>d==D?COL[2026]:'#f4a582')},{type:'line',label:'2024 same days-out',data:ds.map(d=>(d24[d]||{n:0}).n),borderColor:COL[2024],borderDash:[5,4],pointRadius:3}]},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{y:{beginAtZero:true,title:{display:true,text:'Ballots per day'}}}}});
+new Chart(evday,{type:'bar',data:{labels:Array.from({length:Math.max(nDays,3)},(_,i)=>'Day '+(i+1)),datasets:Y.map(y=>({label:String(y),backgroundColor:COL[y],data:Array.from({length:Math.max(nDays,3)},(_,i)=>y==2026&&i>=nDays?null:evDay(y,i+1))}))},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{y:{beginAtZero:true,title:{display:true,text:'Cumulative one-stop votes'}}}}});
+const shareChart=(el,keys)=>new Chart(el,{type:'bar',data:{labels:Y.map(y=>`${y} (${D}d out)`),datasets:keys.map(([k,l,c])=>({label:l,backgroundColor:c,data:Y.map(y=>{const s=cumAt(y,'total',D);return s[k]/s.n*100})}))},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)}%`}}},scales:{x:{stacked:true,max:100,title:{display:true,text:'% of early ballots'}},y:{stacked:true}}}});
+shareChart(party,[['R','Republican','#d64545'],['D','Democrat','#2f6fdb'],['U','Unaffiliated','#8a8f98'],['O','Libertarian/Green/other','#c9a227']]);
+shareChart(race,[['race_W','White','#9aa5b1'],['race_B','Black','#14213d'],['race_O','Other / undesignated','#f4a582']]);
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>File</th><th>Day-by-day</th><th>One-stop start</th><th>Final one-stop</th><th>Final mail accepted</th></tr>'+Y.map(y=>`<tr><td>${y}</td><td>${y==2026?'Daily (posted '+NCDATA.file_posted+')':'Final post-election'}</td><td>Yes, every day</td><td>${NCDATA.ev_start[y]}</td><td>${y==2026?'in progress':f(cumAt(y,'onestop',-30).n)}</td><td>${y==2026?'in progress':f(cumAt(y,'mail_ret',-30).n)}</td></tr>`).join('')+'</table><p class="hint">All counts come from the per-voter files; see <a href="nc-data.csv">nc-data.csv</a> (daily counts by party and race). 2026 mail requests are not in the public file yet.</p>';
+document.getElementById('src').innerHTML=Y.map(y=>`<li>NCSBE statewide absentee/one-stop file, ${y} general: <a href="${NCDATA.urls[y]}">${NCDATA.urls[y]}</a></li>`).join('');
+</script></body></html>
