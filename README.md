@@ -10,3 +10,4 @@
 - County files (2026-10-16): /workspace/oh-earlyvote/county/capture_county.py (Cuyahoga, Franklin, Butler; `--hist` = Cuyahoga 2018/2022/2024 once), called from fl capture.sh 4x/day; dedup by md5, gzipped.
 - `python3 build_ohio_county.py` -> site/ohio-county-data.csv/.js (partial 3-county aggregate, party by last primary; Cuyahoga past cycles).
 - NC (2026-10-16): site/nc.html + nc-data.js/csv via `python3 build_nc.py` (reads /workspace/nc-earlyvote/agg/*.csv made by aggregate_nc.py). Capture: /workspace/nc-earlyvote/capture_nc.sh (called from fl capture.sh), saves each new S3 Last-Modified version and re-aggregates 2026.
+- IA (2026-10-16): site/ia.html + ia-data.js/csv via `python3 build_ia.py` (parses /workspace/ia-earlyvote ref archive PDFs + snapshots with parse_ia.py). Capture: /workspace/ia-earlyvote/capture_ia.sh (in fl capture.sh). Priority list: state_priority.md.

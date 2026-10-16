@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Iowa 2026 Early & Absentee Vote Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+</style></head><body>
+<header><h1>Iowa Early &amp; Absentee Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html">Ohio</a><a href="nc.html">North Carolina</a><a href="ia.html" class=on>Iowa</a></nav></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Absentee ballots received, by days before Election Day</h2><p class="hint">Cumulative statewide absentee ballots received by county auditors. In Iowa this includes <b>in-person early votes</b> (voted at the auditor's office or a satellite site) as well as mail ballots. 2026 in bold; dots = actual daily SOS reports (weekdays only, no interpolation; lines just connect reports).</p>
+<div class="tog" id="tog"></div><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>Ballots added per report: last 7 reports</h2><p class="hint">Change between consecutive 2026 SOS reports. A Monday report includes the weekend.</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>Same point in the early-voting period</h2><p class="hint">Ballots received N days after early voting opened (20-day period in 2022–2026; 29 days in 2018, so 2018 opened earlier).</p><div class="ch"><canvas id="evday"></canvas></div></div>
+<div class="card"><h2>Who has returned ballots (registered party)</h2><p class="hint">Share of ballots received, by party registration, at the closest report to the same days-out.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card"><h2>How 2026 ballots came in</h2><p class="hint">Receipt method in the latest statewide report. In-person early voting = counter/in-office + satellite sites.</p><div class="ch"><canvas id="meth"></canvas></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources &amp; caveats</h2><ul class="src" id="src"></ul><ul class="take" style="font-size:.85rem">
+<li>Iowa counts in-person early voting as absentee voting, so "received" = mail ballots received + in-person early votes. Past-cycle reports don't split out the method statewide.</li>
+<li><b>2018 isn't directly comparable</b>: Iowa's early-voting window was 29 days (opened Oct 8, 2018). It was cut to 20 days starting in 2022, so 2018 had a much bigger head start at the same days-out.</li>
+<li>Reports post on weekday mornings (data pulled ~3–4 AM ET) and replace the previous day's file. Each point is dated by the report date. Past cycles come from SOS archive PDFs that bundle every daily report.</li>
+<li>Party = voter registration (Democrat, Republican, No Party; Libertarian/Green/other grouped as Other). Party splits are shown only where the county lines add up exactly to the state total.</li>
+<li>When the SOS posted two versions on the same date, the later (larger) one is used.</li></ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Iowa Secretary of State absentee ballot statistics · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="ia-data.js"></script><script>
+const R=IADATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
+const M={received:'Ballots received (mail + in-person early)',requested:'Ballots requested'};
+const ser=y=>R.filter(r=>r.year==y).sort((a,b)=>b.days_out-a.days_out);
+const s26=ser(2026),cur=s26[s26.length-1],prev=s26[s26.length-2],D=cur.days_out;
+const atOrBefore=(y,d)=>ser(y).filter(r=>r.days_out>=d).pop();   // latest report at or before same days-out
+document.getElementById('asof').textContent=`Latest SOS report: ${cur.report_date} (${D} days out) · ${Math.round((new Date(IADATA.ed[2026]+'T12:00')-new Date())/864e5)} days until Election Day`;
+document.getElementById('built').textContent=IADATA.built;
+let k=`<div class="card kpi"><div class="lab">2026 ballots received</div><div class="val" style="color:${COL[2026]}">${f(cur.received)}</div><div class="sub">${f(cur.requested)} requested${prev?` · +${f(cur.received-prev.received)} since ${prev.report_date}`:''}</div></div>`;const take=[];
+for(const y of [2024,2022,2018]){const p=atOrBefore(y,D);if(!p){k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out</div><div class="val miss" style="font-size:1.2rem">No report</div></div>`;continue}
+ const pc=(cur.received/p.received-1)*100,lag=p.days_out==D?'':` (report ${p.days_out}d out)`;
+ k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out</div><div class="val ${pc<0?'down':'up'}">${pc>0?'+':''}${pc.toFixed(0)}%</div><div class="sub">${y}: ${f(p.received)} received${lag}${y==2018?' · 29-day window':''}</div></div>`;
+ take.push(`Ballots received are <b>${Math.abs(pc).toFixed(0)}% ${pc<0?'behind':'ahead of'}</b> ${y} at the same point (${f(cur.received)} vs ${f(p.received)}${lag})${y==2018?'. 2018 had a 29-day window, so it isn\'t a like-for-like comparison':''}.`)}
+document.getElementById('kpis').innerHTML=k;
+const q24=atOrBefore(2024,D),q22=atOrBefore(2022,D);
+take.push(`Requests: ${f(cur.requested)} in 2026 vs ${f(q24.requested)} (2024) and ${f(q22.requested)} (2022) at the same point.`);
+const sh=(r,c)=>(r['rec_'+c]/r.received*100).toFixed(0);
+if(cur.rec_D!=null)take.push(`Democrats account for <b>${sh(cur,'D')}%</b> of ballots received, Republicans <b>${sh(cur,'R')}%</b>, No Party <b>${sh(cur,'NP')}%</b> (2022 at the same point: D ${sh(q22,'D')}% / R ${sh(q22,'R')}%; 2024: D ${sh(q24,'D')}% / R ${sh(q24,'R')}%).`);
+const MT=IADATA.methods26,ip=(MT['Counter / In-Office']||0)+(MT['Satellite']||0)+(MT['In-Person']||0);
+if(ip)take.push(`About <b>${(ip/cur.received*100).toFixed(0)}%</b> of 2026 ballots so far were cast in person (auditor's office or satellite site). Early voting opened Oct 14.`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';
+let cm;const draw=m=>{if(cm)cm.destroy();cm=new Chart(cum,{type:'line',data:{datasets:Y.map(y=>({label:String(y),data:ser(y).filter(r=>r.days_out<=30&&r.days_out>=0).map(r=>({x:r.days_out,y:r[m],d:r.report_date})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?6:3,borderDash:y==2026?[]:[5,4]}))},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:30,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:2}},y:{beginAtZero:true,title:{display:true,text:M[m]},ticks:{callback:v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K'}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.m==m))};
+document.getElementById('tog').innerHTML=Object.entries(M).map(([m,l])=>`<button data-m="${m}">${l}</button>`).join('');
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>draw(b.dataset.m));draw('received');
+const last7=s26.slice(-8);const adds=last7.slice(1).map((r,i)=>({l:r.report_date.slice(5).replace('-','/'),v:r.received-last7[i].received}));
+new Chart(daily,{type:'bar',data:{labels:adds.map(a=>a.l),datasets:[{label:'Added',data:adds.map(a=>a.v),backgroundColor:adds.map((a,i)=>i==adds.length-1?COL[2026]:'#f4a582')}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`+${f(c.parsed.y)} ballots`}}},scales:{x:{title:{display:true,text:'SOS report date (2026)'}},y:{beginAtZero:true,title:{display:true,text:'Ballots added'}}}}});
+const evd=y=>{const st=new Date(IADATA.ev_start[y]+'T12:00');return ser(y).map(r=>({x:Math.round((new Date(r.report_date+'T12:00')-st)/864e5),y:r.received,d:r.report_date})).filter(p=>p.x>=0&&p.x<=21)};
+new Chart(evday,{type:'line',data:{datasets:Y.map(y=>({label:String(y),data:evd(y),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?6:3,borderDash:y==2026?[]:[5,4]}))},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`Report ${c[0].raw.d}`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',min:0,max:21,title:{display:true,text:'Days since early voting opened (report date)'}},y:{beginAtZero:true,ticks:{callback:v=>(v/1e3)+'K'}}}}});
+const pick=Y.map(y=>ser(y).filter(r=>r.rec_D!=null&&r.received>0).reduce((a,r)=>!a||Math.abs(r.days_out-D)<Math.abs(a.days_out-D)?r:a,null)).filter(Boolean);
+new Chart(party,{type:'bar',data:{labels:pick.map(r=>`${r.year} (${r.days_out}d out)`),datasets:[['rec_R','Republican','#d64545'],['rec_D','Democrat','#2f6fdb'],['rec_NP','No Party','#8a8f98'],['rec_O','Other','#c9a227']].map(([c,l,col])=>({label:l,backgroundColor:col,data:pick.map(r=>r[c]/r.received*100)}))},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)}%`}}},scales:{x:{stacked:true,max:100,title:{display:true,text:'% of ballots received'}},y:{stacked:true}}}});
+const mk=Object.entries(MT).filter(([k])=>k!='_file').sort((a,b)=>b[1]-a[1]);
+new Chart(meth,{type:'bar',data:{labels:mk.map(m=>m[0]=='UD'?'UD (as labeled by SOS)':m[0]),datasets:[{data:mk.map(m=>m[1]),backgroundColor:mk.map(m=>/Counter|Satellite|In-Person/.test(m[0])?'#14213d':'#f4a582')}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>f(c.parsed.x)}}},scales:{x:{beginAtZero:true,title:{display:true,text:'Ballots received (dark = in person)'}}}}});
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Daily reports (count)</th><th>First → last report</th><th>Early voting opened</th><th>Party split</th><th>Final received</th></tr>'+Y.map(y=>{const s=ser(y),fin=s[s.length-1];return`<tr><td>${y}</td><td>${s.length}</td><td>${s[0].report_date} → ${fin.report_date}</td><td>${IADATA.ev_start[y]}</td><td>${s.filter(r=>r.rec_D!=null).length} of ${s.length}</td><td>${y==2026?'in progress':f(fin.received)}</td></tr>`}).join('')+'</table><p class="hint">Weekday reports only (no Saturday/Sunday reports in most cycles). 2026 history starts with the reports captured on the box (Oct 15–16); every new report is now saved four times a day. Data: <a href="ia-data.csv">ia-data.csv</a>.</p>';
+document.getElementById('src').innerHTML=[2026,2024,2022,2018].map(y=>`<li>Iowa SOS absentee statistics, ${y}: <a href="${IADATA.src[y]}">${IADATA.src[y]}</a></li>`).join('');
+</script></body></html>
