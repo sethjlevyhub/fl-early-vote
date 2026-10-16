@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ohio 2026 Early & Absentee Vote Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+</style></head><body>
+<header><h1>Ohio Early &amp; Absentee Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<p id="asof"></p><nav class="states"><a href="index.html">Florida</a><a href="ohio.html" class=on>Ohio</a></nav></header><main>
+<section class="kpis" id="kpis"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Early votes by days before Election Day</h2><p class="hint">Cumulative statewide totals. 2026 in bold; prior cycles aligned to the same days-out. Dots = dated official or SOS-cited figures only (no interpolation; lines just connect reported points). Hollow dots = rounded figures in the source.</p>
+<div class="tog" id="tog"></div><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>2026 reports so far</h2><p class="hint">Each bar is one dated statewide report (early in-person + mail returned). Ohio publishes through a dashboard and periodic releases, not a daily file, so gaps between bars are days with no captured report.</p><div class="ch"><canvas id="daily"></canvas></div></div>
+<div class="card"><h2>Who has voted (party affiliation)</h2><p class="hint">Ohio has <b>no party registration</b>. "Party" here = the party ballot a voter last chose in a partisan primary; everyone else is unaffiliated. Approximate figures as reported by the Ohio Capital Journal from SOS data, all early ballots cast through Oct 12–13.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card full"><h2>How voters are voting early: in person vs. by mail</h2><p class="hint">Same-point comparisons where both numbers are sourced. Ohio has shifted sharply from mail to in-person early voting.</p><div class="ch" style="height:260px"><canvas id="mix"></canvas></div></div>
+
+<div class="card full" style="border:2px dashed #c9a227"><h2>County voter files: partial-county aggregate <span class="badge">3 COUNTIES ONLY</span></h2><p class="hint" id="cty_lab"></p>
+<div class="grid" style="margin-top:0"><div><h2 style="font-size:.95rem">Early ballots cast by day (cumulative), 2026</h2><div class="ch" style="height:280px"><canvas id="cty"></canvas></div></div>
+<div><h2 style="font-size:.95rem">Party of last primary, ballots cast so far</h2><div class="ch" style="height:280px"><canvas id="ctyp"></canvas></div></div>
+<div class="full"><h2 style="font-size:.95rem">Cuyahoga only: early ballots cast by days out vs past cycles</h2><p class="hint">Rebuilt from Cuyahoga's per-voter return dates. <b>Past cycles undercount</b>: today's files for 2018 and 2022 are roughly 25–30% below those cycles' official Cuyahoga totals, likely because voters later removed from the rolls drop out of the files. Read the past lines as rough shape, not exact levels.</p><div class="ch" style="height:280px"><canvas id="cuyh"></canvas></div></div></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources</h2><p class="hint">Every number traces to a row in <a href="ohio-data.csv">ohio-data.csv</a> with its source URL. Days-out = Election Day minus the date the data is "as of" (or the release date when the release gives no as-of date; see each row's note). Early voting began Oct 10, 2018; Oct 12, 2022; Oct 8, 2024; Oct 6, 2026.</p><ul class="src" id="src"></ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Ohio Secretary of State (press releases &amp; dashboard, as published or quoted) · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="ohio-data.js"></script><script src="ohio-county-data.js"></script><script>
+const R=OHDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
+const M={total_early:'Total early votes cast',early_in_person:'Early in-person votes',abs_returned:'Mail (absentee) ballots returned',abs_requested:'Mail ballots requested'};
+const ser=(y,m)=>R.filter(r=>r.year==y&&r.metric==m&&r.days_out>=0).sort((a,b)=>b.days_out-a.days_out);
+const last=m=>{const s=ser(2026,m);return s[s.length-1]};
+const cur=last('total_early'),D=cur.days_out;
+const near=(y,m,d)=>ser(y,m).reduce((a,r)=>!a||Math.abs(r.days_out-d)<Math.abs(a.days_out-d)?r:a,null);
+const match=(y,m,d)=>{const n=near(y,m,d);return n&&Math.abs(n.days_out-d)<=1?n:null};
+document.getElementById('asof').textContent=`Latest statewide figures: ${cur.report_date} (${D} days out) · ${(new Date('2026-11-03')-new Date('2026-10-16'))/864e5} days until Election Day`;
+document.getElementById('built').textContent=OHDATA.built;
+const e26=last('early_in_person'),a26=last('abs_returned'),q26=last('abs_requested');
+let k=`<div class="card kpi"><div class="lab">2026 early votes cast</div><div class="val" style="color:${COL[2026]}">${f(cur.value)}</div><div class="sub">${f(e26.value)} in person · ${f(a26.value)} by mail (as of ${cur.report_date})</div></div>`;
+const take=[];
+for(const y of [2024,2022,2018]){
+  let m='total_early',p=match(y,m,D);if(!p){m='early_in_person';p=match(y,m,D)}
+  if(p){const c=last(m),pc=(c.value/p.value-1)*100,lag=p.days_out==D?'':` (${p.days_out}d out, nearest)`;
+    k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out</div><div class="val ${pc<0?'down':'up'}">${pc>0?'+':''}${pc.toFixed(0)}%</div><div class="sub">${M[m]}: ${f(p.value)}${lag}</div></div>`;
+    take.push(`${M[m]} ${pc<0?'trail':'lead'} ${y} at about the same point by <b>${Math.abs(pc).toFixed(0)}%</b> (${f(c.value)} vs ${f(p.value)}${lag}).`)}
+  else{const n=near(y,'total_early',D)||near(y,'early_in_person',D);k+=`<div class="card kpi"><div class="lab">vs ${y} at ${D} days out</div><div class="val miss" style="font-size:1.2rem">No figure</div><div class="sub">${n?`Closest: ${f(n.value)} ${n.metric=='total_early'?'total':'in person'} at ${n.days_out}d out`:''}</div></div>`}}
+document.getElementById('kpis').innerHTML=k;
+const q22=match(2022,'abs_requested',D);if(q22)take.push(`Mail-ballot requests are <b>down ${((1-q26.value/q22.value)*100).toFixed(0)}%</b> from 2022 at the same point (${f(q26.value)} vs ${f(q22.value)}), while in-person early voting is up sharply.`);
+take.push(`Only <b>${(a26.value/q26.value*100).toFixed(0)}%</b> of requested mail ballots have come back so far (${f(a26.value)} of ${f(q26.value)}).`);
+const pd=['cast_dem','cast_rep','cast_unaff'].map(m=>R.find(r=>r.year==2026&&r.metric==m));
+if(pd.every(Boolean))take.push(`By primary-ballot history, voters who last pulled a Democratic ballot lead (~${f(pd[0].value)}), ahead of unaffiliated (~${f(pd[2].value)}) and Republican (~${f(pd[1].value)}) voters. Ohio has no party registration, so this is a rough guide.`);
+take.push(`Early in-person voting runs through Nov 1. Ohio posts periodic statewide totals, not a daily file, so 2026 points are sparse; past-cycle points come from SOS releases and news reports quoting SOS data.`);
+document.getElementById('take').innerHTML=take.map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';
+let cm;const draw=m=>{if(cm)cm.destroy();cm=new Chart(cum,{type:'line',data:{datasets:Y.map(y=>({label:String(y),data:ser(y,m).filter(r=>r.days_out<=30).map(r=>({x:r.days_out,y:r.value,d:r.report_date,a:r.approx})),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:y==2026?7:5,pointBackgroundColor:c=>c.raw&&c.raw.a?'#fff':COL[y],borderDash:y==2026?[]:[5,4]}))},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${c.raw.a?'~':''}${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:28,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:2}},y:{beginAtZero:true,title:{display:true,text:M[m]},ticks:{callback:v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K'}}}}});
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.m==m))};
+document.getElementById('tog').innerHTML=Object.entries(M).map(([m,l])=>`<button data-m="${m}">${l}</button>`).join('');
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>draw(b.dataset.m));draw('total_early');
+// 2026 reports timeline (by calendar day since early voting began)
+const days=[];for(let d=new Date(OHDATA.ev_start[2026]+'T12:00');d<=new Date('2026-10-16T12:00');d.setDate(d.getDate()+1))days.push(d.toISOString().slice(0,10));
+const g=(m,d)=>{const r=R.find(r=>r.year==2026&&r.metric==m&&r.report_date==d);return r?r.value:null};
+new Chart(daily,{type:'bar',data:{labels:days.map(d=>d.slice(5).replace('-','/')),datasets:[{label:'Early in person',data:days.map(d=>g('early_in_person',d)),backgroundColor:'#14213d'},{label:'Mail returned',data:days.map(d=>g('abs_returned',d)),backgroundColor:'#f4a582'},{label:'no report captured',data:days.map(d=>g('total_early',d)==null?1:null),backgroundColor:'#e5e7eb',yAxisID:'y2'}]},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{filter:c=>c.datasetIndex<2,callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)} (cumulative)`}}},scales:{x:{stacked:true,title:{display:true,text:'Date (2026), early voting began Oct 6'}},y:{stacked:true,beginAtZero:true,title:{display:true,text:'Cumulative ballots'}},y2:{display:false,min:0,max:1}}}});
+new Chart(party,{type:'bar',data:{labels:['2026 (Oct 13)'],datasets:[['cast_rep','Republican primary history','#d64545'],['cast_dem','Democratic primary history','#2f6fdb'],['cast_unaff','Unaffiliated','#8a8f98']].map(([m,l,c],i)=>({label:l,backgroundColor:c,data:[pd[[1,0,2][i]]?pd[[1,0,2][i]].value/pd.reduce((s,r)=>s+r.value,0)*100:null]}))},
+ options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ~${c.parsed.x.toFixed(0)}%`}}},scales:{x:{stacked:true,max:100,title:{display:true,text:'% of early ballots cast (approx.)'}},y:{stacked:true}}}});
+// mix: same-date pairs
+const pairs=[];for(const y of [2018,2022,2024,2026])for(const e of ser(y,'early_in_person')){const a=R.find(r=>r.year==y&&r.metric=='abs_returned'&&r.report_date==e.report_date);if(a)pairs.push({l:`${y} · ${e.days_out}d out`,e:e.value,a:a.value,y})}
+new Chart(mix,{type:'bar',data:{labels:pairs.map(p=>p.l),datasets:[{label:'In person',backgroundColor:'#14213d',data:pairs.map(p=>p.e/(p.e+p.a)*100)},{label:'By mail (returned)',backgroundColor:'#f4a582',data:pairs.map(p=>p.a/(p.e+p.a)*100)}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(0)}%`}}},scales:{x:{stacked:true,max:100,title:{display:true,text:'% of early ballots cast'}},y:{stacked:true}}}});
+
+// partial county aggregate
+if(window.OHCOUNTY){const CR=OHCOUNTY.rows,AG='partial_aggregate_cuyahoga_franklin_butler';
+document.getElementById('cty_lab').innerHTML=`<b>${OHCOUNTY.label}</b> Built from each county's public absentee and early in-person voter lists: <a href="${OHCOUNTY.sources.cuyahoga}">Cuyahoga</a>, <a href="${OHCOUNTY.sources.franklin}">Franklin</a>, <a href="${OHCOUNTY.sources.butler}">Butler</a>. Each day = cumulative ballots by the date each voter returned or cast a ballot, from the latest file (no interpolation). Party = the party ballot a voter last took in a primary; unaffiliated = none. Data in <a href="ohio-county-data.csv">ohio-county-data.csv</a>.`;
+const ser2=(sc,y,m)=>CR.filter(r=>r.scope==sc&&r.year==y&&r.metric==m);
+const tot=(sc,y)=>{const a=ser2(sc,y,'mail_ret'),b=ser2(sc,y,'eip'),ds=[...new Set([...a,...b].map(r=>r.date))].sort();let ma=0,mb=0;const A=Object.fromEntries(a.map(r=>[r.date,r])),Bm=Object.fromEntries(b.map(r=>[r.date,r]));return ds.map(d=>{if(A[d])ma=A[d].total;if(Bm[d])mb=Bm[d].total;return{d,x:(A[d]||Bm[d]).days_out,y:ma+mb}})};
+const t=ser2(AG,2026,'eip').filter(r=>r.date>='2026-10-06');
+new Chart(cty,{type:'line',data:{labels:t.map(r=>r.date.slice(5).replace('-','/')),datasets:[{label:'Early in person',data:t.map(r=>r.total),borderColor:'#14213d',backgroundColor:'#14213d',borderWidth:3},{label:'Mail returned',data:t.map(r=>(ser2(AG,2026,'mail_ret').filter(x=>x.date<=r.date).pop()||{total:null}).total),borderColor:'#f4a582',backgroundColor:'#f4a582',borderWidth:3}]},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{y:{beginAtZero:true}}}});
+const lp=m=>{const s=ser2(AG,2026,m);return s[s.length-1]},E=lp('eip'),MR=lp('mail_ret');
+new Chart(ctyp,{type:'bar',data:{labels:['Early in person','Mail returned'],datasets:[['R','Republican primary','#d64545'],['D','Democratic primary','#2f6fdb'],['U','Unaffiliated','#8a8f98'],['O','Other','#c9a227']].map(([k,l,c])=>({label:l,backgroundColor:c,data:[E,MR].map(r=>r[k]/r.total*100)}))},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)}%`}}},scales:{x:{stacked:true,max:100,title:{display:true,text:'% of ballots (3 counties)'}},y:{stacked:true}}}});
+new Chart(cuyh,{type:'line',data:{datasets:[2026,2024,2022,2018].map(y=>({label:String(y)+(y<2026?' (undercount)':''),data:tot('cuyahoga',y).filter(p=>p.x<=28&&p.x>=0),borderColor:COL[y],backgroundColor:COL[y],borderWidth:y==2026?4:2,pointRadius:0,borderDash:y==2026?[]:[5,4]}))},options:{maintainAspectRatio:false,parsing:{xAxisKey:'x',yAxisKey:'y'},plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:28,title:{display:true,text:'Days before Election Day'}},y:{beginAtZero:true,title:{display:true,text:'Cuyahoga early ballots cast (mail returned + in person)'}}}}});}
+// coverage
+const pts=(y,m)=>ser(y,m).map(r=>r.days_out+(r.approx?'~':'')).join(', ')||'<span class=miss>none</span>';
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Total early cast (days out)</th><th>In person</th><th>Mail returned</th><th>Mail requested</th><th>Figure at '+D+'d?</th></tr>'+Y.map(y=>`<tr><td>${y}</td><td>${pts(y,'total_early')}</td><td>${pts(y,'early_in_person')}</td><td>${pts(y,'abs_returned')}</td><td>${pts(y,'abs_requested')}</td><td>${y==2026?'—':(match(y,'total_early',D)||match(y,'early_in_person',D))?'Yes':'<span class=miss>Missing</span>'}</td></tr>`).join('')+'</table><p class="hint">~ = rounded in source. No official day-by-day archive exists for past Ohio cycles; points are what the SOS published or was quoted on. Party affiliation is unavailable for past cycles at matching days-out.</p>';
+document.getElementById('src').innerHTML=[...new Set(R.map(r=>r.source_type+' — '+r.source_url))].map(s=>{const[a,u]=s.split(' — ');return`<li>${a}: <a href="${u}">${u}</a></li>`}).join('');
+</script></body></html>
