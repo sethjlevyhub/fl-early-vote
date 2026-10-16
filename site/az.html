@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arizona 2026 Early Ballot Tracker (prototype)</title>
+<style>
+:root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#14213d;color:#fff;padding:22px 20px}header h1{margin:0;font-size:1.5rem}header p{margin:4px 0 0;opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:18px}.badge{display:inline-block;background:#ffb703;color:#14213d;font-weight:700;border-radius:4px;padding:1px 7px;font-size:.75rem;margin-left:6px;vertical-align:middle}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px #0001}
+.kpi .lab{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}.kpi .val{font-size:1.8rem;font-weight:750}.kpi .sub{font-size:.85rem;color:var(--mute)}.up{color:#2b9348}.down{color:#c0392b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:1.05rem;margin:0 0 2px}.card .hint{color:var(--mute);font-size:.82rem;margin:0 0 8px}.full{grid-column:1/-1}.ch{position:relative;height:320px}
+ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:.85rem}td,th{border-bottom:1px solid #eee;padding:5px 6px;text-align:right}td:first-child,th:first-child{text-align:left}
+.src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
+nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
+.lawnote{border-left:4px solid #ffb703}
+/*mobilefix*/.grid>*,.kpis>*,main>*{min-width:0}.card{overflow-x:auto}canvas{max-width:100%}@media(max-width:600px){main{padding:10px}.kpis{grid-template-columns:1fr 1fr}.kpi .val{font-size:1.4rem}header h1{font-size:1.2rem}}
+</style></head><body>
+<header><h1>Arizona Early Ballot Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE · THIN DATA</span></h1>
+<p id="asof"></p><nav class="states"><a href="overview.html"><span title="Overview of all states">US</span></a><a href="index.html"><span title="Florida">FL</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="nc.html"><span title="North Carolina">NC</span></a><a href="ia.html"><span title="Iowa">IA</span></a><a href="tx.html"><span title="Texas">TX</span></a><a href="mi.html"><span title="Michigan">MI</span></a><a href="me.html"><span title="Maine">ME</span></a><a href="ks.html"><span title="Kansas">KS</span></a><a href="az.html" class=on><span title="Arizona">AZ</span></a></nav></header><main>
+<div class="card warn" style="background:#fff7e0;border-left:4px solid #ffb703"><b>Limited comparisons.</b> Arizona has no statewide official daily early-ballot report. Maricopa County (about 60% of voters) publishes a daily count, but only for the current election, and no archived same-day counts for 2018, 2022 or 2024 could be found. Past-cycle figures below are scattered official counts quoted in news reports on <i>different</i> days, so this page shows them on the timeline but does <b>not</b> compute percent changes.</div>
+<section class="kpis" id="kpis" style="margin-top:12px"></section>
+<div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
+<div class="grid">
+<div class="card full"><h2>Maricopa County early ballots returned, by days before Election Day</h2><p class="hint">2026 = official county count ("returns in hand," updated daily; captured on the box from Oct 16, so the line grows from here). Past cycles = single official counts reported by news outlets (hollow markers). The two measures aren't identical (see caveats).</p><div class="ch"><canvas id="cum"></canvas></div></div>
+<div class="card"><h2>2026 return rate (Maricopa)</h2><p class="hint">Returned ÷ early ballots requested, from the county layer.</p><div class="ch"><canvas id="rate"></canvas></div></div>
+<div class="card"><h2>Party mix of past-cycle returns (Maricopa)</h2><p class="hint">Party registration of returned ballots where an official split was reported. The 2026 county layer has no party split.</p><div class="ch"><canvas id="party"></canvas></div></div>
+<div class="card full"><h2>Data coverage &amp; gaps</h2><div id="cov"></div></div>
+<div class="card full"><h2>Sources &amp; caveats</h2><ul class="src" id="src"></ul><ul class="take" style="font-size:.85rem">
+<li><b>Two different Maricopa counts.</b> The county's open-data layer counts ballots "in hand" (received, before signature checks): 178,069 on Oct 16. A tracker built from each county's daily early-ballot file (Stealth Analytics) shows 99,625 Maricopa returns that day. The 2022 and 2024 news figures came from the county's daily return files, so they probably match the smaller measure better. Treat the 2026-vs-past gap on the chart with caution.</li>
+<li><b>Statewide 2026 (unofficial):</b> Stealth Analytics, compiling each county's daily file, reports 165,881 returned of 3,245,843 issued across all 15 counties as of Oct 16. Some small counties' files are a few days old. It's shown for context only.</li>
+<li><b>2018:</b> no same-period official count found.</li>
+<li><b>2024 was a presidential year.</b> Early voting and ballot mailing start 27 days before Election Day (Oct 7 in 2026, per the AZ SOS calendar), so the calendars line up across cycles.</li>
+<li>The county's party-specific layers in the same open-data account still show the July 2026 primary, so 2026 party splits aren't available from an official public source yet.</li></ul></div>
+<div class="card full lawnote" id="law-changes" style="border-left:4px solid #ffb703"><h2>Law changes that affect comparisons</h2>
+<p class="hint">Rule changes between cycles can shift how (not just how many) people vote early. Keep these in mind when comparing to past years.</p>
+<ul class="src">
+<li><b>2021 · SB 1485 (Laws 2021, ch. 359):</b> renamed the Permanent Early Voting List the Active Early Voting List. Voters who don't vote an early ballot in two consecutive election cycles can be removed after a notice. 2024 and 2026 are the first cycles that count, and the first notices go out by Jan 15, 2027, so <b>no one has been removed yet</b> and the list sizes in 2022, 2024 and 2026 aren't affected. <a href="https://www.azleg.gov/legtext/55leg/1R/laws/0359.pdf">Source</a> · <a href="https://www.azleg.gov/legtext/55leg/1R/summary/H.SB1485_051121_TRANSMITTED.pdf">Summary</a></li>
+</ul></div>
+</div></main><footer>Built <span id="built"></span> · Data: Maricopa County open data; past counts via news reports citing county officials · Prototype, not for publication</footer>
+<script src="vendor/chart.umd.min.js"></script><script src="az-data.js"></script><script>
+const R=AZDATA.rows,f=n=>Number(n).toLocaleString('en-US'),COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348'};
+const s26=R.filter(r=>r.year==2026).sort((a,b)=>b.days_out-a.days_out),cur=s26[s26.length-1],SW=AZDATA.statewide;
+document.getElementById('asof').textContent=`Latest Maricopa update: ${cur.date} (${cur.days_out} days out) · ${Math.round((new Date('2026-11-03T12:00')-new Date())/864e5)} days until Election Day`;
+document.getElementById('built').textContent=AZDATA.built;
+const p22=R.find(r=>r.year==2022),p24=R.filter(r=>r.year==2024);
+document.getElementById('kpis').innerHTML=`<div class="card kpi"><div class="lab">Maricopa ballots in hand (2026)</div><div class="val" style="color:${COL[2026]}">${f(cur.returned)}</div><div class="sub">of ${f(cur.requested)} early ballots requested (${(cur.returned/cur.requested*100).toFixed(1)}%)</div></div>
+<div class="card kpi"><div class="lab">Statewide returned (unofficial)</div><div class="val">${f(SW.returned)}</div><div class="sub">of ${f(SW.issued)} issued · county files compiled by Stealth Analytics, ${SW.date}</div></div>
+<div class="card kpi"><div class="lab">2022 benchmark (Maricopa)</div><div class="val">${f(p22.returned)}</div><div class="sub">at ${p22.days_out} days out (${p22.date}), not the same day</div></div>
+<div class="card kpi"><div class="lab">2024 benchmarks (Maricopa)</div><div class="val" style="font-size:1.3rem">600K+ · ${(p24[1].returned/1e6).toFixed(2)}M</div><div class="sub">at ${p24[0].days_out} and ${p24[1].days_out} days out (presidential)</div></div>`;
+document.getElementById('take').innerHTML=[`Maricopa reports <b>${f(cur.returned)}</b> early ballots in hand at ${cur.days_out} days out, ${(cur.returned/cur.requested*100).toFixed(0)}% of ${f(cur.requested)} requested.`,
+`For scale: in 2022, Maricopa had ${f(p22.returned)} returned at ${p22.days_out} days out (D ${f(p22.dem)}, R ${f(p22.rep)}, other ${f(p22.oth)}). In 2024 it had more than 600,000 at 13 days out and ${f(p24[1].returned)} at 7 days out.`,
+`Because the 2026 count ("in hand") may be broader than the past counts (county return files), and the days don't line up, <b>no percent change is shown</b>. The box now saves the county's count every day, so a 2026 trend line will build from here.`,
+`Statewide, county files compiled by a third-party tracker show ${f(SW.returned)} returned of ${f(SW.issued)} issued (${SW.date}).`].map(t=>`<li>${t}</li>`).join('');
+Chart.defaults.font.family='system-ui,sans-serif';const kf=v=>v>=1e6?(v/1e6)+'M':(v/1e3)+'K';
+new Chart(cum,{type:'line',data:{datasets:[2026,2024,2022].map(y=>({label:y==2026?'2026 (county, in hand)':`${y} (news-reported official count)`,data:R.filter(r=>r.year==y).map(r=>({x:r.days_out,y:r.returned,d:r.date,a:r.approx})),borderColor:COL[y],backgroundColor:y==2026?COL[y]:'#fff',borderWidth:y==2026?4:2,pointRadius:y==2026?6:7,pointBorderWidth:2,showLine:y==2026}))},
+ options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{title:c=>`${c[0].raw.x} days out (${c[0].raw.d})`,label:c=>`${c.dataset.label}: ${f(c.parsed.y)}${c.raw.a?' · '+c.raw.a:''}`}}},scales:{x:{type:'linear',reverse:true,min:0,max:27,title:{display:true,text:'Days before Election Day'},ticks:{stepSize:3}},y:{beginAtZero:true,ticks:{callback:kf}}}}});
+new Chart(rate,{type:'line',data:{datasets:[{label:'2026',data:s26.map(r=>({x:r.days_out,y:r.returned/r.requested*100})),borderColor:COL[2026],backgroundColor:COL[2026],borderWidth:4,pointRadius:6}]},options:{maintainAspectRatio:false,scales:{x:{type:'linear',reverse:true,min:0,max:27,title:{display:true,text:'Days before Election Day'}},y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}}}}});
+const pp=R.filter(r=>r.dem);
+new Chart(party,{type:'bar',data:{labels:pp.map(r=>`${r.year} (${r.days_out}d)`),datasets:[['dem','Democratic','#2f6fdb'],['rep','Republican','#d64545'],['oth','Other/independent','#8a8f98']].map(([k,l,c])=>({label:l,data:pp.map(r=>r[k]/(r.dem+r.rep+r.oth)*100),backgroundColor:c}))},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.x.toFixed(1)}%`}}},scales:{x:{stacked:true,max:100,ticks:{callback:v=>v+'%'}},y:{stacked:true}}}});
+document.getElementById('cov').innerHTML='<table><tr><th>Cycle</th><th>Points</th><th>Days out</th><th>What</th></tr>'+[2026,2024,2022,2018].map(y=>{const a=R.filter(r=>r.year==y);return`<tr><td>${y}</td><td>${a.length}</td><td>${a.map(r=>r.days_out).join(', ')||'–'}</td><td>${y==2026?'Official county layer, daily from Oct 16 capture':y==2018?'None found':'News reports citing county officials'}</td></tr>`}).join('')+'</table><p class="hint">Data: <a href="az-data.csv">az-data.csv</a>.</p>';
+document.getElementById('src').innerHTML=R.map(r=>`<li>${r.year} (${r.date}): ${r.source}${r.approx?' · '+r.approx:''}</li>`).join('')+`<li>Statewide 2026 context: ${SW.src} (third-party; compiles each county's daily early-ballot file)</li>`;
+</script></body></html>
