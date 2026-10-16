@@ -9,36 +9,47 @@ ED={2018:dt.date(2018,11,6),2022:dt.date(2022,11,8),2024:dt.date(2024,11,5),2026
 EV1={2018:dt.date(2018,10,15),2022:dt.date(2022,10,17),2024:dt.date(2024,10,15),2026:dt.date(2026,10,13)}
 Z=sorted(glob.glob(GA+'/raw/A-*.zip'),key=os.path.getmtime)[-1]; zf=zipfile.ZipFile(Z); zi=zf.getinfo('STATEWIDE.csv')
 asof=dt.datetime(*zi.date_time)
-day=collections.defaultdict(collections.Counter); cty=collections.Counter(); apps=0; issued=0
-for r in csv.DictReader(io.TextIOWrapper(zf.open(zi),encoding='latin-1')):
-    if r['Application Status']=='A' and r['Ballot Style']!='EARLY IN-PERSON': apps+=1
-    if r['Ballot Issued Date'] and r['Ballot Style']!='EARLY IN-PERSON': issued+=1
-    if r['Ballot Status']!='A' or not r['Ballot Return Date']: continue
-    d=dt.datetime.strptime(r['Ballot Return Date'],'%m/%d/%Y').date()
-    if d>=asof.date(): continue  # file is pulled early on the as-of date; that day is incomplete
-    k='inperson' if r['Ballot Style']=='EARLY IN-PERSON' else 'mail'
-    day[d][k]+=1; cty[r['County']]+=1
-rows=[];ci=cm=0
-for d in sorted(day):
-    ci+=day[d]['inperson']; cm+=day[d]['mail']
-    if (ED[2026]-d).days>45: continue
-    rows.append(dict(year=2026,date=d.isoformat(),days_out=(ED[2026]-d).days,ev_day=(d-EV1[2026]).days+1 if d>=EV1[2026] else None,
-        inperson_day=day[d]['inperson'],mail_day=day[d]['mail'],inperson_cum=ci,mail_cum=cm,total_cum=ci+cm,rounded=0,
-        source='Georgia SOS statewide absentee voter file, 11/3/2026 General and Special Elections (mvp.sos.ga.gov/s/voter-absentee-files), file dated '+asof.strftime('%Y-%m-%d %H:%M')))
-# Past cycles: official SOS figures as reported (rounded where marked). (year, ev_day, measure, value, rounded, note, url)
-PAST=[(2018,1,'inperson_day',70849,0,'2018 first day of early voting, per SOS (cited in 2022 coverage)','https://truthout.org/articles/the-first-2-days-of-early-voting-in-georgia-midterms-have-been-record-breaking/'),
- (2022,1,'inperson_day',134045,0,'Day 1 in-person, SOS website (reconciled; initial report 131,318)','https://www.atlantanewsfirst.com/2022/10/19/record-turnout-keeps-pace-day-2-early-voting-georgia/'),
- (2022,2,'inperson_day',134005,0,'Day 2 in-person, SOS website','https://www.atlantanewsfirst.com/2022/10/19/record-turnout-keeps-pace-day-2-early-voting-georgia/'),
- (2022,2,'inperson_cum',268050,0,'In-person through day 2, SOS figures','https://truthout.org/articles/the-first-2-days-of-early-voting-in-georgia-midterms-have-been-record-breaking/'),
- (2024,1,'total_cum',328000,1,'"over 328,000 total votes" incl. accepted absentees, Gabriel Sterling (SOS COO)','https://thehill.com/homenews/campaign/4935954-georgia-early-voting-record-shattered/'),
- (2024,2,'inperson_cum',581902,0,'Two-day early in-person total','https://www.washingtonpost.com/politics/2024/10/16/georgia-early-voting-numbers-record-election-2024/'),
- (2024,2,'total_cum',620000,1,'"nearly 620,000 total votes" (~590,000 early + 34,272 accepted absentees), Sterling','https://thehill.com/homenews/campaign/4938585-georgia-early-voting-records-set/')]
-past=[dict(year=y,ev_day=e,days_out=(ED[y]-(EV1[y]+dt.timedelta(e-1))).days,date=(EV1[y]+dt.timedelta(e-1)).isoformat(),measure=m,value=v,rounded=rd,note=n,source=u) for y,e,m,v,rd,n,u in PAST]
+FILES={2018:(GA+'/past/GA-2018-general.zip','November 6, 2018 General/Special Election'),2022:(GA+'/past/A-12054.zip','November 8, 2022 General Election'),
+       2024:(GA+'/past/A-12311.zip','November 5, 2024 General Election'),2026:(Z,'November 3, 2026 General and Special Elections')}
+INP={'EARLY IN-PERSON','IN PERSON'}  # 2018 file labels styles IN PERSON / MAIL IN
+def agg(y,path):
+    """Same acceptance logic every year: Ballot Status A with a return date, STATEWIDE.csv only. Past files are final, so ballots
+    later rejected/cancelled are excluded there; 2026 status is as of the file date. Cached per zip."""
+    cp=GA+'/past/cache_%d.json'%y
+    if y!=2026 and os.path.exists(cp) and os.path.getmtime(cp)>os.path.getmtime(path): return json.load(open(cp))
+    day=collections.defaultdict(lambda:[0,0]); cty=collections.defaultdict(collections.Counter); end=asof.date() if y==2026 else ED[y]
+    for r in csv.DictReader(io.TextIOWrapper(zipfile.ZipFile(path).open('STATEWIDE.csv'),encoding='latin-1')):
+        if r['Ballot Status']!='A' or not r['Ballot Return Date']: continue
+        try: d=dt.datetime.strptime(r['Ballot Return Date'],'%m/%d/%Y').date()
+        except ValueError: continue
+        if d>=end or (ED[y]-d).days>60: continue   # early period only (before Election Day; 2026 before the file date)
+        i=(ED[y]-d).days; day[i][0 if r['Ballot Style'] in INP else 1]+=1; cty[i][r['County'] or '?']+=1
+    o=dict(day={str(k):v for k,v in day.items()},cty={str(k):dict(v) for k,v in cty.items()})
+    if y!=2026: json.dump(o,open(cp,'w'))
+    return o
+rows=[];CTY={}
+for y,(path,ename) in FILES.items():
+    A=agg(y,path); ci=cm=0; cc=collections.Counter()
+    for i in range(60,0,-1):
+        v=A['day'].get(str(i),[0,0]); ci+=v[0]; cm+=v[1]; cc.update(A['cty'].get(str(i),{}))
+        d=ED[y]-dt.timedelta(i)
+        if y==2026 and d>=asof.date(): break
+        if i<=45: rows.append(dict(year=y,date=d.isoformat(),days_out=i,ev_day=(d-EV1[y]).days+1 if d>=EV1[y] else None,inperson_day=v[0],mail_day=v[1],
+            inperson_cum=ci,mail_cum=cm,total_cum=ci+cm,rounded=0,source=f'Georgia SOS statewide absentee voter file, {ename} ({os.path.basename(path)}, STATEWIDE.csv)'))
+        CTY.setdefault(y,{})[i]=dict(cc)
+R26=[r for r in rows if r['year']==2026]; D26=R26[-1]['days_out']; N26=R26[-1]['ev_day']
+def cty_at(y,i): return CTY[y].get(i,{})
+top=[c for c,_ in collections.Counter(cty_at(2026,D26)).most_common(12)]
+cmp_cty=[dict(county=c,v26=cty_at(2026,D26).get(c,0),**{f'v{y}':cty_at(y,D26).get(c,0) for y in (2018,2022,2024)},
+  **{f'e{y}':cty_at(y,(ED[y]-EV1[y]).days-N26+1).get(c,0) for y in (2018,2022,2024)}) for c in top]
+past=[]
 gv=[json.loads(l) for l in open(GA+'/snapshots/georgiavotes.jsonl')] if os.path.exists(GA+'/snapshots/georgiavotes.jsonl') else []
 with open(ROOT+'/site/ga-data.csv','w',newline='') as f:
     w=csv.DictWriter(f,list(rows[0])+['measure','value','note']); w.writeheader(); w.writerows(rows)
     for p in past: w.writerow(dict(year=p['year'],date=p['date'],days_out=p['days_out'],ev_day=p['ev_day'],measure=p['measure'],value=p['value'],rounded=p['rounded'],note=p['note'],source=p['source']))
 open(ROOT+'/site/ga-data.js','w').write('window.GADATA='+json.dumps(dict(built=dt.datetime.now().strftime('%b %-d, %Y %-I:%M %p ET'),asof=asof.strftime('%Y-%m-%d %H:%M'),zip=os.path.basename(Z),
-  ed={k:v.isoformat() for k,v in ED.items()},ev1={k:v.isoformat() for k,v in EV1.items()},mail_apps=apps,mail_issued=issued,counties=cty.most_common(15),rows=rows,past=past,gv=gv))+';')
-for r in rows[-5:]: print(r['date'],r['days_out'],r['ev_day'],r['inperson_day'],r['mail_day'],r['total_cum'])
-print('mail apps',apps,'issued',issued,cty.most_common(5))
+  ed={k:v.isoformat() for k,v in ED.items()},ev1={k:v.isoformat() for k,v in EV1.items()},files={y:[os.path.basename(p),n] for y,(p,n) in FILES.items()},cmp_cty=cmp_cty,d26=D26,n26=N26,rows=rows,past=past,gv=gv))+';')
+for y in ED:
+    for r in rows:
+        if r['year']==y and (r['days_out']==D26 or r['ev_day'] in(1,2,N26)): print(y,r['date'],r['days_out'],r['ev_day'],r['inperson_day'],r['inperson_cum'],r['mail_cum'],r['total_cum'])
+print(cmp_cty[:5])

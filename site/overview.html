@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 Early Vote Overview: 9 States (prototype)</title>
+<title>2026 Early Vote Overview: 10 States (prototype)</title>
 <style>
 :root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
@@ -16,9 +16,9 @@ nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{colo
 .approx{font-style:italic;color:var(--mute)}.warn{background:#fff7e0;border-left:4px solid #ffb703}
 /*mobilefix*/.grid>*,.kpis>*,main>*{min-width:0}.card{overflow-x:auto}canvas{max-width:100%}@media(max-width:600px){main{padding:10px}.kpis{grid-template-columns:1fr 1fr}.kpi .val{font-size:1.4rem}header h1{font-size:1.2rem}}
 </style></head><body>
-<header><h1>Early Voting Overview — 9 States, Nov 3, 2026 <span class="badge">PROTOTYPE</span></h1>
+<header><h1>Early Voting Overview — 10 States, Nov 3, 2026 <span class="badge">PROTOTYPE</span></h1>
 <p id="asof"></p><nav class="states"><a href="overview.html" class=on><span title="Overview of all states">US</span></a><a href="az.html"><span title="Arizona">AZ</span></a><a href="index.html"><span title="Florida">FL</span></a><a href="ga.html"><span title="Georgia">GA</span></a><a href="ia.html"><span title="Iowa">IA</span></a><a href="ks.html"><span title="Kansas">KS</span></a><a href="me.html"><span title="Maine">ME</span></a><a href="mi.html"><span title="Michigan">MI</span></a><a href="nc.html"><span title="North Carolina">NC</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="tx.html"><span title="Texas">TX</span></a></nav></header><main>
-<div class="card warn"><b>Not a national sample.</b> This page combines only the 9 states this dashboard tracks (AZ, FL, IA, KS, ME, MI, NC, OH, TX). They were picked for competitive races and good data, not to represent the country. Each state counts different things (mail only, mail plus in person), reports on different schedules, and changed its laws between cycles. Read the state-by-state bars first; the combined total is a rough summary.</div>
+<div class="card warn"><b>Not a national sample.</b> This page combines only the 10 states this dashboard tracks (AZ, FL, GA, IA, KS, ME, MI, NC, OH, TX). They were picked for competitive races and good data, not to represent the country. Each state counts different things (mail only, mail plus in person), reports on different schedules, and changed its laws between cycles. Read the state-by-state bars first; the combined total is a rough summary.</div>
 <section class="kpis" id="kpis" style="margin-top:12px"></section>
 <div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
 <div class="grid">
@@ -36,7 +36,7 @@ nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{colo
 <li><b>Arizona uses secondary sources:</b> there is no official statewide daily report in 2026. 2018 comes from the Secretary of State's daily update as posted by Garrett Archer, 2022/2024 from Sam Almy's tracker built from county return files (rounded figures), and 2026 from Stealth Analytics' totals of county files (a few county files are 1–8 days old). All four count ballots received by counties, so Arizona is included in the combined totals, marked †.</li>
 <li><b>Combined total:</b> only states with an exact same-day statewide match are added up, and big states (Florida, Michigan) dominate the sum.</li></ul></div>
 <div class="card full"><h2>Sources</h2><ul class="src" id="src"></ul><p class="hint">Every number comes from the state pages, which cite official sources. Data: <a href="overview-data.js">overview-data.js</a>.</p></div>
-</div></main><footer>Built <span id="built"></span> · Combines the dashboard's 9 state pages · Prototype, not for publication</footer>
+</div></main><footer>Built <span id="built"></span> · Combines the dashboard's 10 state pages · Prototype, not for publication</footer>
 <script src="vendor/chart.umd.min.js"></script><script src="overview-data.js"></script><script>
 const S=OVDATA.states,C=OVDATA.combined,f=n=>Number(n).toLocaleString('en-US'),ps=v=>`${v>0?'+':''}${v.toFixed(0)}%`,cls=v=>v<0?'down':'up';
 document.getElementById('built').textContent=OVDATA.built;

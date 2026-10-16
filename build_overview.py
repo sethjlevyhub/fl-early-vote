@@ -59,6 +59,11 @@ s=collections.defaultdict(dict)
 for r in rd('az-data.csv'):
     s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['returned']),D=None,R=None,date=r['date'],m=float(r['d_minus_r_pts']) if r['d_minus_r_pts'] else None,dp=float(r['dem_pct']) if r['dem_pct'] else None,rp=float(r['rep_pct']) if r['rep_pct'] else None)
 ST['AZ']=dict(name='Arizona',page='az.html',metric='Early ballots returned (mail, all counties)',series=s,secondary=True,note='Secondary sources: 2018 AZ SOS daily update via Garrett Archer; 2022/2024 Sam Almy\'s county-file tracker (AZ Dem. Party), rounded; 2026 Stealth Analytics county-file totals (some county files 1-8 days old).')
+# Georgia: accepted mail + early in-person ballots, official SOS absentee files (all years); no party registration
+s=collections.defaultdict(dict)
+for r in rd('ga-data.csv'):
+    if r['total_cum']: s[int(r['year'])][int(r['days_out'])]=dict(total=I(r['total_cum']),D=None,R=None,date=r['date'])
+ST['GA']=dict(name='Georgia',page='ga.html',metric='Mail returned + early in person (accepted)',series=s,note='Official SOS voter files for every year; 2026 file loaded by hand (as-of date on page). Early voting began Oct 13, 2026 (Oct 15 in 2018/2024, Oct 17 in 2022). No party registration.')
 PRES={2024}
 out=[];comb={}
 for k,st in ST.items():
