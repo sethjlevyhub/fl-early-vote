@@ -1,5 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Iowa 2026 Early & Absentee Vote Tracker (prototype)</title>
+<!--share-meta--><title>Iowa Early Vote 2026: Daily Tracker vs 2018, 2022 &amp; 2024</title>
+<meta name="description" content="Iowa absentee ballots received, by registered party for the Nov 3, 2026 election, updated daily and compared with 2018, 2022 and 2024 at the same number of days before Election Day. Sources cited on the page.">
+<link rel="canonical" href="https://sethjlevyhub.github.io/fl-early-vote/ia.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="2026 Early Vote Tracker">
+<meta property="og:title" content="Iowa Early Vote 2026: Daily Tracker vs 2018, 2022 &amp; 2024"><meta property="og:description" content="Iowa absentee ballots received, by registered party for the Nov 3, 2026 election, updated daily and compared with 2018, 2022 and 2024 at the same number of days before Election Day. Sources cited on the page.">
+<meta property="og:url" content="https://sethjlevyhub.github.io/fl-early-vote/ia.html"><meta property="og:image" content="https://sethjlevyhub.github.io/fl-early-vote/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="2026 Early Vote Tracker: 17 states compared with 2018, 2022 and 2024">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Iowa Early Vote 2026: Daily Tracker vs 2018, 2022 &amp; 2024">
+<meta name="twitter:description" content="Iowa absentee ballots received, by registered party for the Nov 3, 2026 election, updated daily and compared with 2018, 2022 and 2024 at the same number of days before Election Day. Sources cited on the page."><meta name="twitter:image" content="https://sethjlevyhub.github.io/fl-early-vote/og.png"><meta name="twitter:image:alt" content="2026 Early Vote Tracker: 17 states compared with 2018, 2022 and 2024">
+<!--/share-meta-->
 <style>
 :root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
@@ -13,9 +22,12 @@ ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%
 .src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
 nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
 /*mobilefix*/.grid>*,.kpis>*,main>*{min-width:0}.card{overflow-x:auto}canvas{max-width:100%}@media(max-width:600px){main{padding:10px}.kpis{grid-template-columns:1fr 1fr}.kpi .val{font-size:1.4rem}header h1{font-size:1.2rem}}
+/*share*/.asofbar{background:#fff;border-left:5px solid #14213d;border-radius:8px;padding:10px 14px;margin:0 0 12px;font-size:.92rem;box-shadow:0 1px 3px #0001}.asofbar b{font-size:1rem}.asofbar.stale{background:#fff7e0;border-left-color:#e08e0b}.asofbar.none{background:#f1f3f6;border-left-color:#8a8f98}.stalewarn{color:#a15c00;font-weight:700}.asofchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.asofchips .chip{font-size:.78rem;border:1px solid #d0d5dd;border-radius:12px;padding:1px 8px;color:var(--ink);text-decoration:none;white-space:nowrap}.asofchips .chip.stale{background:#fff7e0;border-color:#e0a94a}.asofchips .chip.none{color:var(--mute);background:#f1f3f6}.howto{margin:0 0 12px;font-size:.88rem;border-left:5px solid #ffb703}.howto b.h{display:block;font-size:.95rem;margin-bottom:2px}footer a{color:inherit}
 </style></head><body>
-<header><h1>Iowa Early &amp; Absentee Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<header><h1>Iowa Early &amp; Absentee Voting Tracker — Nov 3, 2026 General <span class="badge">BETA</span></h1>
 <p id="asof"></p><nav class="states"><a href="overview.html"><span title="Overview of all states">US</span></a><a href="az.html"><span title="Arizona">AZ</span></a><a href="co.html"><span title="Colorado">CO</span></a><a href="index.html"><span title="Florida">FL</span></a><a href="ga.html"><span title="Georgia">GA</span></a><a href="ia.html" class=on><span title="Iowa">IA</span></a><a href="ks.html"><span title="Kansas">KS</span></a><a href="me.html"><span title="Maine">ME</span></a><a href="mi.html"><span title="Michigan">MI</span></a><a href="mn.html"><span title="Minnesota">MN</span></a><a href="nc.html"><span title="North Carolina">NC</span></a><a href="nv.html"><span title="Nevada">NV</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="or.html"><span title="Oregon">OR</span></a><a href="pa.html"><span title="Pennsylvania">PA</span></a><a href="tx.html"><span title="Texas">TX</span></a><a href="va.html"><span title="Virginia">VA</span></a><a href="wi.html"><span title="Wisconsin">WI</span></a></nav></header><main>
+<div class="asofbar" id="dataasof" data-var="IADATA" aria-live="polite">Data as of: see below</div><div class="card howto"><b class="h">How to read this</b><b>Party split</b> = the registered party of voters who have already cast ballots, not who they voted for. Comparisons line up 2026 with past elections at the same number of days before Election Day. Early ballots are not a forecast of the result. <a href="methods.html">Methods &amp; sources</a></div>
+
 <section class="kpis" id="kpis"></section>
 <div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
 <div class="grid">
@@ -37,8 +49,8 @@ nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{colo
 <ul class="src">
 <li><b>2021 · Senate File 413:</b> early in-person voting and mailing of absentee ballots now start <b>20 days</b> before Election Day (was 29); absentee ballots must be <b>received by the county auditor when polls close</b> on Election Day; counties can't mail absentee request forms unless the voter asks. Compare 2018 at the same days-out with care. <a href="https://www.legis.iowa.gov/legislation/BillBook?ba=SF413&ga=89">Iowa Legislature: SF 413</a> · <a href="https://elections.scottcountyiowa.gov/files/2021_election_law_changes_for_iowa_voters_revised_74371.pdf">Scott County Auditor summary</a></li>
 </ul></div>
-</div></main><footer>Built <span id="built"></span> · Data: Iowa Secretary of State absentee ballot statistics · Prototype, not for publication</footer>
-<script src="vendor/chart.umd.min.js"></script><script src="ia-data.js"></script><script>
+</div></main><footer>Built <span id="built"></span> · Data: Iowa Secretary of State absentee ballot statistics · <a href="methods.html">Methods &amp; sources</a></footer>
+<script src="vendor/chart.umd.min.js"></script><script src="ia-data.js"></script><script src="asof.js"></script><script>
 const R=IADATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
 const M={received:'Ballots received (mail + in-person early)',requested:'Ballots requested'};
 const ser=y=>R.filter(r=>r.year==y).sort((a,b)=>b.days_out-a.days_out);

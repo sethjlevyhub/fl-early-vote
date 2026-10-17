@@ -1,5 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>North Carolina 2026 Early Vote Tracker (prototype)</title>
+<!--share-meta--><title>North Carolina Early Vote 2026: Daily Tracker vs 2018, 2022 &amp; 2024</title>
+<meta name="description" content="North Carolina mail ballots and one-stop early votes, by registered party, race and age for the Nov 3, 2026 election, updated daily and compared with 2018, 2022 and 2024 at the same number of days before Election Day. Sources cited on the page.">
+<link rel="canonical" href="https://sethjlevyhub.github.io/fl-early-vote/nc.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="2026 Early Vote Tracker">
+<meta property="og:title" content="North Carolina Early Vote 2026: Daily Tracker vs 2018, 2022 &amp; 2024"><meta property="og:description" content="North Carolina mail ballots and one-stop early votes, by registered party, race and age for the Nov 3, 2026 election, updated daily and compared with 2018, 2022 and 2024 at the same number of days before Election Day. Sources cited on the page.">
+<meta property="og:url" content="https://sethjlevyhub.github.io/fl-early-vote/nc.html"><meta property="og:image" content="https://sethjlevyhub.github.io/fl-early-vote/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="2026 Early Vote Tracker: 17 states compared with 2018, 2022 and 2024">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="North Carolina Early Vote 2026: Daily Tracker vs 2018, 2022 &amp; 2024">
+<meta name="twitter:description" content="North Carolina mail ballots and one-stop early votes, by registered party, race and age for the Nov 3, 2026 election, updated daily and compared with 2018, 2022 and 2024 at the same number of days before Election Day. Sources cited on the page."><meta name="twitter:image" content="https://sethjlevyhub.github.io/fl-early-vote/og.png"><meta name="twitter:image:alt" content="2026 Early Vote Tracker: 17 states compared with 2018, 2022 and 2024">
+<!--/share-meta-->
 <style>
 :root{--c26:#e4572e;--c24:#4c6ef5;--c22:#2b9348;--c18:#9c6ade;--rep:#d64545;--dem:#2f6fdb;--npa:#8a8f98;--oth:#c9a227;--bg:#f6f7f9;--ink:#1d2330;--mute:#667085}
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
@@ -13,9 +22,12 @@ ul.take{margin:6px 0;padding-left:20px}table{border-collapse:collapse;width:100%
 .src li{margin:3px 0;font-size:.85rem;word-break:break-all}.miss{color:#c0392b;font-weight:600}footer{color:var(--mute);font-size:.8rem;text-align:center;padding:20px}
 nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:16px;padding:3px 12px;font-size:.85rem}nav.states a.on{background:#fff;color:#14213d;font-weight:700}.tog button{border:1px solid #ccd;background:#fff;border-radius:14px;padding:3px 10px;margin:0 4px 6px 0;cursor:pointer;font-size:.8rem}.tog button.on{background:#14213d;color:#fff}
 /*mobilefix*/.grid>*,.kpis>*,main>*{min-width:0}.card{overflow-x:auto}canvas{max-width:100%}@media(max-width:600px){main{padding:10px}.kpis{grid-template-columns:1fr 1fr}.kpi .val{font-size:1.4rem}header h1{font-size:1.2rem}}
+/*share*/.asofbar{background:#fff;border-left:5px solid #14213d;border-radius:8px;padding:10px 14px;margin:0 0 12px;font-size:.92rem;box-shadow:0 1px 3px #0001}.asofbar b{font-size:1rem}.asofbar.stale{background:#fff7e0;border-left-color:#e08e0b}.asofbar.none{background:#f1f3f6;border-left-color:#8a8f98}.stalewarn{color:#a15c00;font-weight:700}.asofchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.asofchips .chip{font-size:.78rem;border:1px solid #d0d5dd;border-radius:12px;padding:1px 8px;color:var(--ink);text-decoration:none;white-space:nowrap}.asofchips .chip.stale{background:#fff7e0;border-color:#e0a94a}.asofchips .chip.none{color:var(--mute);background:#f1f3f6}.howto{margin:0 0 12px;font-size:.88rem;border-left:5px solid #ffb703}.howto b.h{display:block;font-size:.95rem;margin-bottom:2px}footer a{color:inherit}
 </style></head><body>
-<header><h1>North Carolina Early Voting Tracker — Nov 3, 2026 General <span class="badge">PROTOTYPE</span></h1>
+<header><h1>North Carolina Early Voting Tracker — Nov 3, 2026 General <span class="badge">BETA</span></h1>
 <p id="asof"></p><nav class="states"><a href="overview.html"><span title="Overview of all states">US</span></a><a href="az.html"><span title="Arizona">AZ</span></a><a href="co.html"><span title="Colorado">CO</span></a><a href="index.html"><span title="Florida">FL</span></a><a href="ga.html"><span title="Georgia">GA</span></a><a href="ia.html"><span title="Iowa">IA</span></a><a href="ks.html"><span title="Kansas">KS</span></a><a href="me.html"><span title="Maine">ME</span></a><a href="mi.html"><span title="Michigan">MI</span></a><a href="mn.html"><span title="Minnesota">MN</span></a><a href="nc.html" class=on><span title="North Carolina">NC</span></a><a href="nv.html"><span title="Nevada">NV</span></a><a href="ohio.html"><span title="Ohio">OH</span></a><a href="or.html"><span title="Oregon">OR</span></a><a href="pa.html"><span title="Pennsylvania">PA</span></a><a href="tx.html"><span title="Texas">TX</span></a><a href="va.html"><span title="Virginia">VA</span></a><a href="wi.html"><span title="Wisconsin">WI</span></a></nav></header><main>
+<div class="asofbar" id="dataasof" data-var="NCDATA" aria-live="polite">Data as of: see below</div><div class="card howto"><b class="h">How to read this</b><b>Party split</b> = the registered party of voters who have already cast ballots, not who they voted for. Race is what voters report on their registration. Comparisons line up 2026 with past elections at the same number of days before Election Day. <a href="methods.html">Methods &amp; sources</a></div>
+
 <section class="kpis" id="kpis"></section>
 <div class="card" style="margin-top:12px"><h2>What the numbers say</h2><ul class="take" id="take"></ul></div>
 <div class="grid">
@@ -43,8 +55,8 @@ nav.states{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}nav.states a{colo
 <li><b>2023 · Senate Bill 747 (S.L. 2023-140):</b> mail ballots must arrive by <b>7:30 p.m. on Election Day</b>; the old 3-day grace period for postmarked ballots ended (military/overseas excepted). Same-day registrants during early voting now cast a "retrievable" ballot that can be pulled if address verification fails. <a href="https://dashboard.ncleg.gov/api/Services/BillSummary/2023/S747-SMBK-77(sl)-v-6">NC General Assembly bill summary</a> · <a href="https://www.ncleg.gov/sessions/2023/bills/senate/html/s747v6.html">bill text</a></li>
 <li><b>Photo ID</b> has been required since the 2024 primaries (not in place in 2018 or 2022). <a href="https://www.ncsbe.gov/voting/voter-id">NC State Board of Elections</a></li>
 </ul></div>
-</div></main><footer>Built <span id="built"></span> · Data: North Carolina State Board of Elections absentee/one-stop files · Prototype, not for publication</footer>
-<script src="vendor/chart.umd.min.js"></script><script src="nc-data.js"></script><script src="nc-hist.js"></script><script>
+</div></main><footer>Built <span id="built"></span> · Data: North Carolina State Board of Elections absentee/one-stop files · <a href="methods.html">Methods &amp; sources</a></footer>
+<script src="vendor/chart.umd.min.js"></script><script src="nc-data.js"></script><script src="nc-hist.js"></script><script src="asof.js"></script><script>
 const R=NCDATA.rows,Y=[2026,2024,2022,2018],COL={2026:'#e4572e',2024:'#4c6ef5',2022:'#2b9348',2018:'#9c6ade'},f=n=>Number(n).toLocaleString('en-US');
 const M={total:'Total early votes (one-stop + mail)',onestop:'One-stop (in-person early)',mail_ret:'Mail ballots accepted'};
 const ED=y=>new Date(NCDATA.ed[y]+'T12:00');
