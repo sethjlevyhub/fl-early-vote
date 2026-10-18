@@ -36,3 +36,4 @@ year,date,days_out,total,dem,rep,unaffiliated,other_or_nonDR,in_person,source
 2026,2026-10-14,20,253588,85834,60496,,107258,,https://civicapi.org/api/v2/early-vote/CO/returned/history
 2026,2026-10-15,19,290678,97551,70285,,122842,,https://civicapi.org/api/v2/early-vote/CO/returned/history
 2026,2026-10-16,18,357958,120214,87357,,150387,,https://civicapi.org/api/v2/early-vote/CO/returned/history
+2026,2026-10-17,17,369089,123846,90109,,155134,,https://civicapi.org/api/v2/early-vote/CO/returned/history
