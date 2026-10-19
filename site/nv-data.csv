@@ -1,23 +1,103 @@
 series,year,date,days_out,total,dem,rep,other_or_value,source
-statewide_returned_civicapi,2026,2026-09-29,35,507,268,88,151,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-09-30,34,707,374,124,209,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-01,33,1064,591,166,307,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-02,32,1242,687,201,354,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-03,31,1374,764,218,392,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-04,30,1458,812,231,415,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-05,29,1458,812,231,415,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-06,28,1454,812,228,414,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-07,27,1592,885,257,450,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-08,26,1897,1042,314,541,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-09,25,2507,1297,489,721,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-10,24,2507,1297,489,721,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-11,23,2571,1312,524,735,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-12,22,3161,1503,738,920,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-13,21,3161,1503,738,920,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-14,20,6328,2702,1825,1801,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-15,19,14538,5805,4616,4117,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-16,18,46419,17171,15910,13338,https://civicapi.org/api/v2/early-vote/NV/returned/history
-statewide_returned_civicapi,2026,2026-10-18,16,47456,17490,16409,13557,https://civicapi.org/api/v2/early-vote/NV/returned/history
+clark_in_person_official,2026,2026-10-17,17,14791,6366,5501,2924,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-18,16,23180,9979,8384,4817,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2024,2024-10-19,17,30076,8868,14583,6625,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-20,16,47739,14528,22483,10728,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-21,15,74997,21919,35917,17161,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-22,14,100244,28796,48101,23347,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-23,13,124137,35408,59065,29664,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-24,12,148002,41891,70032,36079,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-25,11,169642,48244,79491,41907,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-26,10,195075,56013,90066,48996,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-27,9,214920,62056,98064,54800,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-28,8,245829,70751,111301,63777,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-29,7,277050,80031,123544,73475,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-30,6,311042,90524,135981,84537,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-10-31,5,343766,100424,147333,96009,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_in_person_official,2024,2024-11-01,4,395516,117280,163716,114520,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
+clark_mail_official,2026,2026-09-18,46,70,40,8,22,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-19,45,92,49,12,31,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-21,43,137,71,18,48,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-22,42,156,80,21,55,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-23,41,179,91,25,63,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-24,40,200,102,27,71,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-28,36,283,137,46,100,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-29,35,632,347,91,194,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-09-30,34,723,399,108,216,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-01,33,745,410,112,223,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-06,28,985,535,153,297,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-07,27,1028,548,164,316,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-08,26,1180,626,190,364,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-09,25,1258,667,202,389,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-10,24,1842,855,416,571,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-11,23,1958,918,436,604,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-12,22,2722,1216,682,824,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-13,21,3252,1434,819,999,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-14,20,9128,3735,2632,2761,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-15,19,20322,7868,6252,6202,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-16,18,28511,11060,8864,8587,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-17,17,40838,16556,12271,12011,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-18,16,46762,19738,13519,13505,Clark County Election Dept mbreq26GE.zip
+clark_mail_official,2026,2026-10-19,15,49153,20969,14089,14095,Clark County Election Dept mbreq26GE.zip
+sos_clark_in_person_official,2024,2024-10-19,17,29960,9146,14750,6064,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Clark"
+sos_clark_in_person_official,2024,2024-10-20,16,47534,14901,22717,9916,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Clark"
+sos_clark_in_person_official,2024,2024-10-21,15,74628,22482,36350,15796,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Clark"
+sos_clark_in_person_official,2024,2024-10-22,14,99654,29498,48688,21468,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Clark"
+sos_clark_in_person_official,2024,2024-10-23,13,123350,36235,59724,27391,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Clark"
+sos_clark_in_person_official,2024,2024-10-24,12,146971,42815,70815,33341,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Clark"
+sos_clark_in_person_official,2024,2024-10-25,11,168360,49173,80311,38876,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Clark"
+sos_statewide_in_person_official,2024,2024-10-19,17,42237,11854,22284,8099,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Statewide"
+sos_statewide_in_person_official,2024,2024-10-20,16,64106,18956,32290,12860,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Statewide"
+sos_statewide_in_person_official,2024,2024-10-21,15,104729,29167,54340,21222,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Statewide"
+sos_statewide_in_person_official,2024,2024-10-22,14,141575,38576,73858,29141,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Statewide"
+sos_statewide_in_person_official,2024,2024-10-23,13,176679,47613,91674,37392,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Statewide"
+sos_statewide_in_person_official,2024,2024-10-24,12,211304,56408,109138,45758,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Statewide"
+sos_statewide_in_person_official,2024,2024-10-25,11,244026,65036,125123,53867,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Statewide"
+sos_washoe_in_person_official,2024,2024-10-19,17,6690,2144,3359,1187,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Washoe"
+sos_washoe_in_person_official,2024,2024-10-20,16,10985,3491,5398,2096,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Washoe"
+sos_washoe_in_person_official,2024,2024-10-21,15,17549,5295,8843,3411,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Washoe"
+sos_washoe_in_person_official,2024,2024-10-22,14,23776,7002,12110,4664,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Washoe"
+sos_washoe_in_person_official,2024,2024-10-23,13,29992,8698,15227,6067,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Washoe"
+sos_washoe_in_person_official,2024,2024-10-24,12,35954,10320,18150,7484,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Washoe"
+sos_washoe_in_person_official,2024,2024-10-25,11,42094,12041,21084,8969,"NV SOS '2024 General Election Early Voting Turnout, Week 1' report (updated 10/25/2024 8 PM), Washoe"
+washoe_in_person_official,2026,2026-10-17,17,3709,1568,1402,739,Washoe County ROV In-Person-Turnout CSV
+washoe_in_person_official,2026,2026-10-18,16,4747,2016,1781,950,Washoe County ROV In-Person-Turnout CSV
+washoe_mail_official,2026,2026-09-14,50,3,1,0,2,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-15,49,79,42,18,19,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-16,48,148,84,30,34,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-17,47,172,94,35,43,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-18,46,202,112,37,53,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-19,45,229,129,41,59,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-20,44,264,155,43,66,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-21,43,316,183,48,85,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-22,42,348,208,51,89,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-23,41,368,224,52,92,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-24,40,392,233,58,101,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-25,39,418,249,59,110,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-26,38,448,269,62,117,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-27,37,476,288,66,122,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-28,36,495,301,68,126,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-29,35,527,319,74,134,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-09-30,34,559,340,77,142,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-01,33,585,354,82,149,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-02,32,617,374,86,157,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-03,31,637,387,88,162,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-04,30,662,401,91,170,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-05,29,699,424,97,178,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-06,28,735,441,102,192,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-07,27,762,452,110,200,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-08,26,782,463,112,207,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-09,25,815,475,120,220,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-10,24,830,482,127,221,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-11,23,865,502,133,230,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-12,22,1563,788,361,414,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-13,21,1738,879,398,461,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-14,20,2945,1391,769,785,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-15,19,8119,3322,2579,2218,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-16,18,11199,4498,3653,3048,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-17,17,15984,6785,5046,4153,Washoe County ROV Mail-Ballot-Detail CSV
+washoe_mail_official,2026,2026-10-18,16,18803,7782,6090,4931,Washoe County ROV Mail-Ballot-Detail CSV
+clark_washoe_combined_official,2026,2026-10-18,16,93492,39515,29774,24203,Sum of the four Clark/Washoe official series through this date
 clark_mail_received_official,2022,2022-09-26,43,0,0,0,0,Clark County Election Dept MBREQ22G.txt
 clark_mail_received_official,2022,2022-09-27,42,66,44,11,11,Clark County Election Dept MBREQ22G.txt
 clark_mail_received_official,2022,2022-09-28,41,129,77,27,25,Clark County Election Dept MBREQ22G.txt
@@ -92,36 +172,56 @@ clark_mail_received_official,2024,2024-11-11,-6,451129,188889,106767,155473,Clar
 clark_mail_received_official,2024,2024-11-12,-7,451596,189031,106866,155699,Clark County Election Dept mbreq24G_20241114_23300216.csv
 clark_mail_received_official,2024,2024-11-13,-8,451597,189031,106867,155699,Clark County Election Dept mbreq24G_20241114_23300216.csv
 clark_mail_received_official,2024,2024-11-20,-15,451598,189032,106867,155699,Clark County Election Dept mbreq24G_20241114_23300216.csv
-clark_mail_received_official,2026,2026-09-18,46,70,40,8,22,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-19,45,92,49,12,31,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-21,43,137,71,18,48,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-22,42,156,80,21,55,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-23,41,179,91,25,63,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-24,40,200,102,27,71,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-25,39,200,102,27,71,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-26,38,200,102,27,71,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-27,37,200,102,27,71,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-28,36,283,137,46,100,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-29,35,632,347,91,194,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-09-30,34,723,399,108,216,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-01,33,745,410,112,223,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-02,32,745,410,112,223,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-03,31,745,410,112,223,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-04,30,745,410,112,223,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-05,29,745,410,112,223,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-06,28,985,535,153,297,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-07,27,1028,548,164,316,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-08,26,1180,626,190,364,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-09,25,1258,667,202,389,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-10,24,1841,855,416,570,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-11,23,1957,918,436,603,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-12,22,2715,1214,681,820,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-13,21,3245,1432,818,995,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-14,20,9095,3727,2617,2751,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-15,19,20220,7830,6221,6169,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-16,18,28373,11011,8818,8544,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-17,17,40667,16500,12211,11956,Clark County Election Dept mbreq26GE_20261017_23300208.csv
-clark_mail_received_official,2026,2026-10-18,16,43750,18255,12771,12724,Clark County Election Dept mbreq26GE_20261017_23300208.csv
+clark_mail_received_official,2026,2026-09-18,46,70,40,8,22,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-19,45,92,49,12,31,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-21,43,137,71,18,48,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-22,42,156,80,21,55,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-23,41,179,91,25,63,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-24,40,200,102,27,71,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-25,39,200,102,27,71,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-26,38,200,102,27,71,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-27,37,200,102,27,71,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-28,36,283,137,46,100,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-29,35,632,347,91,194,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-09-30,34,723,399,108,216,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-01,33,745,410,112,223,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-02,32,745,410,112,223,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-03,31,745,410,112,223,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-04,30,745,410,112,223,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-05,29,745,410,112,223,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-06,28,985,535,153,297,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-07,27,1028,548,164,316,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-08,26,1180,626,190,364,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-09,25,1258,667,202,389,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-10,24,1841,855,416,570,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-11,23,1957,918,436,603,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-12,22,2715,1214,681,820,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-13,21,3245,1432,818,995,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-14,20,9095,3727,2617,2751,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-15,19,20220,7830,6221,6169,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-16,18,28373,11011,8818,8544,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-17,17,40667,16500,12211,11956,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-18,16,46591,19682,13459,13450,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+clark_mail_received_official,2026,2026-10-19,15,48981,20912,14029,14040,Clark County Election Dept mbreq26GE_20261018_23300221.csv
+statewide_returned_civicapi_secondary,2026,2026-09-29,35,507,268,88,151,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-09-30,34,707,374,124,209,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-01,33,1064,591,166,307,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-02,32,1242,687,201,354,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-03,31,1374,764,218,392,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-04,30,1458,812,231,415,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-05,29,1458,812,231,415,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-06,28,1454,812,228,414,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-07,27,1592,885,257,450,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-08,26,1897,1042,314,541,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-09,25,2507,1297,489,721,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-10,24,2507,1297,489,721,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-11,23,2571,1312,524,735,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-12,22,3161,1503,738,920,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-13,21,3161,1503,738,920,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-14,20,6328,2702,1825,1801,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-15,19,14538,5805,4616,4117,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-16,18,46419,17171,15910,13338,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-18,16,47456,17490,16409,13557,https://civicapi.org/api/v2/early-vote/NV/returned/history
 ralston_statewide_d_minus_r,2024,2024-10-20,16,,,,1800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
 ralston_statewide_d_minus_r,2024,2024-10-21,15,,,,-8000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
 ralston_total_ballots,2024,2024-10-21,15,,,,250000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
