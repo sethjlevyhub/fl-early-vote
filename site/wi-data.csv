@@ -69,3 +69,4 @@ year,date,days_out,returned,in_person,mail,requested,source,source_who
 2026,2026-10-16,18,161023,0,161023,366361,https://civicapi.org/api/v2/early-vote/WI/returned,civicAPI (from WEC county reports)
 2026,2026-10-19,15,173164,0,173164,371014,https://civicapi.org/api/v2/early-vote/WI/returned,civicAPI (from WEC county reports)
 2026,2026-10-20,14,191181,104,191077,376019,https://civicapi.org/api/v2/early-vote/WI/returned,civicAPI (from WEC county reports)
+2026,2026-10-21,13,257777,55659,202118,435060,https://civicapi.org/api/v2/early-vote/WI/returned,civicAPI (from WEC county reports)
