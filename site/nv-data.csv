@@ -4,7 +4,7 @@ clark_in_person_official,2026,2026-10-18,16,23181,9980,8384,4817,Clark County El
 clark_in_person_official,2026,2026-10-19,15,37119,15562,13778,7779,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
 clark_in_person_official,2026,2026-10-20,14,50576,20709,19111,10756,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
 clark_in_person_official,2026,2026-10-21,13,63116,25540,24030,13546,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
-clark_in_person_official,2026,2026-10-22,12,74608,30028,28206,16374,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-22,12,74610,30029,28206,16375,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
 clark_in_person_official,2024,2024-10-19,17,30076,8868,14583,6625,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
 clark_in_person_official,2024,2024-10-20,16,47739,14528,22483,10728,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
 clark_in_person_official,2024,2024-10-21,15,74997,21919,35917,17161,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
@@ -238,6 +238,7 @@ statewide_returned_civicapi_secondary,2026,2026-10-19,15,77502,31130,24930,21442
 statewide_returned_civicapi_secondary,2026,2026-10-20,14,88687,35384,28861,24442,https://civicapi.org/api/v2/early-vote/NV/returned/history
 statewide_returned_civicapi_secondary,2026,2026-10-21,13,117416,47554,37912,31950,https://civicapi.org/api/v2/early-vote/NV/returned/history
 statewide_returned_civicapi_secondary,2026,2026-10-22,12,178222,73160,56485,48577,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-23,11,197666,80823,62692,54151,https://civicapi.org/api/v2/early-vote/NV/returned/history
 ralston_statewide_d_minus_r,2024,2024-10-20,16,,,,1800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
 ralston_statewide_d_minus_r,2024,2024-10-21,15,,,,-8000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
 ralston_total_ballots,2024,2024-10-21,15,,,,250000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
