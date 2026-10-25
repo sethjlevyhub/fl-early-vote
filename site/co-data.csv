@@ -37,8 +37,9 @@ year,date,days_out,total,dem,rep,unaffiliated,other_or_nonDR,in_person,source
 2026,2026-10-15,19,290678,97551,70285,,122842,,https://civicapi.org/api/v2/early-vote/CO/returned/history
 2026,2026-10-16,18,357958,120214,87357,,150387,,https://civicapi.org/api/v2/early-vote/CO/returned/history
 2026,2026-10-17,17,369089,123846,90109,,155134,,https://civicapi.org/api/v2/early-vote/CO/returned/history
-2026,2026-10-19,15,505011,168671,122062,,214278,,https://civicapi.org/api/v2/early-vote/CO/returned/history
+2026,2026-10-19,15,509364,169977,123197,210525,5665,1244,https://www.coloradosos.gov/pubs/newsRoom/pressReleases/2026/20261019GenElectionActivity.xlsx
 2026,2026-10-20,14,585485,194551,142162,242319,6453,2175,https://www.coloradosos.gov/pubs/newsRoom/pressReleases/2026/20261020GeneralElectionActivity.xlsx
-2026,2026-10-21,13,654809,216321,159933,,278555,,https://civicapi.org/api/v2/early-vote/CO/returned/history
-2026,2026-10-22,12,722284,236947,177400,,307937,,https://civicapi.org/api/v2/early-vote/CO/returned/history
+2026,2026-10-21,13,661879,218343,161835,274309,7392,3073,https://www.coloradosos.gov/pubs/newsRoom/pressReleases/2026/20261021GenElectionActivity.xlsx
+2026,2026-10-22,12,730614,239304,179646,303379,8285,4050,https://www.coloradosos.gov/pubs/newsRoom/pressReleases/2026/20261022GenElectionActivity.xlsx
 2026,2026-10-23,11,789459,257573,194630,,337256,,https://civicapi.org/api/v2/early-vote/CO/returned/history
+2026,2026-10-24,10,819524,268048,200840,,350636,,https://civicapi.org/api/v2/early-vote/CO/returned/history
