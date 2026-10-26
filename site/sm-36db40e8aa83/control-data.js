@@ -1,5 +1,5 @@
 window.CTRL={
- "generated": "2026-10-25",
+ "generated": "2026-10-26",
  "N": 50000,
  "holdover": {
   "D": 34,
