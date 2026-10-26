@@ -43,3 +43,4 @@ year,date,days_out,total,dem,rep,unaffiliated,other_or_nonDR,in_person,source
 2026,2026-10-22,12,730614,239304,179646,303379,8285,4050,https://www.coloradosos.gov/pubs/newsRoom/pressReleases/2026/20261022GenElectionActivity.xlsx
 2026,2026-10-23,11,789459,257573,194630,,337256,,https://civicapi.org/api/v2/early-vote/CO/returned/history
 2026,2026-10-24,10,819524,268048,200840,,350636,,https://civicapi.org/api/v2/early-vote/CO/returned/history
+2026,2026-10-25,9,842056,273604,207426,351235,9791,5455,https://www.coloradosos.gov/pubs/newsRoom/pressReleases/2026/20261025GenElectionActivity.xlsx
