@@ -19,3 +19,4 @@ year,date,days_out,accepted,mail,in_person,requested,approx_date,source,source_w
 2026,2026-10-09,25,127682,79714,47968,468860,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
 2026,2026-10-16,18,202252,121382,80870,519813,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
 2026,2026-10-23,11,419189,177841,241348,688688,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
+2026,2026-10-30,4,728961,245441,483520,938686,0,https://civicapi.org/api/v2/early-vote/MN/returned,civicAPI (from MN SOS weekly absentee data; dated by first snapshot showing the update)
