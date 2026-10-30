@@ -6,12 +6,12 @@ clark_in_person_official,2026,2026-10-20,14,50578,20744,19124,10710,Clark County
 clark_in_person_official,2026,2026-10-21,13,63118,25603,24050,13465,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
 clark_in_person_official,2026,2026-10-22,12,74614,30128,28228,16258,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
 clark_in_person_official,2026,2026-10-23,11,89065,35552,33882,19631,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
-clark_in_person_official,2026,2026-10-24,10,102800,41272,38557,22971,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
-clark_in_person_official,2026,2026-10-25,9,111944,45285,41402,25257,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
-clark_in_person_official,2026,2026-10-26,8,128635,51913,47267,29455,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
-clark_in_person_official,2026,2026-10-27,7,146655,59204,53284,34167,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
-clark_in_person_official,2026,2026-10-28,6,166536,66821,60123,39592,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
-clark_in_person_official,2026,2026-10-29,5,189977,75670,68135,46172,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-24,10,102801,41273,38557,22971,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-25,9,111946,45287,41402,25257,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-26,8,128637,51915,47267,29455,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-27,7,146657,59206,53284,34167,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-28,6,166538,66823,60123,39592,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
+clark_in_person_official,2026,2026-10-29,5,189979,75672,68135,46172,Clark County Election Dept ev_YYYYMMDD.zip; party via COUNTY_all_TV.zip voter list
 clark_in_person_official,2024,2024-10-19,17,30076,8865,14582,6629,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
 clark_in_person_official,2024,2024-10-20,16,47739,14520,22475,10744,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
 clark_in_person_official,2024,2024-10-21,15,74997,21898,35907,17192,"Clark County Election Dept ev_24G.zip; party = CURRENT registration (COUNTY_all_TV.zip), not 2024"
@@ -266,6 +266,7 @@ statewide_returned_civicapi_secondary,2026,2026-10-26,8,252842,105207,78487,6914
 statewide_returned_civicapi_secondary,2026,2026-10-27,7,290304,122039,88259,80006,https://civicapi.org/api/v2/early-vote/NV/returned/history
 statewide_returned_civicapi_secondary,2026,2026-10-28,6,314785,132145,95274,87366,https://civicapi.org/api/v2/early-vote/NV/returned/history
 statewide_returned_civicapi_secondary,2026,2026-10-29,5,348483,145918,104806,97759,https://civicapi.org/api/v2/early-vote/NV/returned/history
+statewide_returned_civicapi_secondary,2026,2026-10-30,4,363922,153018,108418,102486,https://civicapi.org/api/v2/early-vote/NV/returned/history
 ralston_statewide_d_minus_r,2024,2024-10-20,16,,,,1800,https://thenevadaindependent.com/article/the-early-voting-blog-2024
 ralston_statewide_d_minus_r,2024,2024-10-21,15,,,,-8000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
 ralston_total_ballots,2024,2024-10-21,15,,,,250000,https://thenevadaindependent.com/article/the-early-voting-blog-2024
